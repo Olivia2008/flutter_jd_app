@@ -8,6 +8,7 @@ import 'package:netease_news/views/service/service_method.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/category_detail_main.dart';
 import 'package:netease_news/views/pages/category/every_category/filterWidget1.dart';
+import 'package:netease_news/views/pages/category/every_category/filterDraw.dart';
 import 'dart:convert';
 
 import 'every_category/mainWidget.dart';
@@ -79,10 +80,11 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       endDrawer: Container(
         margin: EdgeInsets.only(
             left: MediaQuery.of(context).size.width / 4, top: 0),
-        color: Colors.white,
-        child: ListView(
-          children: <Widget>[TextField()],
+        decoration: BoxDecoration(
+          color: Color(0xfff5f5f5),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), bottomLeft: Radius.circular(15.0))
         ),
+        child: NavFilterDraw(_scaffoldKey, navData)
       ),
       body: Stack(
         key: _stackKey,
