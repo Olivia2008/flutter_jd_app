@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:netease_news/components/customDropdownMenu/customDropdownMenuController.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/category_detail_main.dart';
+import 'package:netease_news/views/provides/category_detail_navBar.dart';
 
 typedef OnItemTap<T> = void Function(T value);
 
@@ -31,10 +32,9 @@ class CustomDropdownMenuHeader extends StatefulWidget {
       _CustomDropdownMenuHeaderState();
 }
 
-class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader>
-    with SingleTickerProviderStateMixin {
+class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader> {
   List<String> checkActiveList = [];
-  bool checkActive = false;
+  // bool checkActive = false;
   GlobalKey _keyDropDownHeader = GlobalKey();
   double _screenWidth;
   int _menuCount;
@@ -51,9 +51,9 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader>
     MediaQueryData mediaQuery = MediaQuery.of(context);
     _screenWidth = mediaQuery.size.width;
     _menuCount = widget.headerItems.length;
-    var checkedData = Provide.value<CategoryDetailMainProvide>(context).navBarBrandCheckedList;
-    print(checkedData);
-  
+    var checkedData = Provide.value<CategoryDetailMainProvide>(context)
+        .navBarBrandCheckedList;
+
     return Container(
       key: _keyDropDownHeader,
       height: _height,
@@ -64,16 +64,15 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader>
         physics: NeverScrollableScrollPhysics(),
         childAspectRatio: (_screenWidth / _menuCount) / _height,
         children: widget.headerItems.map<Widget>((item) {
-          return _headerMenus(item, checkedData);
+          return _headerMenus(item, checkedData, context);
         }).toList(),
       ),
     );
   }
 
-  _headerMenus(item, brandCheckedList) {
+  _headerMenus(item, brandCheckedList, context) {
     int index = widget.headerItems.indexOf(item);
-    int menuIndex = widget.controller.menuIndex;
-    
+    //int menuIndex = widget.controller.menuIndex;
     return InkWell(
       onTap: () {
         final RenderBox overlay =
@@ -84,37 +83,56 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader>
             dropDownItemRenderBox.localToGlobal(Offset.zero, ancestor: overlay);
         var size = dropDownItemRenderBox.size;
         widget.controller.dropDownHeaderHeight = size.height + position.dy;
-        // print('dropDownHeaderHeight:${widget.controller.dropDownHeaderHeight}');
         setState(() {
           widget.controller.changeIndex(index);
           // menuIndex = index;
         });
-        // print('headerMenuIndex:${widget.controller.menuIndex}');
+        
+        var activeList = Provide.value<CategoryNavBarFilterProvide>(context)
+            .serviceDiscountActiveList['activeValue'];
+        var activeBrandList = Provide.value<CategoryNavBarFilterProvide>(context)
+            .brandActiveList['valueList'];
+        Provide.value<CategoryNavBarFilterProvide>(context)
+            .brandActiveList['id'] = item['filDetailId'];
+        Provide.value<CategoryNavBarFilterProvide>(context)
+            .brandActiveList['name'] = item['name'];
         if (index == widget.controller.menuIndex) {
           if (index == 2) {
-            if (widget.controller.isShow) widget.controller.hide();
-            else widget.controller.show(index);
-            if(brandCheckedList.length != 0 && checkActiveList.indexOf(item['filDetailId']) == -1) checkActiveList.add(item['filDetailId']);
-
+            Provide.value<CategoryDetailMainProvide>(context).changeConfirmBool(false);
+            if (widget.controller.isShow)
+              widget.controller.hide();
+            else
+              widget.controller.show(index);
+            if (activeBrandList.length != 0 &&
+                activeList.contains(item['filDetailId']) == false)
+              activeList.add(item['filDetailId']);
           } else {
-            if (checkActiveList.indexOf(item['filDetailId']) == -1) checkActiveList.add(item['filDetailId']);
-            else checkActiveList.remove(item['filDetailId']);
+            // if (checkActiveList.indexOf(item['filDetailId']) == -1) checkActiveList.add(item['filDetailId']);
+            // else checkActiveList.remove(item['filDetailId']);
+            if (activeList.contains(item['filDetailId']))
+              activeList.remove(item['filDetailId']);
+            else
+              activeList.add(item['filDetailId']);
+
             widget.controller.hide();
           }
-          print('navbar2checkedList: ${checkActiveList},brandCheckedList: ${brandCheckedList}');
+          // print(
+          //     'navbar2checkedList: ${Provide.value<CategoryNavBarFilterProvide>(context).serviceDiscountActiveList},brandCheckedList: ${activeBrandList}');
         } else {
-          // print('aaa');
-          if (widget.controller.isShow) widget.controller.hide(isShowHideAnimation: false);
+          if (widget.controller.isShow)
+            widget.controller.hide(isShowHideAnimation: false);
           widget.controller.show(index);
         }
-        if (widget.onItemTap != null)  widget.onItemTap(index);
+        if (widget.onItemTap != null) widget.onItemTap(index);
       },
       child: _list2ViewItem(item, index, context, brandCheckedList),
     );
   }
 
   Widget _list2ViewItem(item, index, context, brandCheckedList) {
-    return index == 2
+    return Provide<CategoryNavBarFilterProvide>(
+      builder: (context, child, provider) {
+        return index == 2
         ? widget.controller.isShow
             ? Container(
                 width: ScreenUtil().setWidth(158),
@@ -134,8 +152,7 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader>
                       style: TextStyle(color: widget.activeColor),
                     ),
                     Icon(Icons.arrow_drop_up,
-                        size: ScreenUtil().setSp(40),
-                        color: widget.activeColor)
+                        size: ScreenUtil().setSp(40), color: widget.activeColor)
                   ],
                 ),
               )
@@ -143,49 +160,60 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader>
                 alignment: Alignment.center,
                 width: ScreenUtil().setWidth(158),
                 margin: EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 8),
-                decoration: brandCheckedList.length == 0 ? BoxDecoration(
-                  color: widget.decorationColor,
-                  borderRadius: BorderRadius.circular(50.0),
-                ) : BoxDecoration(
-                    color: Color(0XFFFDF0F0),
-                    borderRadius: BorderRadius.circular(50.0),
-                    border: Border.all(
-                      color: widget.activeColor,
-                    )),
+                decoration: provider.brandActiveList['valueList'].length == 0
+                    ? BoxDecoration(
+                        color: widget.decorationColor,
+                        borderRadius: BorderRadius.circular(50.0),
+                      )
+                    : BoxDecoration(
+                        color: Color(0XFFFDF0F0),
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                          color: widget.activeColor,
+                        )),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    brandCheckedList.length == 0 ? Text(item['title']) :
-                    Text(item['title'],
-                    style: TextStyle(color: widget.activeColor), 
-                    overflow: TextOverflow.ellipsis,),
+                    provider.brandActiveList['valueList'].length == 0
+                        ? Text(item['title'])
+                        : Text(
+                            item['title'],
+                            style: TextStyle(color: widget.activeColor),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                     Icon(Icons.arrow_drop_down,
-                        size: ScreenUtil().setSp(40), color: brandCheckedList.length == 0 ? widget.iconColor : widget.activeColor)
+                        size: ScreenUtil().setSp(40),
+                        color: provider.brandActiveList['valueList'].length == 0
+                            ? widget.iconColor
+                            : widget.activeColor)
                   ],
                 ),
               )
         : Container(
-            alignment: Alignment.center,
-            width: ScreenUtil().setWidth(158),
-            margin: EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 8),
-            decoration: checkActiveList.contains(item['filDetailId'])
-                ? BoxDecoration(
-                    color: Color(0XFFFDF0F0),
-                    borderRadius: BorderRadius.circular(50.0),
-                    border: Border.all(
-                      color: widget.activeColor,
-                    ))
-                : BoxDecoration(
-                    color: widget.decorationColor,
-                    borderRadius: BorderRadius.circular(50.0),
-                  ),
-            child: Text(
-              item['title'],
-              style: checkActiveList.contains(item['filDetailId'])
-                  ? TextStyle(color: widget.activeColor)
-                  : TextStyle(),
-            )
+                alignment: Alignment.center,
+                width: ScreenUtil().setWidth(158),
+                margin: EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 8),
+                decoration: provider.serviceDiscountActiveList['activeValue']
+                        .contains(item['filDetailId'])
+                    ? BoxDecoration(
+                        color: Color(0XFFFDF0F0),
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                          color: widget.activeColor,
+                        ))
+                    : BoxDecoration(
+                        color: widget.decorationColor,
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                child: Text(
+                  item['title'],
+                  style: provider.serviceDiscountActiveList['activeValue']
+                          .contains(item['filDetailId'])
+                      ? TextStyle(color: widget.activeColor)
+                      : TextStyle(),
+                ));
+      }
     );
   }
 }

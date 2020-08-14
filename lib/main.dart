@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:netease_news/router/index.dart';
 import 'package:netease_news/views/RecentPage.dart';
 import 'package:netease_news/views/IndexPage.dart';
+
+import 'package:provide/provide.dart';
+import 'router/staticRouter.dart';
 import 'package:netease_news/views/provides/category_detail_navBar.dart';
 import 'package:netease_news/views/provides/counter.dart';
 import 'package:netease_news/views/provides/goodsList_category.dart';
-import 'package:provide/provide.dart';
-
-import 'router/staticRouter.dart';
 import 'views/provides/category_detail.dart';
 import 'views/provides/category_detail_main.dart';
 import 'views/provides/subList_category.dart';

@@ -35,6 +35,7 @@ dependencies:
 dev_dependencies:
   english_words: ^3.1.5
   provide: ^1.0.2
+  provider: ^4.3.1
   font_awesome_flutter: ^8.8.1
   json_serializable: ^3.2.5
   build_runner: ^1.8.0

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'customDropdownMenuController.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/category_detail_main.dart';
+import 'package:netease_news/views/provides/category_detail_navBar.dart';
 
 class CustomDropDownMenuBuilder {
   CustomDropDownMenuBuilder({this.dropDownWiget, this.dropDownHeight, this.confirmButton});
@@ -39,7 +40,6 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> with SingleTick
   }
   _onController() {
     _currentMenuIndex = widget.controller.menuIndex;
-    // print(_currentMenuIndex);
     if (_currentMenuIndex >= widget.menus.length || widget.menus[_currentMenuIndex] == null) {
       return;
     }
@@ -60,8 +60,6 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> with SingleTick
 
     if (_isControllerDisposed) return;
 
-//    print('${widget.controller.isShow}');
-
     if (widget.controller.isShow) {
       _controller.forward();
     } else if (widget.controller.isHide) {
@@ -75,7 +73,6 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> with SingleTick
     setState(() {
       var heightRatio = _animation.value / _dropdownHeight;
       _maskColorOpacity = widget.maskColor.opacity * heightRatio;
-      // print(_maskColorOpacity);
     });
 
   }
@@ -94,7 +91,6 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> with SingleTick
       // TODO: Handle this case.
         break;
       case AnimationStatus.completed:
-//        print('completed');
         if (widget.dropDownMenuChanged != null) {
           widget.dropDownMenuChanged(true, _currentMenuIndex, Provide.value<CategoryDetailMainProvide>(context).navBarBrandCheckedList);
         }
@@ -151,12 +147,27 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> with SingleTick
   Widget _maskContanier() {
     return GestureDetector(
       onTap: () {
-        // print(Provide.value<CategoryDetailMainProvide>(context).confirmBool);
         widget.controller.hide();
+        // Provide.value<CategoryDetailMainProvide>(context).changeConfirmBool(false);
+        var tempActiveBrandList = Provide.value<CategoryNavBarFilterProvide>(context).tempBrandActiveList;
+        var brandActiveList = Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList;
+        // print('customDropdownMenu provide confirmbool:${Provide.value<CategoryDetailMainProvide>(context).confirmBool}');
         setState(() {
-          print(Provide.value<CategoryDetailMainProvide>(context).confirmBool);
-          if(Provide.value<CategoryDetailMainProvide>(context).confirmBool == false) Provide.value<CategoryDetailMainProvide>(context).getNavBarBrandCheckedList([]);
+          if(Provide.value<CategoryDetailMainProvide>(context).confirmBool == false) {
+            if(brandActiveList['valueList'].length != 0 && tempActiveBrandList['valueList'].length != 0) {
+              tempActiveBrandList['valueList'].forEach((item) {
+                brandActiveList['valueList'].remove(item);
+                brandActiveList['titleList'].remove(item);
+              });
+              // print('custom header brandActiveList:$brandActiveList');
+            }
+            
+            Provide.value<CategoryNavBarFilterProvide>(context).getTempBrandActiveList({'titleList': [], 'valueList': []});
+
+          }
         });
+        // print('customDropdownMenu provide brandActiveList:$brandActiveList, tempBrandList:$tempActiveBrandList');
+
       },
       child: Container(
           width: MediaQuery.of(context).size.width,

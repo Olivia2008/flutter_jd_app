@@ -9,4 +9,5 @@ const servicePath = {
   'categoryMainList': serviceUrl + '/categoryMainList', // 分类页面右侧主体内容
   'categoryNavTop': serviceUrl + '/category/detail/topBar', // 分类页面顶部过滤导航
   'categoryDetailMain': serviceUrl + '/category/detail/getSumarys', // 分类页面某一类的详情列表
+  'categoryNavTopMore': serviceUrl + '/category/detail/topBar/filter/more', // 分类页面顶部过滤导航右侧抽屉中更多分类
 };

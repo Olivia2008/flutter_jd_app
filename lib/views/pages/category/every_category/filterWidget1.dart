@@ -5,6 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/components/customDropdownMenu/customDropdownMenuController.dart';
 import 'package:netease_news/components/customDropdownMenu/customDropdownMenuHeader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provide/provide.dart';
+import 'package:netease_news/views/provides/category_detail_navBar.dart';
+
 
 class FilterWidget extends StatefulWidget {
   FilterWidget({@required this.stackKey, @required this.scaffoldKey, @required this.customDropdownMenuController, @required this.data,});
@@ -108,9 +111,9 @@ class _FilterWidgetState extends State<FilterWidget>{
                                 style: TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: ScreenUtil().setSp(32)),
+                                    fontSize: ScreenUtil().setSp(36)),
                               )
-                            : Text(data[index]['title']),
+                            : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
                         active != index
                             ? Icon(Icons.arrow_drop_down,
                                 size: ScreenUtil().setSp(40),
@@ -133,9 +136,9 @@ class _FilterWidgetState extends State<FilterWidget>{
                                 style: TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: ScreenUtil().setSp(32)),
+                                    fontSize: ScreenUtil().setSp(36)),
                               )
-                            : Text(data[index]['title']),
+                            : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
                       )
                     : index == 2
                         ? GestureDetector(
@@ -164,9 +167,9 @@ class _FilterWidgetState extends State<FilterWidget>{
                                             // textBaseline: TextBaseline.alphabetic,
                                             color: Colors.black87,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: ScreenUtil().setSp(32)),
+                                            fontSize: ScreenUtil().setSp(36)),
                                       )
-                                    : Text(data[index]['title']),
+                                    : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
                                 Padding(
                                     padding: EdgeInsets.only(left: 3),
                                     child: active != index
@@ -193,20 +196,27 @@ class _FilterWidgetState extends State<FilterWidget>{
                                       style: TextStyle(
                                           color: Colors.black87,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: ScreenUtil().setSp(32)),
+                                          fontSize: ScreenUtil().setSp(36)),
                                     )
-                                  : Text(data[index]['title']),
+                                  : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
                               Padding(
                                 padding: EdgeInsets.only(left: 3),
                                 child: active != index
-                                    ? FaIcon(FontAwesomeIcons.filter,
-                                        size: ScreenUtil().setSp(16),
-                                        color: Theme.of(context).primaryColor)
+                                    ? FaIcon(Icons.filter_alt,
+                                        size: ScreenUtil().setSp(16))
                                     : FaIcon(
-                                        FontAwesomeIcons.filter,
+                                        Icons.filter_alt,
                                         size: ScreenUtil().setSp(20),
                                         color: Theme.of(context).primaryColor,
                                       ),
+                                // child: active != index
+                                //     ? FaIcon(FontAwesomeIcons.filter,
+                                //         size: ScreenUtil().setSp(16))
+                                //     : FaIcon(
+                                //         FontAwesomeIcons.filter,
+                                //         size: ScreenUtil().setSp(20),
+                                //         color: Theme.of(context).primaryColor,
+                                //       ),
                               )
                             ],
                           ),
@@ -240,7 +250,12 @@ class _FilterWidgetState extends State<FilterWidget>{
         setState(() {
           active = index;
         });
-        if(index == 3) widget.scaffoldKey.currentState.openEndDrawer();
+        if(index == 3) {
+          widget.customDropdownMenuController.hide(isShowHideAnimation: false);
+          widget.scaffoldKey.currentState.openEndDrawer();
+          Provide.value<CategoryNavBarFilterProvide>(context).getInnerDrawer(false);
+          // Provide.value<CategoryNavBarFilterProvide>(context).getFilterCateActiveList({'id': '', 'name': '', 'activeValue': '', 'activeTitle': ''});
+        }
       },
       child: _list1ViewItem(data, index, context),
     );

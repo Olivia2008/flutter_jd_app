@@ -7,6 +7,7 @@ import 'package:netease_news/components/searchDelegate.dart';
 import 'package:netease_news/views/service/service_method.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/category_detail_main.dart';
+import 'package:netease_news/views/provides/category_detail_navBar.dart';
 import 'package:netease_news/views/pages/category/every_category/filterWidget1.dart';
 import 'package:netease_news/views/pages/category/every_category/filterDraw.dart';
 import 'dart:convert';
@@ -26,8 +27,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   var _stackKey = new GlobalKey();
   var navData;
   var optionList;
-  List checkedList = [];
-  List activeList = [];
+  // Map _brandActiveList = {'titleList': [], 'valueList': []};
   CustomDropdownMenuController _dropdownMenuController =
       CustomDropdownMenuController();
   ScrollController _scrollController= ScrollController();
@@ -45,10 +45,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
     };
     // print(paramsData);
     _getNavData('categoryNavTop', paramsData);
-    setState(() {
-      // checkedList = activeList;
-    });
-    print('ever category page init checkedList:$checkedList');
   }
 
   void _getNavData(path, params) async {
@@ -57,10 +53,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       setState(() {
         navData = data['data']['result'];
         optionList = (navData['navList2'][2]['optionList'] as List).cast();
-        // print(navList2[2]['optionList']);
       });
-      // print(navData);
-      print('分类详情页头部过滤导航请求完成。。。。。。。');
+      print('/category/detail/topbar请求完成。。。。。。。');
     });
   }
 
@@ -78,6 +72,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
         preferredSize: Size.fromHeight(0),
       ),
       endDrawer: Container(
+        padding: EdgeInsets.zero,
         margin: EdgeInsets.only(
             left: MediaQuery.of(context).size.width / 4, top: 0),
         decoration: BoxDecoration(
@@ -86,6 +81,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
         ),
         child: NavFilterDraw(_scaffoldKey, navData)
       ),
+      endDrawerEnableOpenDragGesture: false,
       body: Stack(
         key: _stackKey,
         textDirection: TextDirection.ltr,
@@ -115,7 +111,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                   ),
                   child: navData != null
                       ? FilterWidget(
-                          // activedItemList: checkedList,
                           data: navData,
                           scaffoldKey: _scaffoldKey,
                           stackKey: _stackKey,
@@ -131,12 +126,12 @@ class _CategoryDetailsState extends State<CategoryDetails> {
               animationMilliseconds: 300,
               dropdownMenuChanging: (isShow, index, checkedList) {
                 setState(() {
-                  print('正在${isShow ? '显示' : '隐藏'}$index, $checkedList');
+                  // print('正在${isShow ? '显示' : '隐藏'}$index, $checkedList');
                 });
               },
               dropDownMenuChanged: (isShow, index, checkedList) {
                 setState(() {
-                  print('已经${isShow ? '显示' : '隐藏'}$index, $checkedList');
+                  // print('已经${isShow ? '显示' : '隐藏'}$index, $checkedList');
                 });
               },
               menus: [
@@ -265,7 +260,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   }
 
   _customDropdownMenuBuilder(data) {
-    print(data);
+    // print(data);
     List<CustomDropDownMenuBuilder> menuBuilder;
     if (data.length != 0) {
       menuBuilder = data.map<CustomDropDownMenuBuilder>((item) {
@@ -306,32 +301,31 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   _brandWrapList(data, context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     var _screenWidth = mediaQuery.size.width;
-    // checkedList = activeList;
-    // setState(() {checkedList = activeList;});
-    checkedList = Provide.value<CategoryDetailMainProvide>(context).navBarBrandCheckedList;
-    // var checkData =  Provide.value<CategoryDetailMainProvide>(context).navBarBrandCheckedList;
-    print('every_category_checkedList: ${checkedList},activeList:${activeList}');
     List<Widget> list = data.map<Widget>((item) {
-      return InkWell(
+      return Provide<CategoryNavBarFilterProvide>(
+        builder: (context, child, provider) {
+          return InkWell(
           onTap: () {
             setState(() {
-              if (checkedList.indexOf(item['value']) == -1) {
-              checkedList.add(item['value']);
-              // Provide.value<CategoryDetailMainProvide>(context)
-              //     .getNavBarBrandCheckedList(checkedList);
+              if (provider.brandActiveList['valueList'].indexOf(item['value']) == -1) {
+              provider.brandActiveList['valueList'].add(item['value']);
+              provider.brandActiveList['titleList'].add(item['name']);
+              provider.tempBrandActiveList['valueList'].add(item['value']);
+              provider.tempBrandActiveList['titleList'].add(item['name']);
             } else {
-              checkedList.remove(item['value']);
-              // Provide.value<CategoryDetailMainProvide>(context)
-              //     .getNavBarBrandCheckedList(checkedList);
+              provider.brandActiveList['valueList'].remove(item['value']);
+              provider.brandActiveList['titleList'].remove(item['name']);
+              provider.tempBrandActiveList['valueList'].remove(item['value']);
+              provider.tempBrandActiveList['titleList'].remove(item['name']);
             }
             });
-            // print('checkedList: $checkedList');
+            // print('every category onTap item provide brandActiveLit:${provider.brandActiveList}, tempBrandList:${provider.tempBrandActiveList}');
           },
           child: Container(
               alignment: Alignment.center,
               padding: EdgeInsets.all(10),
               width: _screenWidth / 2 - 20,
-              child: checkedList.contains(item['value'])
+              child: provider.brandActiveList['valueList'].contains(item['value'])
                   ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -349,6 +343,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(32),
                       ))));
+        }
+      );
     }).toList();
     return Wrap(
       runSpacing: 1,
@@ -371,13 +367,13 @@ class _CategoryDetailsState extends State<CategoryDetails> {
             InkWell(
                 onTap: () {
                   setState(() {
-                    checkedList = [];
-                    // activeList = [];
-                    // confirmBool = false;
+                    // _brandActiveList = {'titleList': [], 'valueList': []};
                     Provide.value<CategoryDetailMainProvide>(context).changeConfirmBool(false);
-                    Provide.value<CategoryDetailMainProvide>(context)
-                        .getNavBarBrandCheckedList(checkedList);
+                    Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList['valueList'] = [];
+                    Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList['titleList'] = [];
+                    Provide.value<CategoryNavBarFilterProvide>(context).getTempBrandActiveList({'titleList': [], 'valueList': []});
                   });
+                  // print('every category reset provide brandList:${Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList}, tempBrandList: ${Provide.value<CategoryNavBarFilterProvide>(context).tempBrandActiveList}');
                 },
                 child: Container(
                     alignment: Alignment.center,
@@ -391,15 +387,18 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                         style: TextStyle(fontSize: ScreenUtil().setSp(36))))),
             InkWell(
                 onTap: () {
-                  print('confirm');
+                  print('confirm-------------------');
+                  var _provideBrand = Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList;
+                  var _tempBrand = Provide.value<CategoryNavBarFilterProvide>(context).tempBrandActiveList;
                   setState(() {
-                    // activeList = checkedList;
-                    // confirmBool = true;
                     Provide.value<CategoryDetailMainProvide>(context).changeConfirmBool(true);
-                    // Provide.value<CategoryDetailMainProvide>(context)
-                    //   .getNavBarBrandCheckedList(checkedList);
+                    _provideBrand['valueList'].insertAll(_provideBrand['valueList'].length, _tempBrand['valueList']);
+                    _provideBrand['titleList'].insertAll(_provideBrand['titleList'].length, _tempBrand['titleList']);
                   });
+                  
+                  Provide.value<CategoryNavBarFilterProvide>(context).getTempBrandActiveList({'titleList': [], 'valueList': []});
                   _dropdownMenuController.hide();
+                  // print('every category confirm provide brandList:$_provideBrand, tempBrandList: $_tempBrand');
                 },
                 child: Container(
                     alignment: Alignment.center,
