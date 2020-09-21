@@ -111,7 +111,7 @@ class _FilterWidgetState extends State<FilterWidget>{
                                 style: TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: ScreenUtil().setSp(36)),
+                                    fontSize: ScreenUtil().setSp(34)),
                               )
                             : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
                         active != index
@@ -202,21 +202,13 @@ class _FilterWidgetState extends State<FilterWidget>{
                               Padding(
                                 padding: EdgeInsets.only(left: 3),
                                 child: active != index
-                                    ? FaIcon(Icons.filter_alt,
+                                    ? FaIcon(FontAwesomeIcons.filter,
                                         size: ScreenUtil().setSp(16))
                                     : FaIcon(
-                                        Icons.filter_alt,
+                                        Icons.filter_1,
                                         size: ScreenUtil().setSp(20),
                                         color: Theme.of(context).primaryColor,
                                       ),
-                                // child: active != index
-                                //     ? FaIcon(FontAwesomeIcons.filter,
-                                //         size: ScreenUtil().setSp(16))
-                                //     : FaIcon(
-                                //         FontAwesomeIcons.filter,
-                                //         size: ScreenUtil().setSp(20),
-                                //         color: Theme.of(context).primaryColor,
-                                //       ),
                               )
                             ],
                           ),

@@ -16,7 +16,7 @@ class TopNav extends StatelessWidget {
         children: <Widget>[
           Container(
             width: ScreenUtil().setWidth(80),
-            height: ScreenUtil().setHeight(80),
+            height: ScreenUtil().setHeight(90),
             child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: item['icon'], fit: BoxFit.fill)
           ),
           Padding(
