@@ -6,9 +6,6 @@ import 'package:netease_news/views/pages/category_page.dart';
 import 'package:netease_news/views/pages/home_page.dart';
 import 'package:netease_news/views/pages/member_page.dart';
 import 'package:netease_news/views/pages/search_page.dart';
-import 'package:netease_news/views/pages/test.dart';
-
-import 'pages/test_dropMenu.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -24,11 +21,10 @@ class _IndexPageState extends State<IndexPage> {
         title: Text('购物车'), icon: Icon(Icons.shopping_cart)),
     BottomNavigationBarItem(
         title: Text('我的'), icon: Icon(Icons.perm_identity)),
-    BottomNavigationBarItem(title: Text('下拉菜单'), icon: Icon(Icons.location_searching))
   ];
 
 // 注意tabBody里面的顺序要与设计一致，默认显示首页
-  final List<Widget> tabBody = [HomePage(), CategoryPage(), SearchPage(),CartPage(), MemberPage(), GZXDropDownMenuTestPage()];
+  final List<Widget> tabBody = [HomePage(), CategoryPage(), SearchPage(),CartPage(), MemberPage()];
 
   int activeIndex = 0;
   var currentPage;

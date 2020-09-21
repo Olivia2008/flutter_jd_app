@@ -4,8 +4,8 @@ import 'package:fluro/fluro.dart';
 import 'handler.dart';
 
 class Routes {
-  static String home = '/';
   static String categoryDetailsPage = '/categoryDetails';
+  static String goodsDetail = '/goodsDetail';
   static void configureRoutes(Router router){
     // 找不到路由时
     router.notFoundHandler = Handler(
@@ -15,5 +15,6 @@ class Routes {
     );
     // 配置category details 页面路由categoryDetailHandler是handler.dart中
     router.define(categoryDetailsPage, handler: categoryDetailHandler);
+    router.define(goodsDetail, handler: goodsDetailHandler);
   }
 }

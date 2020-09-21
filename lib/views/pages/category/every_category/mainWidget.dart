@@ -7,6 +7,7 @@ import 'package:netease_news/views/provides/category_detail_main.dart';
 import 'package:netease_news/views/service/service_method.dart';
 import 'package:provide/provide.dart';
 import 'dart:convert';
+import 'package:netease_news/router/staticRouter.dart';
 
 // import 'main_widget/refreshWidget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -136,11 +137,13 @@ class _MainWidgetState extends State<MainWidget> {
     List<Widget> listWidget = listData.map<Widget>((item) {
       return InkWell(
           onTap: () {
-            print('大类');
-//            var pareId = Provide.value<SubchildCategory>(context).pareId,
-//                subId = Provide.value<SubchildCategory>(context).subId,
-//                categoryId = item.goodId;
-//            StaticRouter.router.navigateTo(context, '/categoryDetails?pareId=$pareId&subId=$subId&categoryId=$categoryId');
+           var pareId = widget.params['pareId'][0],
+               subId = widget.params['subId'][0],
+               categoryId = widget.params['categoryId'][0],
+               goodsId = item.skuId;
+           StaticRouter.router.navigateTo(context, '/goodsDetail?pareId=$pareId&subId=$subId&cateId=$categoryId&goodsId=$goodsId').then((value) => {
+             // print('mainWidget staticRouter result:$value')
+           });
           },
           child: Container(
             width: ScreenUtil().setWidth(750),
@@ -177,15 +180,7 @@ class _MainWidgetState extends State<MainWidget> {
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: InkWell(
-                    onTap: () {},
-                    // child: Image.network(item.img, fit: BoxFit.fill)
-                    // child: FadeInImage.memoryNetwork(
-                    //   placeholder: kTransparentImage,
-                    //   image: item.img
-                    // )
-                    child: FadeInImage.assetNetwork(fit: BoxFit.fill, placeholder: 'assets/images/lazy.png', image: item.img)
-                    )),
+                child: FadeInImage.assetNetwork(fit: BoxFit.fill, placeholder: 'assets/images/lazy.png', image: item.img)),
             item.sensitiveBook == 2 ? Positioned(bottom: 0, child: Container(
               alignment: Alignment.center,
               width: ScreenUtil().setWidth(240),

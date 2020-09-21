@@ -8,7 +8,7 @@ import 'package:netease_news/views/service/service_method.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/category_detail_main.dart';
 import 'package:netease_news/views/pages/category/every_category/filterWidget1.dart';
-import 'package:netease_news/views/pages/category/every_category/filterDraw.dart';
+import 'package:netease_news/views/pages/category/every_category/FilterDraw.dart';
 import 'dart:convert';
 
 import 'every_category/mainWidget.dart';
@@ -45,10 +45,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
     };
     // print(paramsData);
     _getNavData('categoryNavTop', paramsData);
-    setState(() {
-      // checkedList = activeList;
-    });
-    print('ever category page init checkedList:$checkedList');
+    // print('ever category page init checkedList:$checkedList');
   }
 
   void _getNavData(path, params) async {
