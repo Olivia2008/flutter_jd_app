@@ -11,6 +11,7 @@ import 'package:netease_news/views/provides/goodsList_category.dart';
 import 'views/provides/category_detail.dart';
 import 'views/provides/category_detail_main.dart';
 import 'views/provides/subList_category.dart';
+import 'views/provides/goods/comment_detail.dart';
 import 'package:fluro/fluro.dart';
 
 void main() {
@@ -21,6 +22,7 @@ void main() {
   var categoryDetail = CategoryDetailProvide();
   var categoryNavBarFilter = CategoryNavBarFilterProvide();
   var categoryDetailMain = CategoryDetailMainProvide();
+  var cateGoodsCommentDetail = GoodsCommentDetailProvide();
 
   // ..用于多个状态管理时使用
   providers
@@ -29,7 +31,8 @@ void main() {
     ..provide(Provider<GoodsListProvide>.value(goodListCategory))
     ..provide(Provider<CategoryNavBarFilterProvide>.value(categoryNavBarFilter))
     ..provide(Provider<CategoryDetailProvide>.value(categoryDetail))
-    ..provide(Provider<CategoryDetailMainProvide>.value(categoryDetailMain));
+    ..provide(Provider<CategoryDetailMainProvide>.value(categoryDetailMain))
+    ..provide(Provider<GoodsCommentDetailProvide>.value(cateGoodsCommentDetail));
   runApp(ProviderNode(
     providers: providers,
     child: MyHomePage(title: 'Flutter Demo Home Page'),

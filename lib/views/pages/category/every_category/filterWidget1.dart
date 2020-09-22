@@ -8,9 +8,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/category_detail_navBar.dart';
 
-
 class FilterWidget extends StatefulWidget {
-  FilterWidget({@required this.stackKey, @required this.scaffoldKey, @required this.customDropdownMenuController, @required this.data,});
+  FilterWidget({
+    @required this.stackKey,
+    @required this.scaffoldKey,
+    @required this.customDropdownMenuController,
+    @required this.data,
+  });
   final GlobalKey<ScaffoldState> scaffoldKey;
   final GlobalKey stackKey;
   final CustomDropdownMenuController customDropdownMenuController;
@@ -19,8 +23,7 @@ class FilterWidget extends StatefulWidget {
   _FilterWidgetState createState() => _FilterWidgetState();
 }
 
-class _FilterWidgetState extends State<FilterWidget>{
-
+class _FilterWidgetState extends State<FilterWidget> {
   String value = '1_1_10001_a1_1';
   bool change = false;
   int active = 0;
@@ -30,8 +33,8 @@ class _FilterWidgetState extends State<FilterWidget>{
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
     var data = widget.data;
@@ -40,33 +43,32 @@ class _FilterWidgetState extends State<FilterWidget>{
       var list2 = (data['navList2'] as List).cast();
       return Container(
         alignment: Alignment.center,
-        child:Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             list1.length != 0
                 ? Container(
-              height: ScreenUtil().setHeight(80),
-              margin: EdgeInsets.only(bottom: 6),
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return _List1(list1, index, context);
-                },
-                itemCount: list1.length,
-              ),
-            )
+                    height: ScreenUtil().setHeight(80),
+                    margin: EdgeInsets.only(bottom: 6),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return _List1(list1, index, context);
+                      },
+                      itemCount: list1.length,
+                    ),
+                  )
                 : Text('暂无数据'),
             // 下拉菜单头部
             list2.length != 0
                 ? CustomDropdownMenuHeader(
-              headerItems: list2,
-              onItemTap: (index) {
-                // print('onItemTap:$index');
-              },
-              stackKey: widget.stackKey,
-              controller: widget.customDropdownMenuController
-            )
+                    headerItems: list2,
+                    onItemTap: (index) {
+                      // print('onItemTap:$index');
+                    },
+                    stackKey: widget.stackKey,
+                    controller: widget.customDropdownMenuController)
                 : Text('暂无数据'),
           ],
         ),
@@ -113,7 +115,9 @@ class _FilterWidgetState extends State<FilterWidget>{
                                     fontWeight: FontWeight.w500,
                                     fontSize: ScreenUtil().setSp(34)),
                               )
-                            : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
+                            : Text(data[index]['title'],
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(32))),
                         active != index
                             ? Icon(Icons.arrow_drop_down,
                                 size: ScreenUtil().setSp(40),
@@ -138,7 +142,9 @@ class _FilterWidgetState extends State<FilterWidget>{
                                     fontWeight: FontWeight.w500,
                                     fontSize: ScreenUtil().setSp(36)),
                               )
-                            : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
+                            : Text(data[index]['title'],
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(32))),
                       )
                     : index == 2
                         ? GestureDetector(
@@ -169,7 +175,9 @@ class _FilterWidgetState extends State<FilterWidget>{
                                             fontWeight: FontWeight.w500,
                                             fontSize: ScreenUtil().setSp(36)),
                                       )
-                                    : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
+                                    : Text(data[index]['title'],
+                                        style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(32))),
                                 Padding(
                                     padding: EdgeInsets.only(left: 3),
                                     child: active != index
@@ -198,7 +206,9 @@ class _FilterWidgetState extends State<FilterWidget>{
                                           fontWeight: FontWeight.w500,
                                           fontSize: ScreenUtil().setSp(36)),
                                     )
-                                  : Text(data[index]['title'], style: TextStyle(fontSize: ScreenUtil().setSp(32))),
+                                  : Text(data[index]['title'],
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(32))),
                               Padding(
                                 padding: EdgeInsets.only(left: 3),
                                 child: active != index
@@ -242,10 +252,11 @@ class _FilterWidgetState extends State<FilterWidget>{
         setState(() {
           active = index;
         });
-        if(index == 3) {
+        if (index == 3) {
           widget.customDropdownMenuController.hide(isShowHideAnimation: false);
           widget.scaffoldKey.currentState.openEndDrawer();
-          Provide.value<CategoryNavBarFilterProvide>(context).getInnerDrawer(false);
+          Provide.value<CategoryNavBarFilterProvide>(context)
+              .getInnerDrawer(false);
           // Provide.value<CategoryNavBarFilterProvide>(context).getFilterCateActiveList({'id': '', 'name': '', 'activeValue': '', 'activeTitle': ''});
         }
       },
@@ -279,7 +290,9 @@ class _FilterWidgetState extends State<FilterWidget>{
           child: Container(
             width: window.physicalSize.width,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
             ),
             child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceAround,

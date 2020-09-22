@@ -1,11 +1,12 @@
-
 import "package:flutter/material.dart";
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:netease_news/views/model/category_detail_main.dart';
 import 'package:netease_news/views/provides/category_detail_main.dart';
 import 'package:netease_news/views/service/service_method.dart';
+import 'package:netease_news/views/provides/subList_category.dart';
 import 'package:provide/provide.dart';
+import 'package:netease_news/router/staticRouter.dart';
 import 'dart:convert';
 
 // import 'main_widget/refreshWidget.dart';
@@ -36,13 +37,13 @@ class _MainWidgetState extends State<MainWidget> {
     _easyRefreshController = EasyRefreshController();
     list = [];
     // id, subId, goodId all of them is String
-   _params = {
-     "id": widget.params['pareId'][0],
-     "subId": widget.params['subId'][0],
-     "goodId": widget.params['categoryId'][0],
-     "page": widget.page,
-     "pageSize": 10
-   };
+    _params = {
+      "id": widget.params['pareId'][0],
+      "subId": widget.params['subId'][0],
+      "goodId": widget.params['categoryId'][0],
+      "page": widget.page,
+      "pageSize": 10
+    };
     _getSummaryList(_params);
   }
 
@@ -54,17 +55,20 @@ class _MainWidgetState extends State<MainWidget> {
     _easyRefreshController.dispose();
   }
 
- void _getSummaryList(params) async{
-   await request('categoryDetailMain',params: params).then((res) {
-     setState(() {
-       var data = json.decode(res.toString());
-      CategoryDetailMainModel _result = CategoryDetailMainModel.fromJson(data);
-      // list = _result.data.result.summary;
-      if(_result.data.result.summary.length != 0) Provide.value<CategoryDetailMainProvide>(context).getSummaryList(_result.data.result.summary);
-     });
-     print('详情分类页summary数据请求完成。。。。。。。');
-   });
- }
+  void _getSummaryList(params) async {
+    await request('categoryDetailMain', params: params).then((res) {
+      setState(() {
+        var data = json.decode(res.toString());
+        CategoryDetailMainModel _result =
+            CategoryDetailMainModel.fromJson(data);
+        // list = _result.data.result.summary;
+        if (_result.data.result.summary.length != 0)
+          Provide.value<CategoryDetailMainProvide>(context)
+              .getSummaryList(_result.data.result.summary);
+      });
+      print('详情分类页summary数据请求完成。。。。。。。');
+    });
+  }
 
   void _getMoreSummaryList() async {
     widget.page++;
@@ -72,9 +76,9 @@ class _MainWidgetState extends State<MainWidget> {
     await request('categoryDetailMain', params: _params).then((res) {
       var data = json.decode(res.toString());
       CategoryDetailMainModel _result = CategoryDetailMainModel.fromJson(data);
-        if(_result.data.result.summary.length != 0) {
-          Provide.value<CategoryDetailMainProvide>(context).getMoreSummaryList(_result.data.result.summary);
-
+      if (_result.data.result.summary.length != 0) {
+        Provide.value<CategoryDetailMainProvide>(context)
+            .getMoreSummaryList(_result.data.result.summary);
       } else {
         Fluttertoast.showToast(
             msg: "已经到底了",
@@ -83,30 +87,31 @@ class _MainWidgetState extends State<MainWidget> {
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Provide<CategoryDetailMainProvide>(
       builder: (context, child, data) {
-        return data.summaryList.length != 0 ? Container(
+        return data.summaryList.length != 0
+            ? Container(
                 margin: EdgeInsets.only(top: 10),
                 width: ScreenUtil().setWidth(750),
                 height: ScreenUtil().setHeight(900),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
-                    color: Colors.white
-                ),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0)),
+                    color: Colors.white),
                 // child: RefreshWidget(_listViewScrollController, _easyRefreshController, _getMoreSummaryList)
-                child: _easyRefreshWidget(data.summaryList, context)
-            ) : Center(child: CircularProgressIndicator ());
+                child: _easyRefreshWidget(data.summaryList, context))
+            : Center(child: CircularProgressIndicator());
       },
     );
   }
-
 
   Widget _easyRefreshWidget(data, context) {
     // print(data.summary[0].title);
@@ -123,7 +128,6 @@ class _MainWidgetState extends State<MainWidget> {
         _params['page'] = widget.page;
         print('onRefresh params:$_params');
         _getSummaryList(_params);
-
       },
       child: ListView(
           controller: widget.scrollController,
@@ -136,11 +140,15 @@ class _MainWidgetState extends State<MainWidget> {
     List<Widget> listWidget = listData.map<Widget>((item) {
       return InkWell(
           onTap: () {
-            print('大类');
-//            var pareId = Provide.value<SubchildCategory>(context).pareId,
-//                subId = Provide.value<SubchildCategory>(context).subId,
-//                categoryId = item.goodId;
-//            StaticRouter.router.navigateTo(context, '/categoryDetails?pareId=$pareId&subId=$subId&categoryId=$categoryId');
+          //   print(item.skuId);
+          //  var pareId = widget.params['pareId'][0],
+          //      subId = widget.params['subId'][0],
+          //      categoryId = widget.params['categoryId'][0],
+          //      goodsId = item.skuId;
+           StaticRouter.router.navigateTo(context, '/cateGoodsDetail?goodsId=${item.skuId}').then((value) => {
+             print('mainWidget staticRouter result:$value')
+           });
+           // StaticRouter.router.navigateTo(context, '/cateGoodsCommentDetail?pareId=$pareId&subId=$subId&categoryId=$categoryId');
           },
           child: Container(
             width: ScreenUtil().setWidth(750),
@@ -177,31 +185,33 @@ class _MainWidgetState extends State<MainWidget> {
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: InkWell(
-                    onTap: () {},
-                    // child: Image.network(item.img, fit: BoxFit.fill)
-                    // child: FadeInImage.memoryNetwork(
-                    //   placeholder: kTransparentImage,
-                    //   image: item.img
-                    // )
-                    child: FadeInImage.assetNetwork(fit: BoxFit.fill, placeholder: 'assets/images/lazy.png', image: item.img)
-                    )),
-            item.sensitiveBook == 2 ? Positioned(bottom: 0, child: Container(
-              alignment: Alignment.center,
-              width: ScreenUtil().setWidth(240),
-              height: ScreenUtil().setHeight(40),
-              // padding: EdgeInsets.all(3.0),
-              color: Color.fromRGBO(233, 59, 61, 0.7),
-              child: Text('预订', style: TextStyle(color: Colors.white))
-            )
-            ) : item.sensitiveBook == 1 ? Positioned(bottom: 0, child: Container(
-              alignment: Alignment.center,
-              width: ScreenUtil().setWidth(240),
-              height: ScreenUtil().setHeight(40),
-              // padding: EdgeInsets.all(3.0),
-              color: Color.fromRGBO(0, 0, 0, 0.7),
-              child: Text('北京无货', style: TextStyle(color: Colors.white))
-            )) : Container()
+                child: FadeInImage.assetNetwork(
+                    fit: BoxFit.fill,
+                    placeholder: 'assets/images/lazy.png',
+                    image: item.img)),
+            item.sensitiveBook == 2
+                ? Positioned(
+                    bottom: 0,
+                    child: Container(
+                        alignment: Alignment.center,
+                        width: ScreenUtil().setWidth(240),
+                        height: ScreenUtil().setHeight(40),
+                        // padding: EdgeInsets.all(3.0),
+                        color: Color.fromRGBO(233, 59, 61, 0.7),
+                        child:
+                            Text('预订', style: TextStyle(color: Colors.white))))
+                : item.sensitiveBook == 1
+                    ? Positioned(
+                        bottom: 0,
+                        child: Container(
+                            alignment: Alignment.center,
+                            width: ScreenUtil().setWidth(240),
+                            height: ScreenUtil().setHeight(40),
+                            // padding: EdgeInsets.all(3.0),
+                            color: Color.fromRGBO(0, 0, 0, 0.7),
+                            child: Text('北京无货',
+                                style: TextStyle(color: Colors.white))))
+                    : Container()
           ],
         ));
   }
@@ -218,7 +228,7 @@ class _MainWidgetState extends State<MainWidget> {
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           _descTitleWidget(item, context),
-          _storageAndProperWidget(item, context), 
+          _storageAndProperWidget(item, context),
           _descPriceWidget(item, context),
           _descVaribleWiget(item, context),
           _descCommentWidget(item, context),
@@ -470,13 +480,13 @@ class _MainWidgetState extends State<MainWidget> {
 
   // 京东国际
   Widget _descInternationalWidget(data, context) {
-    return data != '-1' ? Container(
+    return data != '-1'
+        ? Container(
             margin: EdgeInsets.only(right: 8.0),
             padding: EdgeInsets.all(1.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3.0),
-              color: Colors.purpleAccent
-            ),
+                borderRadius: BorderRadius.circular(3.0),
+                color: Colors.purpleAccent),
             child: Text(
               '京东国际',
               style: TextStyle(
