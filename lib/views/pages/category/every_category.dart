@@ -30,8 +30,9 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   // Map _brandActiveList = {'titleList': [], 'valueList': []};
   CustomDropdownMenuController _dropdownMenuController =
       CustomDropdownMenuController();
-  ScrollController _scrollController= ScrollController();
+  ScrollController _scrollController = ScrollController();
   bool confirmBool = false;
+  bool showFloatBtn = false;
   int page = 1;
   @override
   void initState() {
@@ -45,6 +46,20 @@ class _CategoryDetailsState extends State<CategoryDetails> {
     };
     // print(paramsData);
     _getNavData('categoryNavTop', paramsData);
+    _scrollController.addListener(handleScrollController);
+  }
+
+   void handleScrollController() {
+    var _screenHeight = MediaQuery.of(context).size.height - ScreenUtil().setHeight(500);
+    if(_scrollController.offset < _screenHeight && showFloatBtn) {
+      setState(() {
+        showFloatBtn = false;
+      });
+    } else if(_scrollController.offset >= _screenHeight && showFloatBtn == false) {
+      setState(() {
+        showFloatBtn = true;
+      });
+    }
   }
 
   void _getNavData(path, params) async {
@@ -61,108 +76,116 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Color(0XFFF5F5F5),
-      appBar: PreferredSize(
-        child: AppBar(
-          brightness: Brightness.dark,
-          backgroundColor: Theme.of(context).primaryColor,
-          elevation: 0,
-        ),
-        preferredSize: Size.fromHeight(0),
-      ),
-      endDrawer: Container(
-        padding: EdgeInsets.zero,
-        margin: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width / 4, top: 0),
-        decoration: BoxDecoration(
-          color: Color(0xfff5f5f5),
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), bottomLeft: Radius.circular(15.0))
-        ),
-        child: NavFilterDraw(_scaffoldKey, navData)
-      ),
-      endDrawerEnableOpenDragGesture: false,
-      body: Stack(
-        key: _stackKey,
-        textDirection: TextDirection.ltr,
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Container(
-                  height: ScreenUtil().setHeight(100),
-                  width: ScreenUtil().setWidth(750),
-                  color: Theme.of(context).primaryColor,
-                  child: Row(
-                    children: <Widget>[
-                      _appBarLeading(context),
-                      _appBarTitle(context)
-                    ],
-                  )),
-              Container(
-                  width: ScreenUtil().setWidth(750),
-                  alignment: Alignment.center,
-                  height: ScreenUtil().setHeight(250),
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15.0),
-                        bottomRight: Radius.circular(15.0)),
-                  ),
-                  child: navData != null
-                      ? FilterWidget(
-                          data: navData,
-                          scaffoldKey: _scaffoldKey,
-                          stackKey: _stackKey,
-                          customDropdownMenuController: _dropdownMenuController,
-                        )
-                      : Container()),
-              Expanded(child: MainWidget(widget.params, _scrollController, page))
-            ],
+        key: _scaffoldKey,
+        backgroundColor: Color(0XFFF5F5F5),
+        appBar: PreferredSize(
+          child: AppBar(
+            brightness: Brightness.dark,
+            backgroundColor: Theme.of(context).primaryColor,
+            elevation: 0,
           ),
-          // 下拉菜单
-          CustomDropdownMenu(
-              controller: _dropdownMenuController,
-              animationMilliseconds: 300,
-              dropdownMenuChanging: (isShow, index, checkedList) {
-                setState(() {
-                  // print('正在${isShow ? '显示' : '隐藏'}$index, $checkedList');
-                });
-              },
-              dropDownMenuChanged: (isShow, index, checkedList) {
-                setState(() {
-                  // print('已经${isShow ? '显示' : '隐藏'}$index, $checkedList');
-                });
-              },
-              menus: [
-                null,
-                null,
-                optionList != null
-                    ? CustomDropDownMenuBuilder(
-                        dropDownHeight: optionList.length != 0
-                            ? 40 * (optionList.length / 4)
-                            : 0,
-                        dropDownWiget: optionList.length != 0
-                            ? _brandWidget(optionList, context)
-                            : Container())
-                    : null,
-                null
-              ]
-              // menus: _customDropdownMenuBuilder(navList2)
-              )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if(_scrollController.hasClients) {
-            page = 1;
-            _scrollController.jumpTo(0.0);
-          }
-        },
-        backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(Icons.arrow_upward)
-      ),
-    );
+          preferredSize: Size.fromHeight(0),
+        ),
+        endDrawer: Container(
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.only(
+                left: MediaQuery.of(context).size.width / 4, top: 0),
+            decoration: BoxDecoration(
+                color: Color(0xfff5f5f5),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.0),
+                    bottomLeft: Radius.circular(15.0))),
+            child: NavFilterDraw(_scaffoldKey, navData)),
+        endDrawerEnableOpenDragGesture: false,
+        body: Stack(
+          key: _stackKey,
+          textDirection: TextDirection.ltr,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Container(
+                    height: ScreenUtil().setHeight(100),
+                    width: ScreenUtil().setWidth(750),
+                    color: Theme.of(context).primaryColor,
+                    child: Row(
+                      children: <Widget>[
+                        _appBarLeading(context),
+                        _appBarTitle(context)
+                      ],
+                    )),
+                Container(
+                    width: ScreenUtil().setWidth(750),
+                    alignment: Alignment.center,
+                    height: ScreenUtil().setHeight(250),
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15.0),
+                          bottomRight: Radius.circular(15.0)),
+                    ),
+                    child: navData != null
+                        ? FilterWidget(
+                            data: navData,
+                            scaffoldKey: _scaffoldKey,
+                            stackKey: _stackKey,
+                            customDropdownMenuController:
+                                _dropdownMenuController,
+                          )
+                        : Container()),
+                Expanded(
+                    child: MainWidget(widget.params, _scrollController, page))
+              ],
+            ),
+            // 下拉菜单
+            CustomDropdownMenu(
+                controller: _dropdownMenuController,
+                animationMilliseconds: 300,
+                dropdownMenuChanging: (isShow, index, checkedList) {
+                  setState(() {
+                    // print('正在${isShow ? '显示' : '隐藏'}$index, $checkedList');
+                  });
+                },
+                dropDownMenuChanged: (isShow, index, checkedList) {
+                  setState(() {
+                    // print('已经${isShow ? '显示' : '隐藏'}$index, $checkedList');
+                  });
+                },
+                menus: [
+                  null,
+                  null,
+                  optionList != null
+                      ? CustomDropDownMenuBuilder(
+                          dropDownHeight: optionList.length != 0
+                              ? 40 * (optionList.length / 4)
+                              : 0,
+                          dropDownWiget: optionList.length != 0
+                              ? _brandWidget(optionList, context)
+                              : Container())
+                      : null,
+                  null
+                ]
+                // menus: _customDropdownMenuBuilder(navList2)
+                )
+          ],
+        ),
+        floatingActionButton:
+            showFloatBtn
+                ? FloatingActionButton(
+                    onPressed: () {
+                      if (_scrollController.hasClients) {
+                        page = 1;
+                        // 可以看到页面滚动
+                        // _scrollController.jumpTo(0.0);
+                        // 添加滚动的动画
+                        _scrollController.animateTo(0.0,
+                            duration: const Duration(milliseconds: 600),
+                            curve: Curves.ease);
+                      }
+                    },
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: Icon(Icons.arrow_upward))
+                : null);
   }
 
   _appBarLeading(context) {
@@ -279,7 +302,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
 
   // brand widdget
   Widget _brandWidget(data, context) {
-
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -303,48 +325,52 @@ class _CategoryDetailsState extends State<CategoryDetails> {
     var _screenWidth = mediaQuery.size.width;
     List<Widget> list = data.map<Widget>((item) {
       return Provide<CategoryNavBarFilterProvide>(
-        builder: (context, child, provider) {
-          return InkWell(
-          onTap: () {
-            setState(() {
-              if (provider.brandActiveList['valueList'].indexOf(item['value']) == -1) {
-              provider.brandActiveList['valueList'].add(item['value']);
-              provider.brandActiveList['titleList'].add(item['name']);
-              provider.tempBrandActiveList['valueList'].add(item['value']);
-              provider.tempBrandActiveList['titleList'].add(item['name']);
-            } else {
-              provider.brandActiveList['valueList'].remove(item['value']);
-              provider.brandActiveList['titleList'].remove(item['name']);
-              provider.tempBrandActiveList['valueList'].remove(item['value']);
-              provider.tempBrandActiveList['titleList'].remove(item['name']);
-            }
-            });
-            // print('every category onTap item provide brandActiveLit:${provider.brandActiveList}, tempBrandList:${provider.tempBrandActiveList}');
-          },
-          child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
-              width: _screenWidth / 2 - 20,
-              child: provider.brandActiveList['valueList'].contains(item['value'])
-                  ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(right: 6),
-                          child: Icon(Icons.done,
-                              color: Theme.of(context).primaryColor,
-                              size: ScreenUtil().setSp(36))),
-                      Text(item['title'],
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(32),
-                              fontWeight: FontWeight.w600))
-                    ])
-                  : Text(item['title'],
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(32),
-                      ))));
-        }
-      );
+          builder: (context, child, provider) {
+        return InkWell(
+            onTap: () {
+              setState(() {
+                if (provider.brandActiveList['valueList']
+                        .indexOf(item['value']) ==
+                    -1) {
+                  provider.brandActiveList['valueList'].add(item['value']);
+                  provider.brandActiveList['titleList'].add(item['name']);
+                  provider.tempBrandActiveList['valueList'].add(item['value']);
+                  provider.tempBrandActiveList['titleList'].add(item['name']);
+                } else {
+                  provider.brandActiveList['valueList'].remove(item['value']);
+                  provider.brandActiveList['titleList'].remove(item['name']);
+                  provider.tempBrandActiveList['valueList']
+                      .remove(item['value']);
+                  provider.tempBrandActiveList['titleList']
+                      .remove(item['name']);
+                }
+              });
+              // print('every category onTap item provide brandActiveLit:${provider.brandActiveList}, tempBrandList:${provider.tempBrandActiveList}');
+            },
+            child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(10),
+                width: _screenWidth / 2 - 20,
+                child: provider.brandActiveList['valueList']
+                        .contains(item['value'])
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            Container(
+                                margin: EdgeInsets.only(right: 6),
+                                child: Icon(Icons.done,
+                                    color: Theme.of(context).primaryColor,
+                                    size: ScreenUtil().setSp(36))),
+                            Text(item['title'],
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(32),
+                                    fontWeight: FontWeight.w600))
+                          ])
+                    : Text(item['title'],
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(32),
+                        ))));
+      });
     }).toList();
     return Wrap(
       runSpacing: 1,
@@ -368,10 +394,15 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 onTap: () {
                   setState(() {
                     // _brandActiveList = {'titleList': [], 'valueList': []};
-                    Provide.value<CategoryDetailMainProvide>(context).changeConfirmBool(false);
-                    Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList['valueList'] = [];
-                    Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList['titleList'] = [];
-                    Provide.value<CategoryNavBarFilterProvide>(context).getTempBrandActiveList({'titleList': [], 'valueList': []});
+                    Provide.value<CategoryDetailMainProvide>(context)
+                        .changeConfirmBool(false);
+                    Provide.value<CategoryNavBarFilterProvide>(context)
+                        .brandActiveList['valueList'] = [];
+                    Provide.value<CategoryNavBarFilterProvide>(context)
+                        .brandActiveList['titleList'] = [];
+                    Provide.value<CategoryNavBarFilterProvide>(context)
+                        .getTempBrandActiveList(
+                            {'titleList': [], 'valueList': []});
                   });
                   // print('every category reset provide brandList:${Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList}, tempBrandList: ${Provide.value<CategoryNavBarFilterProvide>(context).tempBrandActiveList}');
                 },
@@ -388,15 +419,26 @@ class _CategoryDetailsState extends State<CategoryDetails> {
             InkWell(
                 onTap: () {
                   print('confirm-------------------');
-                  var _provideBrand = Provide.value<CategoryNavBarFilterProvide>(context).brandActiveList;
-                  var _tempBrand = Provide.value<CategoryNavBarFilterProvide>(context).tempBrandActiveList;
+                  var _provideBrand =
+                      Provide.value<CategoryNavBarFilterProvide>(context)
+                          .brandActiveList;
+                  var _tempBrand =
+                      Provide.value<CategoryNavBarFilterProvide>(context)
+                          .tempBrandActiveList;
                   setState(() {
-                    Provide.value<CategoryDetailMainProvide>(context).changeConfirmBool(true);
-                    _provideBrand['valueList'].insertAll(_provideBrand['valueList'].length, _tempBrand['valueList']);
-                    _provideBrand['titleList'].insertAll(_provideBrand['titleList'].length, _tempBrand['titleList']);
+                    Provide.value<CategoryDetailMainProvide>(context)
+                        .changeConfirmBool(true);
+                    _provideBrand['valueList'].insertAll(
+                        _provideBrand['valueList'].length,
+                        _tempBrand['valueList']);
+                    _provideBrand['titleList'].insertAll(
+                        _provideBrand['titleList'].length,
+                        _tempBrand['titleList']);
                   });
-                  
-                  Provide.value<CategoryNavBarFilterProvide>(context).getTempBrandActiveList({'titleList': [], 'valueList': []});
+
+                  Provide.value<CategoryNavBarFilterProvide>(context)
+                      .getTempBrandActiveList(
+                          {'titleList': [], 'valueList': []});
                   _dropdownMenuController.hide();
                   // print('every category confirm provide brandList:$_provideBrand, tempBrandList: $_tempBrand');
                 },

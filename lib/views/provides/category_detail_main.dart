@@ -6,6 +6,12 @@ class CategoryDetailMainProvide with ChangeNotifier {
   List<Summary> summaryList = [];
   List navBarBrandCheckedList = [];
   bool confirmBool = false;
+  bool showFloatBtn = false;
+
+  changeFloatBtn(bool b) {
+    showFloatBtn = b;
+    notifyListeners();
+  }
   getSummaryList(List list) {
     summaryList = list;
     notifyListeners();

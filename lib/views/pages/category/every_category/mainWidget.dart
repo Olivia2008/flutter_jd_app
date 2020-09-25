@@ -34,6 +34,7 @@ class _MainWidgetState extends State<MainWidget> {
     // TODO: implement initState
     super.initState();
     widget.scrollController = ScrollController();
+    
     _easyRefreshController = EasyRefreshController();
     list = [];
     // id, subId, goodId all of them is String
@@ -45,8 +46,10 @@ class _MainWidgetState extends State<MainWidget> {
       "pageSize": 10
     };
     _getSummaryList(_params);
+
   }
 
+ 
   @override
   void dispose() {
     // TODO: implement dispose
@@ -140,15 +143,9 @@ class _MainWidgetState extends State<MainWidget> {
     List<Widget> listWidget = listData.map<Widget>((item) {
       return InkWell(
           onTap: () {
-          //   print(item.skuId);
-          //  var pareId = widget.params['pareId'][0],
-          //      subId = widget.params['subId'][0],
-          //      categoryId = widget.params['categoryId'][0],
-          //      goodsId = item.skuId;
            StaticRouter.router.navigateTo(context, '/cateGoodsDetail?goodsId=${item.skuId}').then((value) => {
              print('mainWidget staticRouter result:$value')
            });
-           // StaticRouter.router.navigateTo(context, '/cateGoodsCommentDetail?pareId=$pareId&subId=$subId&categoryId=$categoryId');
           },
           child: Container(
             width: ScreenUtil().setWidth(750),
