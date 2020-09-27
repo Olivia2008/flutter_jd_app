@@ -30,7 +30,6 @@ dependencies:
   flutter_easyrefresh: ^2.1.0
   fluttertoast: ^4.0.0
   fluro: ^1.6.3
-  gzx_dropdown_menu : ^2.1.0
   transparent_image: ^1.0.0
   video_player: ^0.10.12
   chewie: ^0.9.10
@@ -89,6 +88,12 @@ flutter:
     - family: KingOfPirate
       fonts:
         - asset: fonts/KingOfPirate.ttf
+    - family:  CnMoney
+      fonts:
+        - asset: fonts/CnMoney.ttf
+    - family: HeartPlus
+      fonts:
+        - asset: fonts/HeartPlus.ttf 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

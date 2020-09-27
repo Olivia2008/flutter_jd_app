@@ -4,7 +4,7 @@ import 'package:netease_news/views/service/service_method.dart';
 import 'dart:convert';
 
 class GoodsCommentDetailProvide with ChangeNotifier {
-  GoodsCommentDetailModel goodsInfo = null;
+  GoodsCommentDetailModel goodsInfo;
   int tabIndex = 0;
   bool tabActive = false;
   getGoodsCommentDetail(String goodsId) async {

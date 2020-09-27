@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
+import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsIntroduce.dart';
 
 class GoodsCommentDetail extends StatefulWidget {
   GoodsCommentDetail(this.params);
@@ -19,15 +20,11 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   VideoPlayerController _videoPlayerController;
   ChewieController _chewieController;
   ScrollController _scrollController;
-  // AnimationController _animationController;
   String _videoUrl = '';
   bool _showTopBtn = false;
   double _screenHeight;
   GoodsCommentDetailModel goodsInfo = null;
-  // Animation<double> _animation;
   double _topBarHeight = ScreenUtil().setHeight(600.0);
-  // Color _topBarColor = Color(0xff000000);
-  // double _topBarOpacity;
   bool _changeBar = false;
 
   Future getGoodsInfo(BuildContext context) async {
@@ -38,8 +35,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
   @override
   void initState() {
-    // _animationController = new AnimationController(
-    //     duration: const Duration(milliseconds: 300), vsync: this);
     _scrollController = new ScrollController();
     _scrollController.addListener(HandleScroll);
     super.initState();
@@ -64,49 +59,18 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       setState(() {
         _changeBar = true;
       });
-      
-      // _animation = new Tween(begin: _topBarHeight, end: 0.0)
-      //     .animate(_animationController)
-      //     ..addListener(HandleOpacity)
-      //     ..addStatusListener(HandleListenerStatus);
-      // print('_animation:${_animation.value}');
     } else {
       setState(() {
         _changeBar = false;
       });
     }
-    // print('changeBar:$_changeBar');
-    // print('offset:${_scrollController.offset}');
   }
-
-  // void HandleOpacity() {
-  //   setState(() {
-  //     var heightRatio = _animation.value / _topBarHeight;
-  //     _topBarOpacity = _topBarColor.opacity * heightRatio;
-  //     print('opacity:$_topBarOpacity');
-  //   });
-  // }
-
-  // void HandleListenerStatus(status) {
-  //   // print('addStatusListener status:$status');
-  //   switch(status) {
-  //     case AnimationStatus.completed:
-  //     print('animation completed ${_animation.value}');
-  //     break;
-  //     case AnimationStatus.dismissed:
-  //     print('animation dismissed ${_animation.value}');
-
-  //     break;
-  //   }
-  // }
 
   @override
   void dispose() {
     _videoPlayerController?.dispose();
     _chewieController?.dispose();
     _scrollController?.dispose();
-    // _scrollController?.removeListener(HandleAnimation);
-    // _animation?.removeListener(HandleOpacity);
     super.dispose();
   }
 
@@ -133,8 +97,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
           controller: _scrollController,
           slivers: [
             SliverAppBar(
-                // backgroundColor: _topBarColor.withOpacity(_topBarOpacity),
-                // backgroundColor: _animation == null ? Color(0xffbf6100) : _topBarColor.withOpacity(_topBarOpacity),
                 backgroundColor: Color(0xffffffff),
                 leading: IconButton(
                     icon: Icon(Icons.arrow_back_ios, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)),
@@ -154,8 +116,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                     print('colse button');
                   },
                 ),
-                // expandedHeight:
-                //     _animation == null ? _topBarHeight : _animation.value,
                 expandedHeight: _topBarHeight,
                 pinned: true,
                 flexibleSpace: FutureBuilder(
@@ -213,28 +173,21 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                   )
                                 ])));
                             } else {
-                            return Text('no data!');
+                              return Text('Data is null!');
+                            // return Center(child: CircularProgressIndicator());
                           }
                       } else {
                         return Center(child: CircularProgressIndicator());
                         // return Center(child: Text('正在请求数据！'));
                       }
                     })),
-            SliverPadding(
-                padding: EdgeInsets.all(8.0),
-                sliver: SliverGrid(
-                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 4),
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                      return Container(
-                          alignment: Alignment.center,
-                          color: Color(0xffacd),
-                          child: Text('grid item $index'));
-                    }, childCount: 500)))
+            SliverList(
+              delegate: SliverChildListDelegate(
+                <Widget>[
+                  IntroduceWidget()
+                ]
+              )
+            )
           ],
         ));
   }

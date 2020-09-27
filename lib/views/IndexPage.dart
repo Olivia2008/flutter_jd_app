@@ -6,10 +6,7 @@ import 'package:netease_news/views/pages/category_page.dart';
 import 'package:netease_news/views/pages/home_page.dart';
 import 'package:netease_news/views/pages/member_page.dart';
 import 'package:netease_news/views/pages/search_page.dart';
-import 'package:netease_news/views/pages/test.dart';
 import 'package:netease_news/views/pages/test_customSliverScrollView.dart';
-
-import 'pages/test_dropMenu.dart';
 
 class IndexPage extends StatefulWidget {
   @override
