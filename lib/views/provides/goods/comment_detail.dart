@@ -7,9 +7,9 @@ class GoodsCommentDetailProvide with ChangeNotifier {
   GoodsCommentDetailModel goodsInfo;
   int tabIndex = 0;
   bool tabActive = false;
-  getGoodsCommentDetail(String goodsId) async {
+  getGoodsCommentDetail(String goodsId)  {
     var params = {'goodsId': goodsId};
-   await request('cateGoodsCommentDetail', params: params).then((value) {
+    request('cateGoodsCommentDetail', params: params).then((value) {
       var data = json.decode(value.toString());
       goodsInfo = GoodsCommentDetailModel.fromJson(data);
       print('goodsInfo数据请求完成 .............');

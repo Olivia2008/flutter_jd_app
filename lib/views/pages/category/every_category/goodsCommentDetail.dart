@@ -58,6 +58,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     if (_scrollController.offset >= 50) {
       setState(() {
         _changeBar = true;
+
       });
     } else {
       setState(() {

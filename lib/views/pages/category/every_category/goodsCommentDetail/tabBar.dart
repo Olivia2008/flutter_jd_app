@@ -30,10 +30,6 @@ class TabBarWidget extends StatelessWidget {
               onTap: () {
                 data
                     .changeTabIndex(idx);
-                print(
-                    data.tabIndex);
-                print(data
-                    .tabActive);
               },
               child: Container(
                 decoration:
