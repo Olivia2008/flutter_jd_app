@@ -186,6 +186,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
               delegate: SliverChildListDelegate(
                 <Widget>[
                   IntroduceWidget()
+                  
                 ]
               )
             )

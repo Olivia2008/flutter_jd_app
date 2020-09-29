@@ -29,12 +29,14 @@ class IntroduceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provide<GoodsCommentDetailProvide>(
       builder: (context, child, data) {
+        print('introduce info: ${data.goodsInfo}');
         if (data.goodsInfo != null) {
           print(
               'goods introduce widget:${data.goodsInfo.data.result.priceinfo}');
           return Column(children: [
-            _cardOne(context, data),
-            _cardTwo(context, data.goodsInfo.data.result.discount)
+            _firstCard(context, data),
+            _secondCard(context, data.goodsInfo.data.result.discount),
+            _thirdCard(context, data.goodsInfo.data.result)
           ]);
         } else {
           return Center(child: Text('数据正在加载中...'));
@@ -44,7 +46,7 @@ class IntroduceWidget extends StatelessWidget {
   }
 
   // first card
-  Widget _cardOne(context, data) {
+  Widget _firstCard(context, data) {
     return Container(
         width: ScreenUtil().setWidth(750),
         padding: EdgeInsets.all(20.0),
@@ -282,16 +284,20 @@ class IntroduceWidget extends StatelessWidget {
       Icons.timeline,
       Icons.aspect_ratio,
       Icons.view_day,
-      Icons.sd_storage
+      Icons.sd_card
     ];
     List _list = data.map<Widget>((item) {
       var idx = data.indexOf(item);
       return Container(
           alignment: Alignment.center,
+          padding: EdgeInsets.only(right: 10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(_icons[idx]),
+              Padding(
+                padding: EdgeInsets.only(bottom: 6.0),
+                child: Icon(_icons[idx], size: ScreenUtil().setSp(32.0)),
+              ),
               Text(item['label'],
                   style: TextStyle(fontWeight: FontWeight.w600)),
               Text(item['value'],
@@ -319,8 +325,6 @@ class IntroduceWidget extends StatelessWidget {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: _list,
                 )
               ],
@@ -328,11 +332,12 @@ class IntroduceWidget extends StatelessWidget {
   }
 
   // second card
-  Widget _cardTwo(context, data) {
+  Widget _secondCard(context, data) {
     return Container(
+        alignment: Alignment.centerLeft,
         width: ScreenUtil().setWidth(750),
         padding: EdgeInsets.all(20.0),
-        height: ScreenUtil().setHeight(400),
+        height: ScreenUtil().setHeight(450),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             color: Color(0xffffffff)),
@@ -342,40 +347,159 @@ class IntroduceWidget extends StatelessWidget {
 
   Widget _discount(context, data) {
     List _list = data.map<Widget>((item) {
-      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text.rich(
-          TextSpan(children: [
-            TextSpan(
-                text: item.title,
+      return Padding(
+        padding: EdgeInsets.only(top: 6.0, bottom: 6.0),
+        child: Row(children: [
+        Container(
+            padding: EdgeInsets.only(left: 3.0, right: 3.0),
+            margin: EdgeInsets.only(left: 20.0, right: 6.0),
+            child: Text(item.title,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: ScreenUtil().setSp(24),
-                    background: Paint()
-                      ..color = Theme.of(context).primaryColor)),
-            TextSpan(text: item.dis, style: TextStyle())
-          ]),
-          overflow: TextOverflow.ellipsis,
-        ),
-        Icon(Icons.more_horiz)
-      ]);
+                    color: Theme.of(context).primaryColor,
+                    fontSize: ScreenUtil().setSp(28))),
+            decoration: BoxDecoration(
+              color: Color(0xfffdf0f0),
+              borderRadius: BorderRadius.all(Radius.circular(3.0),
+            ))),
+        Expanded(child: Text(item.dis, overflow: TextOverflow.ellipsis))
+      ])
+      );
     }).toList();
-    return Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      InkWell(
+        onTap: () {print('更多优惠');},
+        child: Container(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-              width: ScreenUtil().setWidth(100),
-              height: ScreenUtil().setHeight(48),
-              child: Text('优惠',
-                  style: TextStyle(
-                      fontSize: ScreenUtil().setSp(32),
-                      fontWeight: FontWeight.w600))),
-          Container(
-              margin: EdgeInsets.only(left: ScreenUtil().setWidth(100)),
-              width: ScreenUtil().setWidth(570),
+          Text('优惠',
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.w600)),
+          Icon(Icons.more_horiz)
+        ],
+      ))
+      ),
+      Container(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _list))
+    ]);
+  }
+
+  // third card
+  Widget _thirdCard(context, data) {
+    return Container(
+        width: ScreenUtil().setWidth(750),
+        // padding: EdgeInsets.all(20.0),
+        height: ScreenUtil().setHeight(610),
+        // decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.only(
+        //         bottomLeft: Radius.circular(15.0),
+        //         bottomRight: Radius.circular(15.0)),
+        //     color: Color(0xffffffff)),
+        margin: EdgeInsets.only(bottom: 10.0),
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(children: <Widget>[
+          _selected(context, data.selected),
+          _underLine(),
+          _delivery(context, data.destination)
+        ])
+          )
+        ));
+  }
+
+  Widget _selected(context, data) {
+    String _color = data.colors.colorList[0].label;
+    String _storage = data.storage.versionList[0].label;
+    String _methods = data.methods.methodsList[0].label;
+    String _match = data.standMatch.matchList[0].label;
+    String _weight = '0.47kg';
+    String _count = '${data.count.dis}件';
+    String _service = '可选服务';
+    var selectedText = '$_color, $_storage, $_methods, $_match, $_weight, $_count, $_service';
+
+    return InkWell(
+      onTap: () {print('已选 ');},
+      child: Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('已选', style: TextStyle(fontWeight: FontWeight.w600, fontSize: ScreenUtil().setSp(32))),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(left: 20.0),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: _list))
-        ]);
+              children: [
+               Text(selectedText, softWrap: true),
+                Text('')
+              ],
+            )
+            )
+          ),
+          Icon(Icons.more_horiz)
+        ],
+      )
+    )
+    );
+  }
+
+  Widget _delivery(context, data) {
+    return InkWell(
+      onTap: () {print('送至');},
+      child: Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('送至', style: TextStyle(fontWeight: FontWeight.w600, fontSize: ScreenUtil().setSp(32))),
+           Expanded(
+             child: Container(
+             margin: EdgeInsets.only(left: 20.0),
+             child: Column(
+            children: [
+              Container(
+                child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 6.0),
+                    child: Icon(Icons.pin_drop, color: Theme.of(context).primaryColor),
+                  ),
+                  Expanded(
+                    child: Text(data.addr, overflow: TextOverflow.ellipsis),
+                  )
+                ]
+              )
+              ),
+              Text.rich(
+                TextSpan(
+                children: [
+                  TextSpan(
+                    text: '${data.cate},',
+                    style: TextStyle(color: Theme.of(context).primaryColor)
+                  ),
+                  TextSpan(
+                    text: '${data.res},',
+                  ),
+                  TextSpan(
+                    text: data.time
+                  )
+                ]
+              ),
+              softWrap: true,
+              overflow: TextOverflow.ellipsis
+              )
+            ]
+          )
+           )
+           ),
+          Icon(Icons.more_horiz)
+        ]
+      )
+    )
+    );
   }
 }
