@@ -393,23 +393,23 @@ class IntroduceWidget extends StatelessWidget {
         width: ScreenUtil().setWidth(750),
         // padding: EdgeInsets.all(20.0),
         height: ScreenUtil().setHeight(610),
-        // decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.only(
-        //         bottomLeft: Radius.circular(15.0),
-        //         bottomRight: Radius.circular(15.0)),
-        //     color: Color(0xffffffff)),
         margin: EdgeInsets.only(bottom: 10.0),
-        child: Card(
+        child: Column(
+          children: [
+            Card(
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))),
           child: Container(
             padding: EdgeInsets.all(20),
             child: Column(children: <Widget>[
           _selected(context, data.selected),
           _underLine(),
-          _delivery(context, data.destination)
+          _delivery(context, data.destination),
         ])
           )
+        ),
+_annotation(context, data.destination.dis)
+          ],
         ));
   }
 
@@ -500,6 +500,34 @@ class IntroduceWidget extends StatelessWidget {
         ]
       )
     )
+    );
+  }
+
+  Widget _annotation(context, data) {
+    print('annotation data:${data[0].label}');
+    List _list = data.map<Widget>((item) {
+      return Container(
+        child: Row(
+          children: [ 
+            Icon(Icons.check_circle_outline, color: Theme.of(context).primaryColor),
+            Text(item.label, style: TextStyle(color: Color(0xff666666), fontSize: ScreenUtil().setSp(24)))
+          ],
+        )
+      );
+    }).toList();
+    return Container(
+      height: ScreenUtil().setHeight(200),
+      width: ScreenUtil().setWidth(750),
+      padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
+        color: Color(0xfff8f8f8)
+      ),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 1,
+        children: _list
+      )
     );
   }
 }
