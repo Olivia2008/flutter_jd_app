@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
-import 'package:netease_news/views/provides/goods/comment_detail.dart';
+// import 'package:provide/provide.dart';
+// import 'package:netease_news/views/provides/goods/comment_detail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:ui';
+// import 'dart:ui';
+import 'package:netease_news/views/model/goods_comment_detail.dart';
 
 class IntroduceWidget extends StatelessWidget {
+  IntroduceWidget(this.data);
+  final GoodsCommentDetailModel data;
   static const _iconMoney = 'CnMoney';
   static const _iconMoneyPkg = null;
   static const IconData iconMoney =
@@ -25,24 +28,14 @@ class IntroduceWidget extends StatelessWidget {
     'price': '29.49元',
     'bean': '京豆返利规则：返豆数量=商品实付金额（扣除促销、优惠券等各项优惠后的金额）x50%,以最终到账为准，详细规则可在PLUS会员专区查看'
   };
+  
   @override
   Widget build(BuildContext context) {
-    return Provide<GoodsCommentDetailProvide>(
-      builder: (context, child, data) {
-        print('introduce info: ${data.goodsInfo}');
-        if (data.goodsInfo != null) {
-          print(
-              'goods introduce widget:${data.goodsInfo.data.result.priceinfo}');
-          return Column(children: [
+    return Column(children: [
             _firstCard(context, data),
-            _secondCard(context, data.goodsInfo.data.result.discount),
-            _thirdCard(context, data.goodsInfo.data.result)
+            _secondCard(context, data.data.result.discount),
+            _thirdCard(context, data.data.result)
           ]);
-        } else {
-          return Center(child: Text('数据正在加载中...'));
-        }
-      },
-    );
   }
 
   // first card
@@ -58,9 +51,9 @@ class IntroduceWidget extends StatelessWidget {
             color: Color(0xffffffff)),
         margin: EdgeInsets.only(bottom: 10.0),
         child: Column(children: <Widget>[
-          _price(context, data.goodsInfo.data.result.priceinfo),
-          _descTitle(context, data.goodsInfo.data.result),
-          _descSubtitle(context, data.goodsInfo.data.result.subTitle),
+          _price(context, data.data.result.priceinfo),
+          _descTitle(context, data.data.result),
+          _descSubtitle(context, data.data.result.subTitle),
           _plusAccount(context, _plusInfo),
           _contract(context),
           _underLine(),
@@ -151,7 +144,7 @@ class IntroduceWidget extends StatelessWidget {
                 text: '自营',
                 style: TextStyle(
                   wordSpacing: 10.0,
-                  color: Colors.white,
+                  color: Color(0xffffffff),
                   backgroundColor: Theme.of(context).primaryColor,
                 ),
               ),
@@ -176,13 +169,13 @@ class IntroduceWidget extends StatelessWidget {
             TextSpan(
                 text: ' 京东',
                 style: TextStyle(
-                    color: Colors.white,
-                    background: Paint()..color = Colors.black)),
+                    color: Color(0xffffffff),
+                    background: Paint()..color = Color(0xff000000))),
             TextSpan(
                 text: '精选 ',
                 style: TextStyle(
-                    color: Colors.black,
-                    background: Paint()..color = Colors.orangeAccent)),
+                    color: Color(0xff000000),
+                    background: Paint()..color = Color(0xffff9900))),
             TextSpan(
                 text: '  ${data.title}',
                 style: TextStyle(
@@ -392,15 +385,15 @@ class IntroduceWidget extends StatelessWidget {
     return Container(
         width: ScreenUtil().setWidth(750),
         // padding: EdgeInsets.all(20.0),
-        height: ScreenUtil().setHeight(610),
-        margin: EdgeInsets.only(bottom: 10.0),
+        height: ScreenUtil().setHeight(450),
+        margin: EdgeInsets.only(bottom: 6.0),
         child: Column(
           children: [
             Card(
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))),
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 6),
             child: Column(children: <Widget>[
           _selected(context, data.selected),
           _underLine(),
@@ -504,30 +497,31 @@ _annotation(context, data.destination.dis)
   }
 
   Widget _annotation(context, data) {
-    print('annotation data:${data[0].label}');
     List _list = data.map<Widget>((item) {
       return Container(
+        width: ScreenUtil().setWidth(220),
         child: Row(
           children: [ 
-            Icon(Icons.check_circle_outline, color: Theme.of(context).primaryColor),
-            Text(item.label, style: TextStyle(color: Color(0xff666666), fontSize: ScreenUtil().setSp(24)))
+            Icon(Icons.check_circle_outline, color: Theme.of(context).primaryColor, size: ScreenUtil().setSp(28)),
+            Text(item.label, overflow: TextOverflow.ellipsis, style: TextStyle(color: Color(0xff666666), fontSize: ScreenUtil().setSp(28)))
           ],
         )
       );
     }).toList();
     return Container(
-      height: ScreenUtil().setHeight(200),
+      // height: ScreenUtil().setHeight(100),
       width: ScreenUtil().setWidth(750),
-      padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 6.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
-        color: Color(0xfff8f8f8)
+        color: Color(0xfff9f9f9)
       ),
       child: Wrap(
-        spacing: 8,
-        runSpacing: 1,
+        spacing: 3,
+        runSpacing: 3,
         children: _list
       )
     );
   }
+
 }

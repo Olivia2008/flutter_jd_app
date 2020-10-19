@@ -51,6 +51,7 @@ class Result {
   List<Question> question;
   Params params;
   Introduce introduce;
+  Comments comments;
 
   Result(
       {this.skuId,
@@ -65,7 +66,8 @@ class Result {
       this.destination,
       this.question,
       this.params,
-      this.introduce});
+      this.introduce,
+      this.comments});
 
   Result.fromJson(Map<String, dynamic> json) {
     skuId = json['SkuId'];
@@ -107,6 +109,9 @@ class Result {
     introduce = json['introduce'] != null
         ? new Introduce.fromJson(json['introduce'])
         : null;
+    comments = json['comments'] != null
+        ? new Comments.fromJson(json['comments'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -143,6 +148,9 @@ class Result {
     }
     if (this.introduce != null) {
       data['introduce'] = this.introduce.toJson();
+    }
+    if (this.comments != null) {
+      data['comments'] = this.comments.toJson();
     }
     return data;
   }
@@ -1054,3 +1062,298 @@ class Introduce {
     return data;
   }
 }
+
+class Comments {
+  ProductCommentSummary productCommentSummary;
+  List<HotCommentTagStatistics> hotCommentTagStatistics;
+  List<CommentsList> commentsList;
+
+  Comments(
+      {this.productCommentSummary,
+      this.hotCommentTagStatistics,
+      this.commentsList});
+
+  Comments.fromJson(Map<String, dynamic> json) {
+    productCommentSummary = json['productCommentSummary'] != null
+        ? new ProductCommentSummary.fromJson(json['productCommentSummary'])
+        : null;
+    if (json['hotCommentTagStatistics'] != null) {
+      hotCommentTagStatistics = new List<HotCommentTagStatistics>();
+      json['hotCommentTagStatistics'].forEach((v) {
+        hotCommentTagStatistics.add(new HotCommentTagStatistics.fromJson(v));
+      });
+    }
+    if (json['commentsList'] != null) {
+      commentsList = new List<CommentsList>();
+      json['commentsList'].forEach((v) {
+        commentsList.add(new CommentsList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.productCommentSummary != null) {
+      data['productCommentSummary'] = this.productCommentSummary.toJson();
+    }
+    if (this.hotCommentTagStatistics != null) {
+      data['hotCommentTagStatistics'] =
+          this.hotCommentTagStatistics.map((v) => v.toJson()).toList();
+    }
+    if (this.commentsList != null) {
+      data['comments'] = this.commentsList.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ProductCommentSummary {
+  String skuId;
+  String productId;
+  String commentCountStr;
+  String goodRateShow;
+
+  ProductCommentSummary(
+      {this.skuId, this.productId, this.commentCountStr, this.goodRateShow});
+
+  ProductCommentSummary.fromJson(Map<String, dynamic> json) {
+    skuId = json['SkuId'];
+    productId = json['ProductId'];
+    commentCountStr = json['CommentCountStr'];
+    goodRateShow = json['GoodRateShow'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['SkuId'] = this.skuId;
+    data['ProductId'] = this.productId;
+    data['CommentCountStr'] = this.commentCountStr;
+    data['GoodRateShow'] = this.goodRateShow;
+    return data;
+  }
+}
+
+class HotCommentTagStatistics {
+  String id;
+  String name;
+  String rid;
+  String count;
+  String type;
+  bool canBeFiltered;
+  String stand;
+
+  HotCommentTagStatistics(
+      {this.id,
+      this.name,
+      this.rid,
+      this.count,
+      this.type,
+      this.canBeFiltered,
+      this.stand});
+
+  HotCommentTagStatistics.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    rid = json['rid'];
+    count = json['count'];
+    type = json['type'];
+    canBeFiltered = json['canBeFiltered'];
+    stand = json['stand'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['rid'] = this.rid;
+    data['count'] = this.count;
+    data['type'] = this.type;
+    data['canBeFiltered'] = this.canBeFiltered;
+    data['stand'] = this.stand;
+    return data;
+  }
+}
+
+class CommentsList {
+  String id;
+  String guid;
+  String content;
+  String creationTime;
+  String referenceId;
+  String replyCount;
+  String score;
+  String status;
+  String title;
+  String usefulVoteCount;
+  String userImageUrl;
+  String orderId;
+  String uid;
+  String nickname;
+  String userClient;
+  Null carType;
+  List<CommentImages> commentImages;
+  List<Videos> videos;
+  String productColor;
+  String productSize;
+  String anonymousFlag;
+  String plusAvailable;
+  String recommend;
+
+  CommentsList(
+      {this.id,
+      this.guid,
+      this.content,
+      this.creationTime,
+      this.referenceId,
+      this.replyCount,
+      this.score,
+      this.status,
+      this.title,
+      this.usefulVoteCount,
+      this.userImageUrl,
+      this.orderId,
+      this.uid,
+      this.nickname,
+      this.userClient,
+      this.carType,
+      this.commentImages,
+      this.videos,
+      this.productColor,
+      this.productSize,
+      this.anonymousFlag,
+      this.plusAvailable,
+      this.recommend});
+
+  CommentsList.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    guid = json['guid'];
+    content = json['content'];
+    creationTime = json['creationTime'];
+    referenceId = json['referenceId'];
+    replyCount = json['replyCount'];
+    score = json['score'];
+    status = json['status'];
+    title = json['title'];
+    usefulVoteCount = json['usefulVoteCount'];
+    userImageUrl = json['userImageUrl'];
+    orderId = json['orderId'];
+    uid = json['uid'];
+    nickname = json['nickname'];
+    userClient = json['userClient'];
+    carType = json['carType'];
+    if (json['commentImages'] != null) {
+      commentImages = new List<CommentImages>();
+      json['commentImages'].forEach((v) {
+        commentImages.add(new CommentImages.fromJson(v));
+      });
+    }
+    if (json['videos'] != null) {
+      videos = new List<Videos>();
+      json['videos'].forEach((v) {
+        videos.add(new Videos.fromJson(v));
+      });
+    }
+    productColor = json['productColor'];
+    productSize = json['productSize'];
+    anonymousFlag = json['anonymousFlag'];
+    plusAvailable = json['plusAvailable'];
+    recommend = json['recommend'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['guid'] = this.guid;
+    data['content'] = this.content;
+    data['creationTime'] = this.creationTime;
+    data['referenceId'] = this.referenceId;
+    data['replyCount'] = this.replyCount;
+    data['score'] = this.score;
+    data['status'] = this.status;
+    data['title'] = this.title;
+    data['usefulVoteCount'] = this.usefulVoteCount;
+    data['userImageUrl'] = this.userImageUrl;
+    data['orderId'] = this.orderId;
+    data['uid'] = this.uid;
+    data['nickname'] = this.nickname;
+    data['userClient'] = this.userClient;
+    data['carType'] = this.carType;
+    if (this.commentImages != null) {
+      data['commentImages'] = this.commentImages.map((v) => v.toJson()).toList();
+    }
+    if (this.videos != null) {
+      data['videos'] = this.videos.map((v) => v.toJson()).toList();
+    }
+    data['productColor'] = this.productColor;
+    data['productSize'] = this.productSize;
+    data['anonymousFlag'] = this.anonymousFlag;
+    data['plusAvailable'] = this.plusAvailable;
+    data['recommend'] = this.recommend;
+    return data;
+  }
+}
+
+class CommentImages {
+  String id;
+  String imgUrl;
+
+  CommentImages({this.id, this.imgUrl});
+
+  CommentImages.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    imgUrl = json['imgUrl'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['imgUrl'] = this.imgUrl;
+    return data;
+  }
+}
+
+class Videos {
+  String id;
+  String remark;
+  String isMain;
+  String videoLength;
+  String videoUrl;
+  String mainUrl;
+  String videoWidth;
+  String videoHeight;
+
+  Videos(
+      {this.id,
+      this.remark,
+      this.isMain,
+      this.videoLength,
+      this.videoUrl,
+      this.mainUrl,
+      this.videoWidth,
+      this.videoHeight});
+
+  Videos.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    remark = json['remark'];
+    isMain = json['isMain'];
+    videoLength = json['videoLength'];
+    videoUrl = json['videoUrl'];
+    mainUrl = json['mainUrl'];
+    videoWidth = json['videoWidth'];
+    videoHeight = json['videoHeight'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['remark'] = this.remark;
+    data['isMain'] = this.isMain;
+    data['videoLength'] = this.videoLength;
+    data['videoUrl'] = this.videoUrl;
+    data['mainUrl'] = this.mainUrl;
+    data['videoWidth'] = this.videoWidth;
+    data['videoHeight'] = this.videoHeight;
+    return data;
+  }
+}
+

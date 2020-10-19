@@ -5,9 +5,11 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
 import 'package:provide/provide.dart';
+import 'package:netease_news/views/service/service_method.dart';
+import 'dart:convert';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsIntroduce.dart';
-
+import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsComments.dart';
 class GoodsCommentDetail extends StatefulWidget {
   GoodsCommentDetail(this.params);
   final Map<String, dynamic> params;
@@ -23,14 +25,25 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   String _videoUrl = '';
   bool _showTopBtn = false;
   double _screenHeight;
-  GoodsCommentDetailModel goodsInfo = null;
+  // GoodsCommentDetailModel goodsInfo = null;
   double _topBarHeight = ScreenUtil().setHeight(600.0);
   bool _changeBar = false;
+  GoodsCommentDetailModel goodsCommentDetailInfo;
 
-  Future getGoodsInfo(BuildContext context) async {
-    await Provide.value<GoodsCommentDetailProvide>(context)
-        .getGoodsCommentDetail(widget.params['goodsId'].first);
-    return 'goodsInfo的future数据加载完成......';
+  // Future getGoodsInfo(BuildContext context) async {
+  //   await Provide.value<GoodsCommentDetailProvide>(context)
+  //       .getGoodsCommentDetail(widget.params['goodsId'].first);
+  //   return 'goodsInfo的future数据加载完成......';
+  // }
+
+  Future _getGoodsInfo(BuildContext context, goodsId) async {
+    var params = {'goodsId': goodsId};
+    await request('cateGoodsCommentDetail', params: params).then((value) {
+      var data = json.decode(value.toString());
+      goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
+      print('goodsInfo数据请求完成 .............');
+    }); 
+    return goodsCommentDetailInfo;
   }
 
   @override
@@ -53,6 +66,11 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       setState(() {
         _showTopBtn = true;
       });
+    }
+    // 监听滚动高度切换tab
+    print('scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1690)}');
+    if(_scrollController.offset >= ScreenUtil().setHeight(1690)) {
+      Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(1);
     }
     // scroll在topBarHeight内显示背景透明度动画
     if (_scrollController.offset >= 50) {
@@ -94,47 +112,19 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                 },
                 child: Icon(Icons.arrow_upward))
             : null,
-        body: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverAppBar(
-                backgroundColor: Color(0xffffffff),
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back_ios, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                actions: [
-                  Icon(Icons.share, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)),
-                  Padding(
-                      padding: EdgeInsets.only(right: 20.0, left: 10.0),
-                      child: Icon(Icons.more_horiz, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)))
-                ],
-                title: _changeBar ? TabBarWidget() : IconButton(
-                  color: Color(0xffffffff),
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    print('colse button');
-                  },
-                ),
-                expandedHeight: _topBarHeight,
-                pinned: true,
-                flexibleSpace: FutureBuilder(
-                    future: getGoodsInfo(context),
-                    builder: (context, snapshot) {
-                      // print(snapshot.hasData);
-                      if (snapshot.hasData) {
-                        if(Provide.value<GoodsCommentDetailProvide>(context).goodsInfo != null) {
-                              _videoUrl =
-                            Provide.value<GoodsCommentDetailProvide>(context)
-                                .goodsInfo
+        body: FutureBuilder(
+          future: _getGoodsInfo(context, widget.params['goodsId'].first),
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              print('introduce snapshot data:${snapshot.data}');
+              _videoUrl =
+                            goodsCommentDetailInfo
                                 .data
                                 .result
                                 .introduce
                                 .vedio;
                         var _videoImg =
-                            Provide.value<GoodsCommentDetailProvide>(context)
-                                .goodsInfo
+                            goodsCommentDetailInfo
                                 .data
                                 .result
                                 .introduce
@@ -160,7 +150,32 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                               backgroundColor: Color(0xff999999),
                               bufferedColor: Color(0xffe0e0e0),
                             ));
-                              return FlexibleSpaceBar(
+              return CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBar(
+                backgroundColor: Color(0xffffffff),
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back_ios, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                actions: [
+                  Icon(Icons.share, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)),
+                  Padding(
+                      padding: EdgeInsets.only(right: 20.0, left: 10.0),
+                      child: Icon(Icons.more_horiz, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)))
+                ],
+                title: _changeBar ? TabBarWidget(_scrollController) : IconButton(
+                  color: Color(0xffffffff),
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    print('colse button');
+                  },
+                ),
+                expandedHeight: _topBarHeight,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
                             background: Container(
                                 width: ScreenUtil().setWidth(750),
                                 height: _topBarHeight,
@@ -172,25 +187,23 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                   Chewie(
                                     controller: _chewieController,
                                   )
-                                ])));
-                            } else {
-                              return Text('Data is null!');
-                            // return Center(child: CircularProgressIndicator());
-                          }
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                        // return Center(child: Text('正在请求数据！'));
-                      }
-                    })),
+                                ])))),
             SliverList(
               delegate: SliverChildListDelegate(
                 <Widget>[
-                  IntroduceWidget()
+                  IntroduceWidget(goodsCommentDetailInfo), // height: 1740
+                  CommentsWidget(goodsCommentDetailInfo.data.result.comments)
                   
                 ]
               )
             )
           ],
-        ));
+        );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }
+        )
+        );
   }
 }

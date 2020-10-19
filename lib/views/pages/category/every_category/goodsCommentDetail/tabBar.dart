@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/goods/comment_detail.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TabBarWidget extends StatelessWidget {
-  // TabBarWidget(this.showBar);
+  ScrollController scrollController;
+  TabBarWidget(this.scrollController);
   // bool showBar;
   List titleList = [
     {'id': '', 'title': '商品'},
@@ -30,6 +32,11 @@ class TabBarWidget extends StatelessWidget {
               onTap: () {
                 data
                     .changeTabIndex(idx);
+                if(data.tabIndex == 1) {
+                  scrollController.animateTo(ScreenUtil().setHeight(1690), duration: Duration(milliseconds: 500), curve: Curves.ease);
+                } else if (data.tabIndex == 0) {
+                  scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                }
               },
               child: Container(
                 decoration:
