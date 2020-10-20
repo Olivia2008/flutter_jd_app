@@ -41,7 +41,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     await request('cateGoodsCommentDetail', params: params).then((value) {
       var data = json.decode(value.toString());
       goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
-      print('goodsInfo数据请求完成 .............');
+      // print('goodsInfo数据请求完成 ${data['data']['result']['comments']} .............');
     }); 
     return goodsCommentDetailInfo;
   }
@@ -68,9 +68,11 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       });
     }
     // 监听滚动高度切换tab
-    print('scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1690)}');
-    if(_scrollController.offset >= ScreenUtil().setHeight(1690)) {
+    print('scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(2220)}');
+    if(_scrollController.offset >= ScreenUtil().setHeight(2220)) {
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(1);
+    } else {
+      Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(0);
     }
     // scroll在topBarHeight内显示背景透明度动画
     if (_scrollController.offset >= 50) {
@@ -116,7 +118,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
           future: _getGoodsInfo(context, widget.params['goodsId'].first),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
-              print('introduce snapshot data:${snapshot.data}');
+              // print('introduce snapshot data:${snapshot.data}');
               _videoUrl =
                             goodsCommentDetailInfo
                                 .data
@@ -192,7 +194,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
               delegate: SliverChildListDelegate(
                 <Widget>[
                   IntroduceWidget(goodsCommentDetailInfo), // height: 1740
-                  CommentsWidget(goodsCommentDetailInfo.data.result.comments)
+                  CommentsWidget(goodsCommentDetailInfo),
                   
                 ]
               )
