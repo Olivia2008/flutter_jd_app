@@ -38,7 +38,7 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader> {
   GlobalKey _keyDropDownHeader = GlobalKey();
   double _screenWidth;
   int _menuCount;
-  double _height = ScreenUtil().setHeight(100);
+  double _height = ScreenUtil().setHeight(50);
 
   @override
   void initState() {
@@ -136,8 +136,8 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader> {
         ? widget.controller.isShow
             ? Container(
                 width: ScreenUtil().setWidth(158),
-                height: ScreenUtil().setHeight(60),
-                margin: EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 0),
+                height: ScreenUtil().setHeight(40),
+                margin: EdgeInsets.only(left: 5, right: 5, ),
                 decoration: BoxDecoration(
                     color: widget.decorationColor,
                     borderRadius: BorderRadius.only(
@@ -159,7 +159,8 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader> {
             : Container(
                 alignment: Alignment.center,
                 width: ScreenUtil().setWidth(158),
-                margin: EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 8),
+                height: ScreenUtil().setHeight(40),
+                margin: EdgeInsets.only(left: 5, right: 5),
                 decoration: provider.brandActiveList['valueList'].length == 0
                     ? BoxDecoration(
                         color: widget.decorationColor,
@@ -193,7 +194,8 @@ class _CustomDropdownMenuHeaderState extends State<CustomDropdownMenuHeader> {
         : Container(
                 alignment: Alignment.center,
                 width: ScreenUtil().setWidth(158),
-                margin: EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 8),
+                height: ScreenUtil().setHeight(40),
+                margin: EdgeInsets.only(left: 5, right: 5),
                 decoration: provider.serviceDiscountActiveList['activeValue']
                         .contains(item['filDetailId'])
                     ? BoxDecoration(

@@ -26,7 +26,7 @@ class _ServiceDiscountState extends State<ServiceDiscount> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 20, bottom: 10),
+        margin: EdgeInsets.only(top: 10, bottom: 10),
         // height: ScreenUtil().setHeight(800),
         child: Column(
           children: <Widget>[
@@ -69,7 +69,7 @@ class _ServiceDiscountState extends State<ServiceDiscount> {
                     Icon(Icons.pin_drop, color: Color(0xff888888), size: 20.0)),
             Container(
                 margin: EdgeInsets.only(left: 10.0),
-                width: ScreenUtil().setWidth(280),
+                width: ScreenUtil().setWidth(270),
                 child: Text('北京昌平区环以内生命科学园38号国家蛋白质科学中心',
                     overflow: TextOverflow.ellipsis))
           ],
@@ -80,9 +80,8 @@ class _ServiceDiscountState extends State<ServiceDiscount> {
     var _count = 3;
     return data.length != 0
         ? Container(
-            height: ScreenUtil().setHeight(300),
+            height: ScreenUtil().setHeight(200),
             child: GridView.count(
-              //
               crossAxisCount: _count,
               physics: NeverScrollableScrollPhysics(),
               childAspectRatio: 2.0,

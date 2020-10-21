@@ -89,14 +89,14 @@ class _BrandWidgetState extends State<BrandWidget> {
           child: provider.brandActiveList['valueList'].contains(item['value'])
               ? Container(
                   width: ScreenUtil().setWidth(140),
-                  height: ScreenUtil().setHeight(80),
-                  padding: EdgeInsets.all(3.0),
+                  height: ScreenUtil().setHeight(60),
+                  padding: EdgeInsets.all(8.0),
                   margin: EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
                       border: Border.all(color: Color(0XFFC81623)),
                       borderRadius: BorderRadius.all(Radius.circular(50.0))),
                   child: FadeInImage.assetNetwork(
-                      width: ScreenUtil().setWidth(100),
+                      // width: ScreenUtil().setWidth(100),
                       // height: ScreenUtil().setHeight(100),
                       placeholder: 'assets/images/lazy.png',
                       image: item['img'],

@@ -41,8 +41,8 @@ class DayStroll extends StatelessWidget {
             ),),
             Text(item['desc'], style: TextStyle(color: Color(0xFF222222), fontSize: ScreenUtil().setSp(22)),),
             Container(
-              margin: EdgeInsets.only(top: 5.0),
-              width: ScreenUtil().setWidth(150), height: ScreenUtil().setHeight(150),
+              margin: EdgeInsets.only(top: 3.0),
+              width: ScreenUtil().setWidth(150), height: ScreenUtil().setHeight(120),
               child: FadeInImage.assetNetwork(fit: BoxFit.fill, placeholder: 'assets/images/lazy.png', image: item['img'],),
             )
           ],
@@ -58,7 +58,7 @@ class DayStroll extends StatelessWidget {
         _title(),
         Container(
           alignment: Alignment.center,
-          height: ScreenUtil().setHeight(510),
+          height: ScreenUtil().setHeight(420),
           padding: EdgeInsets.all(6.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8), color: Colors.white),

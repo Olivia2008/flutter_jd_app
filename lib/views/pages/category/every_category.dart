@@ -116,8 +116,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 Container(
                     width: ScreenUtil().setWidth(750),
                     alignment: Alignment.center,
-                    height: ScreenUtil().setHeight(250),
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                    height: ScreenUtil().setHeight(200),
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 6),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -205,10 +205,11 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   _appBarTitle(context) {
     return Container(
       alignment: Alignment.center,
-      width: ScreenUtil().setWidth(680),
+      width: ScreenUtil().setWidth(660),
       // height: ScreenUtil().setHeight(90),
       margin: EdgeInsets.only(left: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           InkWell(
             onTap: () {

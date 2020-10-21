@@ -50,7 +50,9 @@ class _ADBannerState extends State<ADBanner> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Image.asset(secondsTitle),
+              Container(
+                child: Image.asset(secondsTitle, width: ScreenUtil().setWidth(113), height: ScreenUtil().setHeight(30), fit: BoxFit.fill,)
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: isInt
@@ -110,13 +112,14 @@ class _ADBannerState extends State<ADBanner> {
       ],
     );
   }
+  
   // 秒杀单独项
   Widget _item(index) {
     return InkWell(
       onTap: () {},
       child: Container(
         width: ScreenUtil().setWidth(150),
-        height: ScreenUtil().setHeight(280),
+        height: ScreenUtil().setHeight(180),
         padding: EdgeInsets.all(6.0),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -141,7 +144,7 @@ class _ADBannerState extends State<ADBanner> {
   // 横向滑动列表
   Widget _scrollHorList() {
     return Container(
-      height: ScreenUtil().setHeight(280),
+      height: ScreenUtil().setHeight(180),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: dataList.length,
@@ -155,7 +158,7 @@ class _ADBannerState extends State<ADBanner> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(370),
+      height: ScreenUtil().setHeight(250),
       margin: EdgeInsets.only(top: 10.0),
       padding: EdgeInsets.only(left: 8.0, right: 8.0),
       decoration: new BoxDecoration(

@@ -11,8 +11,7 @@ class NewPerson extends StatelessWidget {
     return Row(
       children: <Widget>[
         Container(
-          // width 750/2-margin(10+10)=355
-          height: ScreenUtil().setHeight(256),
+          height: ScreenUtil().setHeight(200),
           width: ScreenUtil().setWidth(354),
           margin: EdgeInsets.only(top: 8.0,bottom: 8.0),
           child: InkWell(
@@ -20,13 +19,11 @@ class NewPerson extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(5.0), bottomLeft: Radius.circular(5.0)),
               // child: Image.network(data[0]['img'], fit: BoxFit.fill, width: ScreenUtil().setWidth(376), height: ScreenUtil().setHeight(240),),
-              child: Container(width: ScreenUtil().setWidth(376), height: ScreenUtil().setHeight(240),
               child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: data[0]['img'], fit: BoxFit.fill,)
             ) ,
-          ),
-        )),
+          ),),
         Container(
-          height: ScreenUtil().setHeight(256),
+          height: ScreenUtil().setHeight(200),
           width: ScreenUtil().setWidth(354),
           margin: EdgeInsets.only(top: 8.0,bottom: 8.0),
           child: InkWell(
@@ -34,8 +31,7 @@ class NewPerson extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.only(topRight: Radius.circular(5.0), bottomRight: Radius.circular(5.0)),
               // child: Image.network(data[1]['img'], fit: BoxFit.fill,width: ScreenUtil().setWidth(376), height: ScreenUtil().setHeight(240))
-              child: Container(width: ScreenUtil().setWidth(376), height: ScreenUtil().setHeight(240),
-              child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', fit: BoxFit.fill, image: data[1]['img']))
+              child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', fit: BoxFit.fill, image: data[1]['img'])
             ),
           ),
         )
@@ -70,7 +66,7 @@ class NewPerson extends StatelessWidget {
       child: Container(
         // 设计稿是375*130, 转化为750*260, width=(750-20-8)/4
         width: ScreenUtil().setWidth(177),
-        height: ScreenUtil().setHeight(260),
+        height: ScreenUtil().setHeight(180),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(5.0),

@@ -88,8 +88,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     return subList.length != 0
         ? Container(
             height: _cateArrow
-                ? ScreenUtil().setHeight(200)
-                : ScreenUtil().setHeight(100),
+                ? ScreenUtil().setHeight(140)
+                : ScreenUtil().setHeight(80),
             child: GridView.count(
               crossAxisCount: _count,
               physics: NeverScrollableScrollPhysics(),

@@ -37,10 +37,10 @@ class _FooterWidgetState extends State<FooterWidget> {
           Container(
               width: MediaQuery.of(context).size.width / 4 * 3 / 2 - 1,
               padding: EdgeInsets.only(left: 10, right: 10),
-              height: ScreenUtil().setHeight(90),
+              height: ScreenUtil().setHeight(60),
               child: VaribleDecorations(
                 width: ScreenUtil().setWidth(261),
-                height: ScreenUtil().setHeight(90),
+                height: ScreenUtil().setHeight(60),
                 padding: EdgeInsets.only(
                     left: 10.0, right: 10.0, bottom: 0.0, top: 0.0),
                 borderRadius: 50.0,
@@ -63,11 +63,11 @@ class _FooterWidgetState extends State<FooterWidget> {
           Container(
               // color: Colors.yellow,
               width: MediaQuery.of(context).size.width / 4 * 3 / 2 - 1,
-              height: ScreenUtil().setHeight(90),
+              height: ScreenUtil().setHeight(60),
               padding: EdgeInsets.only(left: 10.0, right: 10.0),
               child: VaribleDecorations(
                   width: ScreenUtil().setWidth(261),
-                  height: ScreenUtil().setHeight(90),
+                  height: ScreenUtil().setHeight(60),
                   padding: EdgeInsets.only(
                       left: 10.0, right: 10.0, top: 0.0, bottom: 0.0),
                   fillDefaultColor: Theme.of(context).primaryColor,

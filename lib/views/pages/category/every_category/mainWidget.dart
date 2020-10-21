@@ -174,11 +174,11 @@ class _MainWidgetState extends State<MainWidget> {
   Widget _imageWidget(item) {
     return Container(
         width: ScreenUtil().setWidth(240),
-        height: ScreenUtil().setHeight(240),
-        color: Color(0xfff5f5f5),
+        height: ScreenUtil().setHeight(200),
+        // color: Color(0xfff5f5f5),
         child: Stack(
           alignment: Alignment.center,
-          fit: StackFit.expand,
+          // fit: StackFit.expand,
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
@@ -216,7 +216,7 @@ class _MainWidgetState extends State<MainWidget> {
 // desc widget
   Widget _descWidget(item, context) {
     return Container(
-      width: ScreenUtil().setWidth(490),
+      width: ScreenUtil().setWidth(480),
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Color(0xffe5e5e5)))),
@@ -285,7 +285,7 @@ class _MainWidgetState extends State<MainWidget> {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: TextStyle(
-                  color: Color(0xff333333), fontSize: ScreenUtil().setSp(36)),
+                  color: Color(0xff333333), fontSize: ScreenUtil().setSp(32)),
             ))
           ],
         ));
@@ -322,7 +322,7 @@ class _MainWidgetState extends State<MainWidget> {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
-                    color: Color(0xff333333), fontSize: ScreenUtil().setSp(36)),
+                    color: Color(0xff333333), fontSize: ScreenUtil().setSp(32)),
               ))
             ]));
   }
@@ -335,7 +335,7 @@ class _MainWidgetState extends State<MainWidget> {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: TextStyle(
-                color: Color(0xff333333), fontSize: ScreenUtil().setSp(36))));
+                color: Color(0xff333333), fontSize: ScreenUtil().setSp(32))));
   }
 
   // desc-> property widget

@@ -102,11 +102,11 @@ class _OwnerYardState extends State<OwnerYard> with SingleTickerProviderStateMix
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Container(
-                      height: ScreenUtil().setHeight(150),
+                      height: ScreenUtil().setHeight(100),
                       child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: item['img1'], fit: BoxFit.fill)
                     ),
                     Container(
-                      height: ScreenUtil().setHeight(150),
+                      height: ScreenUtil().setHeight(100),
                       child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: item['img2'], fit: BoxFit.fill)
                     ),
                   ],
@@ -178,7 +178,7 @@ class _OwnerYardState extends State<OwnerYard> with SingleTickerProviderStateMix
           onTap: () {print('探知时代');},
           child: Container(
             margin: EdgeInsets.only(bottom: 10.0),
-            height: ScreenUtil().setHeight(560),
+            height: ScreenUtil().setHeight(430),
             width: ScreenUtil().setWidth(750),
             decoration: BoxDecoration(
                 color: Colors.white,

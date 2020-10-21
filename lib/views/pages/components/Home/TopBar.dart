@@ -16,7 +16,7 @@ class TopNav extends StatelessWidget {
         children: <Widget>[
           Container(
             width: ScreenUtil().setWidth(80),
-            height: ScreenUtil().setHeight(90),
+            height: ScreenUtil().setHeight(70),
             child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: item['icon'], fit: BoxFit.fill)
           ),
           Padding(
@@ -35,7 +35,7 @@ class TopNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(340),
+      height: ScreenUtil().setHeight(260),
       padding: EdgeInsets.only(top: 10.0),
       child: GridView.count(
         physics: NeverScrollableScrollPhysics(),

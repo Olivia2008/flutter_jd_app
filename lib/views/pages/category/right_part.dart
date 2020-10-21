@@ -90,7 +90,7 @@ class _RightPartState extends State<RightPart> {
             margin: EdgeInsets.only(top: 3),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0), color: Colors.white),
-            height: ScreenUtil().setHeight(900),
+            height: ScreenUtil().setHeight(1334) - ScreenUtil.statusBarHeight * 2 - ScreenUtil().setHeight(250),
             child: Provide<GoodsListProvide>(
               builder: (context, child, list) {
                 // 返回顶部
@@ -223,15 +223,7 @@ class _RightPartState extends State<RightPart> {
             alignment: Alignment.topLeft,
             child: Column(
               children: <Widget>[
-                // Image.network(
-                //   item.img,
-                //   width: ScreenUtil().setWidth(140),
-                //   height: ScreenUtil().setHeight(140),
-                //   fit: BoxFit.fill,
-                // ),
                 Container(
-                  width: ScreenUtil().setWidth(140),
-                  height: ScreenUtil().setHeight(140),
                   child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: item.img, fit: BoxFit.fill)
                 ),
                 Text(

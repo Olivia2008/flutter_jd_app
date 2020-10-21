@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsIntroduce.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsComments.dart';
+
 class GoodsCommentDetail extends StatefulWidget {
   GoodsCommentDetail(this.params);
   final Map<String, dynamic> params;
@@ -26,7 +27,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   bool _showTopBtn = false;
   double _screenHeight;
   // GoodsCommentDetailModel goodsInfo = null;
-  double _topBarHeight = ScreenUtil().setHeight(600.0);
+  double _topBarHeight = ScreenUtil().setHeight(440.0);
   bool _changeBar = false;
   GoodsCommentDetailModel goodsCommentDetailInfo;
 
@@ -42,7 +43,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       var data = json.decode(value.toString());
       goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
       // print('goodsInfo数据请求完成 ${data['data']['result']['comments']} .............');
-    }); 
+    });
     return goodsCommentDetailInfo;
   }
 
@@ -68,8 +69,9 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       });
     }
     // 监听滚动高度切换tab
-    print('scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(2220)}');
-    if(_scrollController.offset >= ScreenUtil().setHeight(2220)) {
+    print(
+        'scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1583)}');
+    if (_scrollController.offset >= ScreenUtil().setHeight(1583)) {
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(1);
     } else {
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(0);
@@ -78,7 +80,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     if (_scrollController.offset >= 50) {
       setState(() {
         _changeBar = true;
-
       });
     } else {
       setState(() {
@@ -115,69 +116,71 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                 child: Icon(Icons.arrow_upward))
             : null,
         body: FutureBuilder(
-          future: _getGoodsInfo(context, widget.params['goodsId'].first),
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              // print('introduce snapshot data:${snapshot.data}');
-              _videoUrl =
-                            goodsCommentDetailInfo
-                                .data
-                                .result
-                                .introduce
-                                .vedio;
-                        var _videoImg =
-                            goodsCommentDetailInfo
-                                .data
-                                .result
-                                .introduce
-                                .vedioImg;
-                        _videoPlayerController =
-                            VideoPlayerController.network(_videoUrl);
-                        _chewieController = ChewieController(
-                            videoPlayerController: _videoPlayerController,
-                            aspectRatio: 16 / 9,
-                            autoPlay: false,
-                            looping: true,
-                            placeholder: Container(
-                                alignment: Alignment.center,
-                                child: FadeInImage.assetNetwork(
-                                    placeholder: 'assets/images/lazy.png',
-                                    image: _videoImg,
-                                    width: ScreenUtil().setWidth(750),
-                                    height: ScreenUtil().setHeight(440),
-                                    fit: BoxFit.fill)),
-                            materialProgressColors: ChewieProgressColors(
-                              playedColor: Color(0xffff9999),
-                              handleColor: Color(0xff000000),
-                              backgroundColor: Color(0xff999999),
-                              bufferedColor: Color(0xffe0e0e0),
-                            ));
-              return CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverAppBar(
-                backgroundColor: Color(0xffffffff),
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back_ios, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                actions: [
-                  Icon(Icons.share, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)),
-                  Padding(
-                      padding: EdgeInsets.only(right: 20.0, left: 10.0),
-                      child: Icon(Icons.more_horiz, color: _changeBar ? Color(0xff333333) : Color(0xffffffff)))
-                ],
-                title: _changeBar ? TabBarWidget(_scrollController) : IconButton(
-                  color: Color(0xffffffff),
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    print('colse button');
-                  },
-                ),
-                expandedHeight: _topBarHeight,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
+            future: _getGoodsInfo(context, widget.params['goodsId'].first),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                // print('introduce snapshot data:${snapshot.data}');
+                _videoUrl = goodsCommentDetailInfo.data.result.introduce.vedio;
+                var _videoImg =
+                    goodsCommentDetailInfo.data.result.introduce.vedioImg;
+                _videoPlayerController =
+                    VideoPlayerController.network(_videoUrl);
+                _chewieController = ChewieController(
+                    videoPlayerController: _videoPlayerController,
+                    aspectRatio: 16 / 9,
+                    autoPlay: false,
+                    looping: true,
+                    placeholder: Container(
+                        alignment: Alignment.center,
+                        child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/lazy.png',
+                            image: _videoImg,
+                            width: ScreenUtil().setWidth(750),
+                            height: ScreenUtil().setHeight(440),
+                            fit: BoxFit.fill)),
+                    materialProgressColors: ChewieProgressColors(
+                      playedColor: Color(0xffff9999),
+                      handleColor: Color(0xff000000),
+                      backgroundColor: Color(0xff999999),
+                      bufferedColor: Color(0xffe0e0e0),
+                    ));
+                return CustomScrollView(
+                  controller: _scrollController,
+                  slivers: [
+                    SliverAppBar(
+                        backgroundColor: Color(0xffffffff),
+                        leading: IconButton(
+                            icon: Icon(Icons.arrow_back_ios,
+                                color: _changeBar
+                                    ? Color(0xff333333)
+                                    : Color(0xffffffff)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        actions: [
+                          Icon(Icons.share,
+                              color: _changeBar
+                                  ? Color(0xff333333)
+                                  : Color(0xffffffff)),
+                          Padding(
+                              padding: EdgeInsets.only(right: 20.0, left: 10.0),
+                              child: Icon(Icons.more_horiz,
+                                  color: _changeBar
+                                      ? Color(0xff333333)
+                                      : Color(0xffffffff)))
+                        ],
+                        title: _changeBar
+                            ? TabBarWidget(_scrollController)
+                            : IconButton(
+                                color: Color(0xffffffff),
+                                icon: Icon(Icons.close),
+                                onPressed: () {
+                                  print('colse button');
+                                },
+                              ),
+                        expandedHeight: _topBarHeight,
+                        pinned: true,
+                        flexibleSpace: FlexibleSpaceBar(
                             background: Container(
                                 width: ScreenUtil().setWidth(750),
                                 height: _topBarHeight,
@@ -190,22 +193,16 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                     controller: _chewieController,
                                   )
                                 ])))),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                <Widget>[
-                  IntroduceWidget(goodsCommentDetailInfo), // height: 1740
-                  CommentsWidget(goodsCommentDetailInfo),
-                  
-                ]
-              )
-            )
-          ],
-        );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          }
-        )
-        );
+                    SliverList(
+                        delegate: SliverChildListDelegate(<Widget>[
+                      IntroduceWidget(goodsCommentDetailInfo), // height: 1740
+                      CommentsWidget(goodsCommentDetailInfo),
+                    ]))
+                  ],
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }));
   }
 }

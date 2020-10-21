@@ -48,8 +48,8 @@ class _FilterWidgetState extends State<FilterWidget> {
           children: <Widget>[
             list1.length != 0
                 ? Container(
-                    height: ScreenUtil().setHeight(80),
-                    margin: EdgeInsets.only(bottom: 6),
+                    height: ScreenUtil().setHeight(50),
+                    // margin: EdgeInsets.only(bottom: 6),
                     child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -85,7 +85,7 @@ class _FilterWidgetState extends State<FilterWidget> {
     return Container(
       alignment: Alignment.center,
       width: ScreenUtil().setWidth(188),
-      height: ScreenUtil().setHeight(100),
+      height: ScreenUtil().setHeight(50),
       // padding: EdgeInsets.only(left: 2, right: 2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -215,7 +215,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                                     ? FaIcon(FontAwesomeIcons.filter,
                                         size: ScreenUtil().setSp(16))
                                     : FaIcon(
-                                        Icons.filter_1,
+                                        FontAwesomeIcons.filter,
                                         size: ScreenUtil().setSp(20),
                                         color: Theme.of(context).primaryColor,
                                       ),

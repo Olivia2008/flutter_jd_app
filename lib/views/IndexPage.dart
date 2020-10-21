@@ -8,6 +8,7 @@ import 'package:netease_news/views/pages/member_page.dart';
 import 'package:netease_news/views/pages/search_page.dart';
 import 'package:netease_news/views/pages/test_customSliverScrollView.dart';
 import 'package:netease_news/views/pages/test_canvas.dart';
+import 'dart:ui';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -47,7 +48,13 @@ class _IndexPageState extends State<IndexPage> {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
     print('设备像素密度：${ScreenUtil.pixelRatio}\n'
         '设备的宽：${ScreenUtil.screenWidth}\n'
-        '设备的高: ${ScreenUtil.screenHeight}');
+        '设备的高: ${ScreenUtil.screenHeight}\n'
+        '实际window的width: ${window.physicalSize.width / window.devicePixelRatio}\n'
+        '实际window的height: ${window.physicalSize.height / window.devicePixelRatio}\n'
+        '状态栏高度：${ScreenUtil.statusBarHeight}px\n'
+        '实际宽度dp与设计稿px的比例：${ScreenUtil().scaleWidth}\n'
+        '实际高度dp与设计稿px的比例：${ScreenUtil().scaleHeight}\n'
+        'iphone6 750*1334设计稿公式宽750=${MediaQuery.of(context).size.width} / ${ScreenUtil().scaleWidth}');
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
       bottomNavigationBar: BottomNavigationBar(

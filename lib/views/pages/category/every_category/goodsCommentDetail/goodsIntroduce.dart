@@ -43,7 +43,7 @@ class IntroduceWidget extends StatelessWidget {
     return Container(
         width: ScreenUtil().setWidth(750),
         padding: EdgeInsets.all(20.0),
-        height: ScreenUtil().setHeight(790),
+        // height: ScreenUtil().setHeight(790),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(15.0),
@@ -330,7 +330,7 @@ class IntroduceWidget extends StatelessWidget {
         alignment: Alignment.centerLeft,
         width: ScreenUtil().setWidth(750),
         padding: EdgeInsets.all(20.0),
-        height: ScreenUtil().setHeight(450),
+        // height: ScreenUtil().setHeight(450),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             color: Color(0xffffffff)),
@@ -385,7 +385,7 @@ class IntroduceWidget extends StatelessWidget {
     return Container(
         width: ScreenUtil().setWidth(750),
         // padding: EdgeInsets.all(20.0),
-        height: ScreenUtil().setHeight(450),
+        // height: ScreenUtil().setHeight(450),
         margin: EdgeInsets.only(bottom: 6.0),
         child: Column(
           children: [

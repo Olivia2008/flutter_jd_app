@@ -46,7 +46,6 @@ class _HomeRecommendState extends State<HomeRecommend> {
 
   // 标题组件
   Widget _title = Container(
-    // alignment: Alignment.center,
     decoration: BoxDecoration(
         border: Border(
             bottom: BorderSide(
@@ -73,17 +72,10 @@ class _HomeRecommendState extends State<HomeRecommend> {
             width: ScreenUtil().setWidth(352),
             color: Colors.white,
             margin: EdgeInsets.only(bottom: 3.0),
-            padding: EdgeInsets.only(bottom: 10.0),
+            padding: EdgeInsets.only(bottom: 6.0),
             child: Column(
               children: <Widget>[
-                // Image.network(
-                //   item['img'],
-                //   width: ScreenUtil().setWidth(372),
-                //   height: ScreenUtil().setHeight(372),
-                // ),
                 Container(
-                  width: ScreenUtil().setWidth(372),
-                  height: ScreenUtil().setHeight(372),
                   child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: item['img'], fit: BoxFit.fill)
                 ),
                 // 描述
@@ -144,7 +136,6 @@ class _HomeRecommendState extends State<HomeRecommend> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        // width: ScreenUtil().setWidth(352),
                         margin: EdgeInsets.only(right: 3),
                         child: Row(
                           children: <Widget>[
@@ -225,8 +216,6 @@ class _HomeRecommendState extends State<HomeRecommend> {
                         ),
                       ),
                       Container(
-                        width: ScreenUtil().setWidth(98),
-                        height: ScreenUtil().setHeight(48),
                         margin: EdgeInsets.only(right: 8.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(

@@ -11,9 +11,9 @@ class SwiperDiy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(300),
+      height: ScreenUtil().setHeight(280),
       width: ScreenUtil().setWidth(750),
-      margin: EdgeInsets.only(top: 8.0),
+      margin: EdgeInsets.only(top: 6.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Swiper(

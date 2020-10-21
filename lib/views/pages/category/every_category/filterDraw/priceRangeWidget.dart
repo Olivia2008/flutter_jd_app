@@ -79,7 +79,7 @@ class _PriceRangeState extends State<PriceRange> {
             children: <Widget>[
               Container(
                 width: ScreenUtil().setWidth(220),
-                height: ScreenUtil().setHeight(80),
+                height: ScreenUtil().setHeight(50),
                 child: TextField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -103,13 +103,13 @@ class _PriceRangeState extends State<PriceRange> {
               ),
               Container(
                   width: ScreenUtil().setWidth(25),
-                  height: ScreenUtil().setHeight(80),
+                  height: ScreenUtil().setHeight(50),
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(left: 10, right: 10),
                   child: Text('--')),
               Container(
                 width: ScreenUtil().setWidth(220),
-                height: ScreenUtil().setHeight(80),
+                height: ScreenUtil().setHeight(50),
                 child: TextField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -161,7 +161,7 @@ class _PriceRangeState extends State<PriceRange> {
             },
             child: Container(
               width: ScreenUtil().setWidth(730 / data.length - 80),
-              height: ScreenUtil().setHeight(100),
+              height: ScreenUtil().setHeight(80),
               padding: EdgeInsets.only(
                   left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
               alignment: Alignment.center,
