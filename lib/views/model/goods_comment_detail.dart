@@ -179,13 +179,22 @@ class Store {
   String name;
   String fans;
   String desc;
+  String img;
+  List<Recommend> recommend;
 
-  Store({this.name, this.fans, this.desc});
+  Store({this.name, this.fans, this.desc, this.img, this.recommend});
 
   Store.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     fans = json['fans'];
     desc = json['desc'];
+    img = json['img'];
+    if (json['recommend'] != null) {
+      recommend = new List<Recommend>();
+      json['recommend'].forEach((v) {
+        recommend.add(new Recommend.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -193,6 +202,27 @@ class Store {
     data['name'] = this.name;
     data['fans'] = this.fans;
     data['desc'] = this.desc;
+    data['img'] = this.img;
+    if(this.recommend != null) {
+      data['recommend'] = this.recommend.map((e) => e.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Recommend {
+  String imageUrl;
+  String title;
+
+  Recommend({this.imageUrl, this.title});
+  Recommend.fromJson(Map<String, dynamic> json) {
+    imageUrl = json['imageUrl'];
+    title = json['title'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['imageUrl'] = this.imageUrl;
+    data['title'] = this.title;
     return data;
   }
 }

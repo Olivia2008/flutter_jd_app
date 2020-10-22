@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
+import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/storeInfo.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsQuestions.dart';
 import 'package:netease_news/components/icons/tipIcon.dart';
 
@@ -12,8 +13,10 @@ class CommentsWidget extends StatelessWidget {
     // print('commentsList widget data: ${data.commentsList}');
     return Container(
         width: ScreenUtil().setWidth(750),
-        // height: ScreenUtil().setHeight(900),
-        child: Card(
+        padding: EdgeInsets.only(bottom: 20.0),
+        child: Column(
+          children: [
+            Card(
             elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -36,7 +39,10 @@ class CommentsWidget extends StatelessWidget {
                       border: Border(
                           bottom: BorderSide(color: Color(0xfff2f2f2))))),
               QuestionWidget(data.data.result.question)
-            ])));
+            ])),
+            StoreWidget(data)
+          ],
+        ));
   }
 
   Widget _title(context, data) {
@@ -238,18 +244,18 @@ class CommentsWidget extends StatelessWidget {
 
   Widget _buttons(context) {
     return Container(
-        height: ScreenUtil().setHeight(80),
+        height: ScreenUtil().setHeight(60),
         alignment: Alignment.center,
         padding: EdgeInsets.only(top: 10.0),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           OutlineButton(
             onPressed: () {},
-            child: Text('查看全部评价'),
+            child: Text('查看全部评价',style: TextStyle(color: Color(0xff666666)),),
             shape: StadiumBorder(side: BorderSide(color: Color(0xfff5f5f5))),
           ),
           OutlineButton(
             onPressed: () {},
-            child: Text('购买咨询'),
+            child: Text('购买咨询', style: TextStyle(color: Color(0xff666666))),
             shape: StadiumBorder(side: BorderSide(color: Color(0xfff5f5f5))),
           )
         ]));

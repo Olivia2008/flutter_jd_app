@@ -10,9 +10,13 @@ class QuestionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: ScreenUtil().setWidth(750),
-        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 20.0),
         child: Column(
-          children: [_title(), _content(context, data)],
+          children: [
+            _title(),
+            _contentWrapper(context, data),
+            _button(context)
+          ],
         ));
   }
 
@@ -54,22 +58,22 @@ class QuestionWidget extends StatelessWidget {
         ));
   }
 
-  Widget _content(context, data) {
+  Widget _contentWrapper(context, data) {
     // var _list = _data.subList(0, 2);
     print(data.first.replay);
     if (data != null) {
       return Container(
           height: ScreenUtil().setHeight(100),
           child: Column(children: [
-            _contentOne(context, data.first),
-            _contentOne(context, data[1])
+            _content(context, data.first),
+            _content(context, data[1])
           ]));
     } else {
       return Container();
     }
   }
 
-  Widget _contentOne(context, data) {
+  Widget _content(context, data) {
     return Container(
         height: ScreenUtil().setHeight(50),
         child: Row(
@@ -102,7 +106,10 @@ class QuestionWidget extends StatelessWidget {
                     Expanded(
                         child: Padding(
                       padding: EdgeInsets.only(left: 6.0),
-                      child: Text('${data.question}', overflow: TextOverflow.ellipsis,),
+                      child: Text(
+                        '${data.question}',
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ))
                   ],
                 )),
@@ -111,6 +118,19 @@ class QuestionWidget extends StatelessWidget {
               style: TextStyle(color: Color(0xff999999)),
             )
           ],
+        ));
+  }
+
+  Widget _button(context) {
+    return Container(
+        height: ScreenUtil().setHeight(60),
+        padding: EdgeInsets.only(top: 10.0),
+        child: OutlineButton(
+          onPressed: () {
+            print('查看全部问题');
+          },
+          shape: StadiumBorder(side: BorderSide(color: Color(0xfff5f5f5))),
+          child: Text('查看全部${data.length}条问题', style: TextStyle(color: Color(0xff666666))),
         ));
   }
 }
