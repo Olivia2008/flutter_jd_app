@@ -106,14 +106,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     return Scaffold(
         backgroundColor: Color(0xfff5f5f5),
         floatingActionButton: _showTopBtn
-            ? FloatingActionButton(
-                backgroundColor: Theme.of(context).primaryColor,
-                onPressed: () {
-                  _scrollController.animateTo(0,
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.ease);
-                },
-                child: Icon(Icons.arrow_upward))
+            ? _floatingActionButton(context)
             : null,
         body: FutureBuilder(
             future: _getGoodsInfo(context, widget.params['goodsId'].first),
@@ -196,7 +189,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                     SliverList(
                         delegate: SliverChildListDelegate(<Widget>[
                       IntroduceWidget(goodsCommentDetailInfo), // height: 1740
-                      CommentsWidget(goodsCommentDetailInfo),
+                      CommentsWidget(goodsCommentDetailInfo, widget.params['goodsId'].first),
                     ]))
                   ],
                 );
@@ -204,5 +197,20 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                 return Center(child: CircularProgressIndicator());
               }
             }));
+  }
+
+  Widget _floatingActionButton(context) {
+    return FloatingActionButton(
+                backgroundColor: Theme.of(context).primaryColor,
+                onPressed: () {
+                  _scrollController.animateTo(0,
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.ease);
+                },
+                child: Icon(Icons.arrow_upward));
+  }
+
+  ChewieController _chewieWidget(context, img, playerController) {
+    ;
   }
 }

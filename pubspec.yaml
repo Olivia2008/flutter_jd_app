@@ -93,7 +93,10 @@ flutter:
         - asset: fonts/CnMoney.ttf
     - family: HeartPlus
       fonts:
-        - asset: fonts/HeartPlus.ttf 
+        - asset: fonts/HeartPlus.ttf
+    - family: Wechat
+      fonts:
+        - asset: fonts/Wechat.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

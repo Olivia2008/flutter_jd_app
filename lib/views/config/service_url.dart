@@ -14,4 +14,6 @@ const servicePath = {
       serviceUrl + '/category/detail/topBar/filter/more', // 分类页面顶部过滤导航右侧抽屉中更多分类
   'cateGoodsCommentDetail':
       serviceUrl + '/category/detail/goodsDetail', // 分类中每一类中某个商品的详情评价
+  'goodsAccessory':
+      serviceUrl + '/goods/info/accessory',
 };

@@ -87,10 +87,11 @@ class _RightPartState extends State<RightPart> {
         children: <Widget>[
           _navBar(),
           Container(
+            // height: ScreenUtil().setHeight(1334) - ScreenUtil.statusBarHeight * 2 - ScreenUtil().setHeight(250),
+            height: MediaQuery.of(context).size.height - ScreenUtil().setHeight(230) - ScreenUtil.statusBarHeight * 2,
             margin: EdgeInsets.only(top: 3),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0), color: Colors.white),
-            height: ScreenUtil().setHeight(1334) - ScreenUtil.statusBarHeight * 2 - ScreenUtil().setHeight(250),
             child: Provide<GoodsListProvide>(
               builder: (context, child, list) {
                 // 返回顶部
