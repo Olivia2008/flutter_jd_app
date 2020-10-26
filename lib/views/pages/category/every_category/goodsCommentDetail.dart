@@ -4,13 +4,17 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
+import 'package:netease_news/views/model/goods_accessory.dart';
+import 'package:netease_news/views/model/goods_range.dart';
+import 'package:netease_news/views/model/goods_rec.dart';
+import 'package:netease_news/views/model/goods_search.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/service/service_method.dart';
 import 'dart:convert';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsIntroduce.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsComments.dart';
-
+import './goodsCommentDetail/recommend.dart';
 class GoodsCommentDetail extends StatefulWidget {
   GoodsCommentDetail(this.params);
   final Map<String, dynamic> params;
@@ -30,6 +34,10 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   double _topBarHeight = ScreenUtil().setHeight(440.0);
   bool _changeBar = false;
   GoodsCommentDetailModel goodsCommentDetailInfo;
+  AccessoryModel accessoryInfo;
+  RangeModel rangeInfo;
+  GoodsRecModel recommendInfo;
+  GoodsRecommendSearchModel searchInfo;
 
   // Future getGoodsInfo(BuildContext context) async {
   //   await Provide.value<GoodsCommentDetailProvide>(context)
@@ -47,8 +55,48 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     return goodsCommentDetailInfo;
   }
 
+  _getGoodsAccessory(String goodsId) async{
+    var params = {'goodsId': goodsId};
+    await request('goodsAccessory', params: params).then((value) {
+      var data = json.decode(value.toString());
+      accessoryInfo = AccessoryModel.fromJson(data);
+      print('goods accessory数据请求完成.................');
+    });
+  }
+
+  _getGoodsSearch(String goodsId) async {
+    var params = {'goodsId': goodsId};
+    await request('goodsSearch', params: params).then((res) {
+      var data = json.decode(res.toString());
+      searchInfo = GoodsRecommendSearchModel.fromJson(data);
+      print('goods search数据请求完成.....................');
+    });
+  }
+
+  _getGoodsRange(String goodsId) async {
+    var params = {'goodsId': goodsId};
+    await request('goodsRange', params: params).then((res) {
+      var data = json.decode(res.toString());
+      rangeInfo = RangeModel.fromJson(data);
+      print('goods range数据请求完成.....................');
+    });
+  }
+
+  _goodsLikeRec(String goodsId) async {
+    var params = {'goodsId': goodsId};
+    await request('goodsRecommend', params: params).then((res) {
+      var data = json.decode(res.toString());
+      recommendInfo = GoodsRecModel.fromJson(data);
+      print('goods recommends数据请求完成..............');
+    });
+  }
+
   @override
   void initState() {
+    _getGoodsAccessory(widget.params['goodsId'].first);
+    _getGoodsSearch(widget.params['goodsId'].first);
+    _getGoodsRange(widget.params['goodsId'].first);
+    _goodsLikeRec(widget.params['goodsId'].first);
     _scrollController = new ScrollController();
     _scrollController.addListener(HandleScroll);
     super.initState();
@@ -189,7 +237,8 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                     SliverList(
                         delegate: SliverChildListDelegate(<Widget>[
                       IntroduceWidget(goodsCommentDetailInfo), // height: 1740
-                      CommentsWidget(goodsCommentDetailInfo, widget.params['goodsId'].first),
+                      CommentsWidget(goodsCommentDetailInfo, accessoryInfo),
+                      RecommendWidget(searchInfo, recommendInfo, rangeInfo)
                     ]))
                   ],
                 );

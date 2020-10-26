@@ -17,7 +17,7 @@ class StoreWidget extends StatelessWidget {
     var store = data.data.result.store;
     var stockState = data.data.result.stockstate;
     return Container(
-      margin: EdgeInsets.only(top: 10.0, bottom: 20.0),
+      margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
       height: ScreenUtil().setHeight(530),
       width: ScreenUtil().setWidth(750),
       child: Stack(
@@ -144,40 +144,43 @@ class StoreWidget extends StatelessWidget {
   }
 
   Widget _recommend(context, data) {
-    List<Widget> list = data.map<Widget>((item) {
-      return InkWell(
+    return Container(
+      height: ScreenUtil().setHeight(180),
+      margin: EdgeInsets.only(top: 6.0),
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return InkWell( 
           onTap: () {
-            print('你喜欢的');
+            print('你喜欢的${data[index].title}');
           },
-          child: Card(
-            elevation: 0,
-            color: Color(0xfffafafa),
-            child: Container(
+          child: Container(
+            width: ScreenUtil().setWidth(155),
+            margin: EdgeInsets.only(right: index == data.length - 1 ? 0.0 : 6.0),
+              decoration: BoxDecoration(
+                color: Color(0xfff6f6f6),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))
+              ),
+              padding: EdgeInsets.all(3.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FadeInImage.assetNetwork(
                     placeholder: 'assets/images/lazy.png',
-                    image: item.imageUrl,
+                    image: data[index].imageUrl,
                     fit: BoxFit.fill,
-                    width: ScreenUtil().setWidth(120),
-                    height: ScreenUtil().setHeight(80),
                   ),
                   Text(
-                    item.title,
+                    data[index].title,
                     style: TextStyle(fontSize: 12),
                   )
                 ],
               ),
-            ),
-          ));
-    }).toList();
-    return Container(
-      height: ScreenUtil().setHeight(200),
-      child: GridView.count(
-          physics: NeverScrollableScrollPhysics(),
-          crossAxisCount: 4,
-          children: list),
+            ));
+        },
+      )
     );
   }
 

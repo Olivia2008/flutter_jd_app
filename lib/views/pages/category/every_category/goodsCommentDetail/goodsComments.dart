@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
+import 'package:netease_news/views/model/goods_accessory.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/storeInfo.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsQuestions.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/accessory.dart';
 import 'package:netease_news/components/icons/tipIcon.dart';
 
 class CommentsWidget extends StatelessWidget {
-  CommentsWidget(this.data, this.goodsId);
+  CommentsWidget(this.data, this.accessoryInfo);
   final GoodsCommentDetailModel data;
-  final String goodsId;
+  final AccessoryModel accessoryInfo;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +20,7 @@ class CommentsWidget extends StatelessWidget {
           children: [
             _comment(context),
             StoreWidget(data),
-            AccessoryWidget(goodsId)
+            AccessoryWidget(accessoryInfo)
           ],
         ));
   }

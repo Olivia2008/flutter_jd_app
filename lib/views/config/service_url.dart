@@ -1,4 +1,4 @@
-// const serviceUrl = 'http://10.1.48.181:7300/mock/5e78639618b2441ed0979211/base';
+// const serviceUrl = 'http://10.1.48.185:7300/mock/5f9631d65ffdfd2150c09fa6/base';
 // const serviceUrl = 'http://192.168.1.6:7300/mock/5e78639618b2441ed0979211/base';
 const serviceUrl = 'http://10.1.22.187:7300/mock/5eb657de1ac6f950a4586dfd/base';
 const servicePath = {
@@ -15,5 +15,8 @@ const servicePath = {
   'cateGoodsCommentDetail':
       serviceUrl + '/category/detail/goodsDetail', // 分类中每一类中某个商品的详情评价
   'goodsAccessory':
-      serviceUrl + '/goods/info/accessory',
+      serviceUrl + '/goods/info/accessory', // 分类中每一类中手机商品的配件
+  'goodsSearch': serviceUrl + '/goods/info/search', // 商品详情推荐的搜索
+  'goodsRecommend': serviceUrl + '/goods/info/likeRecommand', // 商品详情推荐的你喜欢的
+  'goodsRange': serviceUrl + '/goods/info/range', // 商品详情推荐中的排行榜 
 };
