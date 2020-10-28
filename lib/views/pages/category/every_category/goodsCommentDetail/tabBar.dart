@@ -30,7 +30,7 @@ class TabBarWidget extends StatelessWidget {
               onTap: () {
                 data.changeTabIndex(idx);
                 if (data.tabIndex == 1) {
-                  scrollController.animateTo(ScreenUtil().setHeight(1583),
+                  scrollController.animateTo(ScreenUtil().setHeight(1666),
                       duration: Duration(milliseconds: 500),
                       curve: Curves.ease);
                 } else if (data.tabIndex == 0) {
@@ -44,12 +44,13 @@ class TabBarWidget extends StatelessWidget {
                   children: [
                     Text(item['title'],
                         style: TextStyle(
+                          fontSize: data.tabActive ? 16 : 14,
                             color: data.tabActive
                                 ? Theme.of(context).primaryColor
                                 : Color(0xff333333))),
                     data.tabActive
                         ? TipIcon(
-                            width: ScreenUtil().setWidth(80),
+                            width: ScreenUtil().setWidth(60),
                             height: 3,
                             colorList: [Color(0xfff5503a), Color(0xfffad1cb)],
                             begin: Alignment.centerLeft,

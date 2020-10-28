@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class CustomScrollViewTestRoute extends StatelessWidget {
   @override
@@ -41,6 +42,37 @@ class CustomScrollViewTestRoute extends StatelessWidget {
               ),
             ),
           ),
+
+          SliverPersistentHeader(
+      pinned: true,
+      floating: false,
+      delegate: _SliverAppBarDelegate(
+        maxHeight: 28,
+        minHeight: 28,
+        child: Container(
+        child: Row(
+              children: [
+                InputChip(
+                  padding: EdgeInsets.only(left: 6.0, right: 6.0),
+                  label: Text(
+                    '苹果                                        ',
+                    style: TextStyle(color: Color(0xffeeeeee), fontSize: 14),
+                  ),
+                  avatar: Icon(
+                    Icons.search,
+                    color: Color(0xff666666),
+                    size: 16
+                  ),
+                  onPressed: () {},
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Text('搜索'),
+                )
+              ],
+            ),)
+      ),
+    ),
           //List
           new SliverFixedExtentList(
             itemExtent: 50.0,
@@ -59,5 +91,39 @@ class CustomScrollViewTestRoute extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  
+  _SliverAppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => max(maxHeight, minHeight);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new SizedBox.expand(
+      child: child,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }

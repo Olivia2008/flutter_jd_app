@@ -31,11 +31,15 @@ class IntroduceWidget extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Container(
+      width: ScreenUtil().setWidth(750),
+      height: ScreenUtil().setHeight(1324),
+      child: Column(children: [
             _firstCard(context, data),
             _secondCard(context, data.data.result.discount),
             _thirdCard(context, data.data.result)
-          ]);
+          ]),
+    );
   }
 
   // first card
@@ -43,7 +47,7 @@ class IntroduceWidget extends StatelessWidget {
     return Container(
         width: ScreenUtil().setWidth(750),
         padding: EdgeInsets.all(20.0),
-        // height: ScreenUtil().setHeight(790),
+        height: ScreenUtil().setHeight(560),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(15.0),
@@ -67,7 +71,8 @@ class IntroduceWidget extends StatelessWidget {
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-          Column(
+          Container(
+            child: Column(
             children: [
               Text.rich(TextSpan(children: [
                 TextSpan(
@@ -97,18 +102,23 @@ class IntroduceWidget extends StatelessWidget {
               )
             ],
           ),
-          Row(
+          ),
+          Container(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Column(
+                Container(
+                  child: Column(
                   children: [Icon(iconMoney), Text('降价通知')],
+                ),
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Column(
                       children: [Icon(iconHeartPlus), Text('收藏')],
                     ))
-              ])
+              ]),
+          )
         ]));
   }
 
@@ -303,6 +313,7 @@ class IntroduceWidget extends StatelessWidget {
           print('规格');
         },
         child: Container(
+          // height: ScreenUtil().setHeight(300),
             margin: EdgeInsets.only(
               top: 10,
             ),
@@ -330,7 +341,7 @@ class IntroduceWidget extends StatelessWidget {
         alignment: Alignment.centerLeft,
         width: ScreenUtil().setWidth(750),
         padding: EdgeInsets.all(20.0),
-        // height: ScreenUtil().setHeight(450),
+        height: ScreenUtil().setHeight(320),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             color: Color(0xffffffff)),
@@ -358,7 +369,9 @@ class IntroduceWidget extends StatelessWidget {
       ])
       );
     }).toList();
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    return Container(
+      height: ScreenUtil().setHeight(320),
+      child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       InkWell(
         onTap: () {print('更多优惠');},
         child: Container(
@@ -377,7 +390,8 @@ class IntroduceWidget extends StatelessWidget {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: _list))
-    ]);
+    ])
+    );;
   }
 
   // third card
@@ -385,12 +399,13 @@ class IntroduceWidget extends StatelessWidget {
     return Container(
         width: ScreenUtil().setWidth(750),
         // padding: EdgeInsets.all(20.0),
-        // height: ScreenUtil().setHeight(450),
+        height: ScreenUtil().setHeight(400),
         margin: EdgeInsets.only(bottom: 6.0),
         child: Column(
           children: [
             Card(
           elevation: 0,
+          margin: EdgeInsets.all(0.0),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))),
           child: Container(
             padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 6),
@@ -419,6 +434,7 @@ _annotation(context, data.destination.dis)
     return InkWell(
       onTap: () {print('已选 ');},
       child: Container(
+        height: ScreenUtil().setHeight(90),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -445,6 +461,7 @@ _annotation(context, data.destination.dis)
     return InkWell(
       onTap: () {print('送至');},
       child: Container(
+        height: ScreenUtil().setHeight(80),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -509,7 +526,7 @@ _annotation(context, data.destination.dis)
       );
     }).toList();
     return Container(
-      // height: ScreenUtil().setHeight(100),
+      height: ScreenUtil().setHeight(150),
       width: ScreenUtil().setWidth(750),
       padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 6.0),
       decoration: BoxDecoration(

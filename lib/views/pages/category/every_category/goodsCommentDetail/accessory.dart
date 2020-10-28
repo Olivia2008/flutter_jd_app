@@ -12,6 +12,7 @@ class AccessoryWidget extends StatelessWidget {
     if (accessoryInfo != null) {
       return Card(
         elevation: 0,
+        margin: EdgeInsets.all(0.0),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
         child: Container(

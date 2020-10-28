@@ -15,7 +15,7 @@ class CommentsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: ScreenUtil().setWidth(750),
-        padding: EdgeInsets.only(bottom: 20.0),
+        padding: EdgeInsets.only(bottom: 10.0),
         child: Column(
           children: [
             _comment(context),
@@ -28,6 +28,7 @@ class CommentsWidget extends StatelessWidget {
   Widget _comment(context) {
     return Card(
             elevation: 0,
+            margin: EdgeInsets.all(0.0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Column(children: [

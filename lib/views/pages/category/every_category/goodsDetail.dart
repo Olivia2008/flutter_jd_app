@@ -12,11 +12,11 @@ import 'package:provide/provide.dart';
 import 'package:netease_news/views/service/service_method.dart';
 import 'dart:convert';
 import 'dart:math';
-import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
+// import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
+import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabTarWidget.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsIntroduce.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsComments.dart';
-import './goodsCommentDetail/recommend.dart';
-import './goodsCommentDetail/searchStickBar.dart';
+import 'goodsCommentDetail/recommend.dart';
 // import 'package:netease_news/components/stickBar/sliverSearchAppBar.dart';
 
 class GoodsCommentDetail extends StatefulWidget {
@@ -27,13 +27,11 @@ class GoodsCommentDetail extends StatefulWidget {
 }
 
 class _GoodsCommentDetailState extends State<GoodsCommentDetail>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   VideoPlayerController _videoPlayerController;
   ChewieController _chewieController;
   ScrollController _scrollController;
-  TabController _outerTabController;
-  TabController _innerRecTabController;
-  TabController _innerRangeTabController;
+  TabController _tabController;
   String _videoUrl = '';
   bool _showTopBtn = false;
   double _screenHeight;
@@ -45,14 +43,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   RangeModel rangeInfo;
   GoodsRecModel recommendInfo;
   GoodsRecommendSearchModel searchInfo;
-  int rangeTabLen = 1;
-  int recTabLen = 1;
-
-  // Future getGoodsInfo(BuildContext context) async {
-  //   await Provide.value<GoodsCommentDetailProvide>(context)
-  //       .getGoodsCommentDetail(widget.params['goodsId'].first);
-  //   return 'goodsInfo的future数据加载完成......';
-  // }
 
   Future _getGoodsInfo(BuildContext context, goodsId) async {
     var params = {'goodsId': goodsId};
@@ -64,7 +54,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     return goodsCommentDetailInfo;
   }
 
-  _getGoodsAccessory(String goodsId) async {
+  _getGoodsAccessory(String goodsId) async{
     var params = {'goodsId': goodsId};
     await request('goodsAccessory', params: params).then((value) {
       var data = json.decode(value.toString());
@@ -87,9 +77,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     await request('goodsRange', params: params).then((res) {
       var data = json.decode(res.toString());
       rangeInfo = RangeModel.fromJson(data);
-      rangeTabLen = rangeInfo.data.listSkuRange.length != 0 ? (rangeInfo.data.listSkuRange.length / 6).ceil() : 1;
-      _innerRangeTabController = TabController(length: rangeTabLen, vsync: this);
-      print('goods range数据请求完成  rangeTabLen: $rangeTabLen.....................');
+      print('goods range数据请求完成.....................');
     });
   }
 
@@ -98,9 +86,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     await request('goodsRecommend', params: params).then((res) {
       var data = json.decode(res.toString());
       recommendInfo = GoodsRecModel.fromJson(data);
-      recTabLen = recommendInfo.data.listSkuRelation.length != 0 ? (recommendInfo.data.listSkuRelation.length / 6).ceil() : 1;
-      _innerRecTabController = TabController(length: recTabLen, vsync: this);
-      print('goods recommends数据请求完成 recTabLen $recTabLen..............');
+      print('goods recommends数据请求完成..............');
     });
   }
 
@@ -112,9 +98,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     _goodsLikeRec(widget.params['goodsId'].first);
     _scrollController = new ScrollController();
     _scrollController.addListener(HandleScroll);
-    _outerTabController = TabController(length: 2, vsync: this);
-    
-    
+    _tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
@@ -133,13 +117,14 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       });
     }
     // 监听滚动高度切换tab
-    print(
-        'scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1764)}');
-    if (_scrollController.offset >= ScreenUtil().setHeight(1666)) {
-      Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(1);
-    } else {
-      Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(0);
-    }
+    // print(
+    //     'scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1583)}');
+    // if (_scrollController.offset >= ScreenUtil().setHeight(1583)) {
+    //   Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(1);
+    // } else {
+    //   Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(0);
+    // }
+    
     // scroll在topBarHeight内显示背景透明度动画
     if (_scrollController.offset >= 50) {
       setState(() {
@@ -157,9 +142,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     _videoPlayerController?.dispose();
     _chewieController?.dispose();
     _scrollController?.dispose();
-    _outerTabController.dispose();
-    _innerRecTabController.dispose();
-    _innerRangeTabController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -172,8 +155,9 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xfff5f5f5),
-        floatingActionButton:
-            _showTopBtn ? _floatingActionButton(context) : null,
+        floatingActionButton: _showTopBtn
+            ? _floatingActionButton(context)
+            : null,
         body: FutureBuilder(
             future: _getGoodsInfo(context, widget.params['goodsId'].first),
             builder: (context, snapshot) {
@@ -203,10 +187,11 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                       backgroundColor: Color(0xff999999),
                       bufferedColor: Color(0xffe0e0e0),
                     ));
-                return CustomScrollView(
-                  controller: _scrollController,
-                  slivers: [
-                    SliverAppBar(
+                    return NestedScrollView(
+                      controller: _scrollController,
+                      headerSliverBuilder: (BuildContext context, bool boo) {
+                        return <Widget>[
+                          SliverAppBar(
                         backgroundColor: Color(0xffffffff),
                         leading: IconButton(
                             icon: Icon(Icons.arrow_back_ios,
@@ -229,7 +214,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                       : Color(0xffffffff)))
                         ],
                         title: _changeBar
-                            ? TabBarWidget(_scrollController)
+                            ? TabBarWidget(tabController: _tabController,)
                             : IconButton(
                                 color: Color(0xffffffff),
                                 icon: Icon(Icons.close),
@@ -240,8 +225,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                         expandedHeight: _topBarHeight,
                         pinned: true,
                         flexibleSpace: FlexibleSpaceBar(
-                            // title: Text('FlexibleSpaceBar title'),
-                            // collapseMode: CollapseMode.parallax,
                             background: Container(
                                 width: ScreenUtil().setWidth(750),
                                 height: _topBarHeight,
@@ -253,25 +236,82 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                   Chewie(
                                     controller: _chewieController,
                                   )
-                                ])))),
-                    SliverList(
-                        delegate: SliverChildListDelegate(<Widget>[
-                      IntroduceWidget(goodsCommentDetailInfo), // height: 1740
-                      CommentsWidget(goodsCommentDetailInfo, accessoryInfo),
-                    ])),
-                    SearchStickyBar(searchInfo),
-                    SliverToBoxAdapter(
-                      child: Container(
-                        height: ScreenUtil().setHeight(650),
-                        child: Column(
-                          children: [
-                            RecommendWidget(searchInfo, recommendInfo, rangeInfo, _outerTabController, _innerRecTabController, _innerRangeTabController) // height 600
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                );
+                                ]))))
+                        ];
+                      },
+                      body: TabBarView(
+                        controller: _tabController,
+                        children: <Widget>[
+                          IntroduceWidget(goodsCommentDetailInfo),
+                          CommentsWidget(goodsCommentDetailInfo, accessoryInfo),
+                          RecommendWidget(searchInfo, recommendInfo, rangeInfo),
+                          Container(
+                            height: ScreenUtil().setHeight(300),
+                            child: Text('推荐')
+                          )
+                        ]),
+                    );
+                // return CustomScrollView(
+                //   controller: _scrollController,
+                //   slivers: [
+                //     SliverAppBar(
+                //         backgroundColor: Color(0xffffffff),
+                //         leading: IconButton(
+                //             icon: Icon(Icons.arrow_back_ios,
+                //                 color: _changeBar
+                //                     ? Color(0xff333333)
+                //                     : Color(0xffffffff)),
+                //             onPressed: () {
+                //               Navigator.pop(context);
+                //             }),
+                //         actions: [
+                //           Icon(Icons.share,
+                //               color: _changeBar
+                //                   ? Color(0xff333333)
+                //                   : Color(0xffffffff)),
+                //           Padding(
+                //               padding: EdgeInsets.only(right: 20.0, left: 10.0),
+                //               child: Icon(Icons.more_horiz,
+                //                   color: _changeBar
+                //                       ? Color(0xff333333)
+                //                       : Color(0xffffffff)))
+                //         ],
+                //         title: _changeBar
+                //             ? TabBarWidget(_scrollController)
+                //             : IconButton(
+                //                 color: Color(0xffffffff),
+                //                 icon: Icon(Icons.close),
+                //                 onPressed: () {
+                //                   print('colse button');
+                //                 },
+                //               ),
+                //         expandedHeight: _topBarHeight,
+                //         pinned: true,
+                //         flexibleSpace: FlexibleSpaceBar(
+                //             background: Container(
+                //                 width: ScreenUtil().setWidth(750),
+                //                 height: _topBarHeight,
+                //                 color: Color(0xff000000),
+                //                 padding: EdgeInsets.only(
+                //                     top: ScreenUtil().setHeight(160)),
+                //                 alignment: Alignment.center,
+                //                 child: Column(children: <Widget>[
+                //                   Chewie(
+                //                     controller: _chewieController,
+                //                   )
+                //                 ])))),
+                //     SliverList(
+                //         delegate: SliverChildListDelegate(<Widget>[
+                //       IntroduceWidget(goodsCommentDetailInfo), // height: 1740
+                //       CommentsWidget(goodsCommentDetailInfo, accessoryInfo),
+                //       RecommendWidget(searchInfo, recommendInfo, rangeInfo)
+                //     ])),
+                //     // _buildSearchStickyBar(context, searchInfo),
+                //     // SliverList(delegate: SliverChildListDelegate(<Widget>[
+                //     //   RecommendWidget(searchInfo, recommendInfo, rangeInfo)
+                //     // ]))
+                //   ],
+                // );
               } else {
                 return Center(child: CircularProgressIndicator());
               }
@@ -280,12 +320,82 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
   Widget _floatingActionButton(context) {
     return FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {
-          _scrollController.animateTo(0,
-              duration: Duration(milliseconds: 200), curve: Curves.ease);
-        },
-        child: Icon(Icons.arrow_upward));
+                backgroundColor: Theme.of(context).primaryColor,
+                onPressed: () {
+                  _scrollController.animateTo(0,
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.ease);
+                },
+                child: Icon(Icons.arrow_upward));
   }
 
+  Widget _buildSearchStickyBar(context, data) {
+    return SliverPersistentHeader(
+      pinned: true,
+      floating: true,
+      delegate: _SliverAppBarDelegate(
+        maxHeight: 28,
+        minHeight: 28,
+        child: Container(
+        width: ScreenUtil().setWidth(666),
+        child: Row(
+              children: [
+                InputChip(
+                  padding: EdgeInsets.only(left: 6.0, right: 6.0),
+                  label: Text(
+                    '苹果                                        ',
+                    style: TextStyle(color: Color(0xffeeeeee), fontSize: 14),
+                  ),
+                  avatar: Icon(
+                    Icons.search,
+                    color: Color(0xff666666),
+                    size: 16
+                  ),
+                  onPressed: () {},
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Text('搜索'),
+                )
+              ],
+            ),)
+      ),
+    );
+  }
 }
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  
+  _SliverAppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => max(maxHeight, minHeight);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new SizedBox.expand(
+      child: child,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
+  }
+}
+
+
