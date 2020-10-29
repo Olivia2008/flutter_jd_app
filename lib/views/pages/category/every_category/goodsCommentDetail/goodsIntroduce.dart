@@ -163,7 +163,7 @@ class IntroduceWidget extends StatelessWidget {
                   style: TextStyle(
                       color: Color(0xff333333),
                       fontWeight: FontWeight.w600,
-                      fontSize: ScreenUtil().setSp(36)))
+                      fontSize: ScreenUtil().setSp(32)))
             ]),
             softWrap: true,
             overflow: TextOverflow.ellipsis,
@@ -191,7 +191,7 @@ class IntroduceWidget extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Color(0xff333333),
-                    fontSize: ScreenUtil().setSp(36)))
+                    fontSize: ScreenUtil().setSp(32)))
           ]),
           softWrap: true,
           overflow: TextOverflow.ellipsis,
@@ -209,7 +209,7 @@ class IntroduceWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
             style: TextStyle(
-                color: Color(0xff333333), fontSize: ScreenUtil().setSp(36))));
+                color: Color(0xff333333), fontSize: ScreenUtil().setSp(32))));
   }
 
   Widget _descSubtitle(context, data) {

@@ -47,6 +47,8 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   GoodsRecommendSearchModel searchInfo;
   int rangeTabLen = 1;
   int recTabLen = 1;
+  List<Map> rangeList;
+  List<Map> recommendList;
 
   // Future getGoodsInfo(BuildContext context) async {
   //   await Provide.value<GoodsCommentDetailProvide>(context)
@@ -86,8 +88,12 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     var params = {'goodsId': goodsId};
     await request('goodsRange', params: params).then((res) {
       var data = json.decode(res.toString());
-      rangeInfo = RangeModel.fromJson(data);
-      rangeTabLen = rangeInfo.data.listSkuRange.length != 0 ? (rangeInfo.data.listSkuRange.length / 6).ceil() : 1;
+      // cast 数据
+      rangeList = (data['data']['listSkuRange'] as List).cast();
+      rangeTabLen = rangeList.length != 0 ? (rangeList.length / 6).ceil() : 1;
+      // model数据
+      // rangeInfo = RangeModel.fromJson(data);
+      // rangeTabLen = rangeInfo.data.listSkuRange.length != 0 ? (rangeInfo.data.listSkuRange.length / 6).ceil() : 1;
       _innerRangeTabController = TabController(length: rangeTabLen, vsync: this);
       print('goods range数据请求完成  rangeTabLen: $rangeTabLen.....................');
     });
@@ -97,10 +103,14 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     var params = {'goodsId': goodsId};
     await request('goodsRecommend', params: params).then((res) {
       var data = json.decode(res.toString());
-      recommendInfo = GoodsRecModel.fromJson(data);
-      recTabLen = recommendInfo.data.listSkuRelation.length != 0 ? (recommendInfo.data.listSkuRelation.length / 6).ceil() : 1;
+      // cast数据
+      recommendList = (data['data']['listSkuRelation'] as List).cast();
+      recTabLen = recommendList.length != 0 ? (recommendList.length / 6).ceil() : 1;
+      // model数据
+      // recommendInfo = GoodsRecModel.fromJson(data);
+      // recTabLen = recommendInfo.data.listSkuRelation.length != 0 ? (recommendInfo.data.listSkuRelation.length / 6).ceil() : 1;
       _innerRecTabController = TabController(length: recTabLen, vsync: this);
-      print('goods recommends数据请求完成 recTabLen $recTabLen..............');
+      print('goods recommends数据请求完成 recLen $recTabLen..............');
     });
   }
 
@@ -262,10 +272,11 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                     SearchStickyBar(searchInfo),
                     SliverToBoxAdapter(
                       child: Container(
-                        height: ScreenUtil().setHeight(650),
+                        height: ScreenUtil().setHeight(900),
                         child: Column(
                           children: [
-                            RecommendWidget(searchInfo, recommendInfo, rangeInfo, _outerTabController, _innerRecTabController, _innerRangeTabController) // height 600
+                            // RecommendWidget(searchInfo, recommendInfo.data.listSkuRelation, rangeInfo.data.listSkuRange, _outerTabController, _innerRecTabController, _innerRangeTabController) // height 600
+                            RecommendWidget(searchInfo, recommendList, rangeList, _outerTabController, _innerRecTabController, _innerRangeTabController)
                           ],
                         ),
                       ),

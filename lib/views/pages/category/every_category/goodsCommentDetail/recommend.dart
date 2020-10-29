@@ -3,11 +3,20 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:netease_news/views/model/goods_range.dart';
 import 'package:netease_news/views/model/goods_rec.dart';
 import 'package:netease_news/views/model/goods_search.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:netease_news/views/utils/index.dart';
+import 'package:netease_news/components/icons/tipIcon.dart';
 
 class RecommendWidget extends StatelessWidget {
-  RecommendWidget(this.searchInfo, this.recommendInfo, this.rangeInfo, this.outerTabController, this.innerRecTabController, this.innerRangeTabController);
-  final RangeModel rangeInfo;
-  final GoodsRecModel recommendInfo;
+  RecommendWidget(
+      this.searchInfo,
+      this.recommendInfo,
+      this.rangeInfo,
+      this.outerTabController,
+      this.innerRecTabController,
+      this.innerRangeTabController);
+  final List<Map> rangeInfo;
+  final List<Map> recommendInfo;
   final GoodsRecommendSearchModel searchInfo;
   final TabController outerTabController;
   final TabController innerRecTabController;
@@ -15,7 +24,9 @@ class RecommendWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (rangeInfo != null || recommendInfo != null || searchInfo != null) {
+    if (rangeInfo.length != 0 ||
+        recommendInfo.length != 0 ||
+        searchInfo != null) {
       return Card(
         elevation: 0,
         margin: EdgeInsets.all(0.0),
@@ -25,7 +36,7 @@ class RecommendWidget extends StatelessWidget {
         child: Container(
             alignment: Alignment.topLeft,
             width: ScreenUtil().setWidth(750),
-            height: ScreenUtil().setHeight(600),
+            height: ScreenUtil().setHeight(900),
             padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,9 +97,9 @@ class RecommendWidget extends StatelessWidget {
   Widget _content(context, rangeData, recommendData) {
     return Container(
       width: ScreenUtil().setWidth(666),
-      height: ScreenUtil().setHeight(466),
+      height: ScreenUtil().setHeight(765),
       child: Column(
-        children: [_tabBar(), _tabView(), _button()],
+        children: [_tabBar(), _tabView(context, rangeData, recommendData), _button()],
       ),
     );
   }
@@ -111,92 +122,74 @@ class RecommendWidget extends StatelessWidget {
     );
   }
 
-  Widget _tabView() {
-    var len = recommendInfo.data.listSkuRelation.length != 0 ? (recommendInfo.data.listSkuRelation.length / 6).ceil() : 1;
-    print('recommendInfo.data.listSkuRelation.length: ${recommendInfo.data.listSkuRelation.length}');
-    List<Widget> _recTabBarList = [];
-    List<Widget> _recTabBarViewList = [];
-    Widget recTabBarWidget = Container(
-                  width: 8,
-                  height: 5,
-                  child: Text('——'),
-                );
-    
-    Widget recTabBarViewWidget = Container(child: Text('aaa'),);
-    if(len > 1) {
-      for (var i = 0; i < len; i++) {
-        _recTabBarList.add(recTabBarWidget);
-        _recTabBarViewList.add(recTabBarViewWidget);
-      }
-    } else {
-      _recTabBarList.add(recTabBarWidget);
-      _recTabBarViewList.add(recTabBarViewWidget);
-    }
+  Widget _tabView(context, rangeData, recommendData) {
+    var len = recommendData.length != 0 ? (recommendData.length / 6).ceil() : 1;
+    var rangeLen = rangeData.length != 0 ? (rangeData.length / 6).ceil() : 1;
     return Container(
-      height: ScreenUtil().setHeight(306),
+      height: ScreenUtil().setHeight(625),
       width: ScreenUtil().setWidth(666),
-      child: TabBarView(
-        controller: outerTabController,
-        children: <Widget>[
-        Container(
-          height: ScreenUtil().setHeight(260),
-          width: ScreenUtil().setWidth(666),
-          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Column(
-              children: [
-                Flexible(child: TabBarView(
-                  controller: innerRecTabController,
-                  children: _recTabBarViewList)),
-                Container(
-                  width: 10,
-                  height: 3,
-                  child: TabBar(
-                    indicatorColor: Color(0xfff5503a),
-                  controller: innerRecTabController,
-                  tabs: _recTabBarList),
-                )
-              ],
-            ),
-        ),
-        Container(
-          height: ScreenUtil().setHeight(260),
-          width: ScreenUtil().setWidth(666),
-          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Column(
-              children: [
-                Flexible(child: TabBarView(
-                  controller: innerRangeTabController,
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      child: Text('a'),
-                    ),
-                    Container(
-                      width: 50,
-                      height: 50,
-                      child: Text('b'),
-                    ),
-                  ])),
-                TabBar(
-                  controller: innerRangeTabController,
-                  tabs: [
-                    Container(
-                      width: 5,
-                      height: 2,
-                      child: Text('1'),
-                    ),
-                    Container(
-                      width: 5,
-                      height: 2,
-                      child: Text('2'),
-                    ),
-                  ])
-              ],
-            ),
-        )
+      child: TabBarView(controller: outerTabController, children: <Widget>[
+        _swiper(context, recommendData, len),
+        _swiper(context, rangeData, rangeLen)
       ]),
     );
+  }
+
+// 将数据分割为len组
+  Widget _swiper(context, data, len) {
+    var count = 6;
+    var itemData = [];
+    if (data.length != 0) {
+      itemData = splitList(data, count);
+      return Container(
+          height: ScreenUtil().setHeight(625),
+          width: ScreenUtil().setWidth(666),
+          child: Swiper(
+            outer: true,
+            itemBuilder: (context, idx) {
+              return _wrapItem(context, itemData[idx]);
+            },
+            itemCount: len,
+            pagination: SwiperPagination(),
+          ),
+        );
+    } else {
+      return Center(
+        child: Text('暂无数据'),
+      );
+    }
+  }
+
+  Widget _wrapItem(context, data) {
+    List<Widget> list = data.map<Widget>((item) {
+      return Container(
+        height: ScreenUtil().setHeight(280),
+        width: ScreenUtil().setWidth(200),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          FadeInImage.assetNetwork(
+            placeholder: 'assets/images/lazy.png',
+            image: item['mainImgPath'],
+            fit: BoxFit.fill,
+          ),
+          Text(
+            item['productName'],
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12),
+          ),
+          Text(
+            '￥${item['price']}.00',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+          )
+        ]),
+      );
+    }).toList();
+    return Container(
+        height: ScreenUtil().setHeight(625),
+        width: ScreenUtil().setWidth(666),
+        padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+        child: Wrap(spacing: 10.0, runSpacing: 4.0, children: list));
   }
 
   Widget _button() {
