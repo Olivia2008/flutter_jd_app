@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:netease_news/views/pages/cart_page.dart';
 import 'package:netease_news/views/pages/category_page.dart';
@@ -33,7 +32,6 @@ class _IndexPageState extends State<IndexPage> {
   int activeIndex = 0;
   var currentPage;
   TextEditingController searchController = TextEditingController();
-  Dio _dio = Dio();
   String globalSearchText = '';
 
   @override

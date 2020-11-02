@@ -11,7 +11,6 @@ import 'package:netease_news/views/model/goods_search.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/service/service_method.dart';
 import 'dart:convert';
-import 'dart:math';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsIntroduce.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsComments.dart';
@@ -32,8 +31,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   ChewieController _chewieController;
   ScrollController _scrollController;
   TabController _outerTabController;
-  TabController _innerRecTabController;
-  TabController _innerRangeTabController;
   String _videoUrl = '';
   bool _showTopBtn = false;
   double _screenHeight;
@@ -44,7 +41,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   AccessoryModel accessoryInfo;
   RangeModel rangeInfo;
   GoodsRecModel recommendInfo;
-  GoodsRecommendSearchModel searchInfo;
+  Map searchInfo;
   int rangeTabLen = 1;
   int recTabLen = 1;
   List<Map> rangeList;
@@ -77,10 +74,10 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
   _getGoodsSearch(String goodsId) async {
     var params = {'goodsId': goodsId};
-    await request('goodsSearch', params: params).then((res) {
+    await request('currentGoodsSearch', params: params).then((res) {
       var data = json.decode(res.toString());
-      searchInfo = GoodsRecommendSearchModel.fromJson(data);
-      print('goods search数据请求完成.....................');
+      searchInfo = (data['data'] as Map).cast();
+      print('goods current search数据请求完成.....................');
     });
   }
 
@@ -91,10 +88,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       // cast 数据
       rangeList = (data['data']['listSkuRange'] as List).cast();
       rangeTabLen = rangeList.length != 0 ? (rangeList.length / 6).ceil() : 1;
-      // model数据
-      // rangeInfo = RangeModel.fromJson(data);
-      // rangeTabLen = rangeInfo.data.listSkuRange.length != 0 ? (rangeInfo.data.listSkuRange.length / 6).ceil() : 1;
-      _innerRangeTabController = TabController(length: rangeTabLen, vsync: this);
       print('goods range数据请求完成  rangeTabLen: $rangeTabLen.....................');
     });
   }
@@ -106,10 +99,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       // cast数据
       recommendList = (data['data']['listSkuRelation'] as List).cast();
       recTabLen = recommendList.length != 0 ? (recommendList.length / 6).ceil() : 1;
-      // model数据
-      // recommendInfo = GoodsRecModel.fromJson(data);
-      // recTabLen = recommendInfo.data.listSkuRelation.length != 0 ? (recommendInfo.data.listSkuRelation.length / 6).ceil() : 1;
-      _innerRecTabController = TabController(length: recTabLen, vsync: this);
       print('goods recommends数据请求完成 recLen $recTabLen..............');
     });
   }
@@ -168,8 +157,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     _chewieController?.dispose();
     _scrollController?.dispose();
     _outerTabController.dispose();
-    _innerRecTabController.dispose();
-    _innerRangeTabController.dispose();
     super.dispose();
   }
 
@@ -269,14 +256,13 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                       IntroduceWidget(goodsCommentDetailInfo), // height: 1740
                       CommentsWidget(goodsCommentDetailInfo, accessoryInfo),
                     ])),
-                    SearchStickyBar(searchInfo),
+                    SearchStickyBar(searchInfo, widget.params,),
                     SliverToBoxAdapter(
                       child: Container(
                         height: ScreenUtil().setHeight(900),
                         child: Column(
                           children: [
-                            // RecommendWidget(searchInfo, recommendInfo.data.listSkuRelation, rangeInfo.data.listSkuRange, _outerTabController, _innerRecTabController, _innerRangeTabController) // height 600
-                            RecommendWidget(searchInfo, recommendList, rangeList, _outerTabController, _innerRecTabController, _innerRangeTabController)
+                            RecommendWidget(searchInfo, recommendList, rangeList, _outerTabController)
                           ],
                         ),
                       ),

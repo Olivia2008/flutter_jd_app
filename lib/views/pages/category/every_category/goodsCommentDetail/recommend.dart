@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:netease_news/views/model/goods_range.dart';
-import 'package:netease_news/views/model/goods_rec.dart';
-import 'package:netease_news/views/model/goods_search.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:netease_news/views/utils/index.dart';
-import 'package:netease_news/components/icons/tipIcon.dart';
 
 class RecommendWidget extends StatelessWidget {
   RecommendWidget(
       this.searchInfo,
       this.recommendInfo,
       this.rangeInfo,
-      this.outerTabController,
-      this.innerRecTabController,
-      this.innerRangeTabController);
+      this.outerTabController,);
   final List<Map> rangeInfo;
   final List<Map> recommendInfo;
-  final GoodsRecommendSearchModel searchInfo;
+  final Map searchInfo;
   final TabController outerTabController;
-  final TabController innerRecTabController;
-  final TabController innerRangeTabController;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +33,7 @@ class RecommendWidget extends StatelessWidget {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _search(context, searchInfo.data),
+                _search(context, searchInfo),
                 _content(context, rangeInfo, recommendInfo)
               ],
             )),
@@ -63,7 +55,7 @@ class RecommendWidget extends StatelessWidget {
         child: Row(
           children: [
             Text('相关商品:', style: TextStyle(color: Color(0xff888888))),
-            _searchConnection(context, data.connection)
+            _searchConnection(context, data['connection'])
           ],
         ));
   }
@@ -75,18 +67,13 @@ class RecommendWidget extends StatelessWidget {
         margin: EdgeInsets.only(left: 6.0),
         child: Wrap(
           spacing: 5.0,
-          children: [
-            InputChip(
+          children: data.map<Widget>((item) {
+            return InputChip(
                 label: Text(
-              data.first.name,
+              item['name'],
               style: TextStyle(fontSize: 12),
-            )),
-            InputChip(
-                label: Text(data[1].name, style: TextStyle(fontSize: 12))),
-            InputChip(
-              label: Text(data[2].name, style: TextStyle(fontSize: 12)),
-            )
-          ],
+            ));
+          }).toList()
         ),
       );
     } else {

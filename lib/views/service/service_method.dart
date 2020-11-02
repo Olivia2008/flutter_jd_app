@@ -48,7 +48,7 @@ Future request(url, {params}) async {
       throw Exception('后端接口出现问题');
     }
   }catch(e) {
-    print('ERROR=======>${e})');
+    print('服务器请求失败=======>${e})');
   }
 }
 Future postRequestPlain(url, {params}) async {
@@ -69,7 +69,7 @@ Future postRequestPlain(url, {params}) async {
       throw Exception('后端接口出现问题');
     }
   }catch(e) {
-    print('ERROR=======>${e})');
+    print('服务器请求失败=======>${e})');
   }
 }
 Future postRequestJson(url, params) async {
@@ -89,7 +89,7 @@ Future postRequestJson(url, params) async {
       throw Exception('后端接口出现问题');
     }
   }catch(e) {
-    print('ERROR=======>${e})');
+    print('服务器请求失败=======>${e})');
   }
 }
 //Future requestParams(url, {params}) async {

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:netease_news/components/stickBar/sliverSearchAppBar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_search.dart';
+import 'package:netease_news/router/staticRouter.dart';
 
 class SearchStickyBar extends StatelessWidget {
-  SearchStickyBar(this.searchInfo);
-  final GoodsRecommendSearchModel searchInfo;
+  SearchStickyBar(this.searchInfo, this.params);
+  final Map searchInfo;
+  final Map<String, dynamic> params;
   @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
@@ -27,7 +29,9 @@ class SearchStickyBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    StaticRouter.router.navigateTo(context, '/cateGoodsDetail/goodsSearch?goodsId=${params['goodsId'].first}');
+                  },
                   child: Container(
                     width: ScreenUtil().setWidth(580),
                     height: 32,
@@ -43,7 +47,7 @@ class SearchStickyBar extends StatelessWidget {
                         Icon(Icons.search, color: Color(0xff888888), size: 16),
                         Padding(
                           padding: EdgeInsets.only(left: 6.0),
-                          child: Text(searchInfo.data.selected.name,
+                          child: Text(searchInfo['selected']['name'],
                     style: TextStyle(color: Color(0xff999999), fontSize: 14),),
                         )
                       ],

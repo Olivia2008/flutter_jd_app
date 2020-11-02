@@ -16,7 +16,8 @@ const servicePath = {
       serviceUrl + '/category/detail/goodsDetail', // 分类中每一类中某个商品的详情评价
   'goodsAccessory':
       serviceUrl + '/goods/info/accessory', // 分类中每一类中手机商品的配件
+  'currentGoodsSearch': serviceUrl + '/goods/info/currentSearch', // 显示当前搜索数据
   'goodsSearch': serviceUrl + '/goods/info/search', // 商品详情推荐的搜索
   'goodsRecommend': serviceUrl + '/goods/info/likeRecommand', // 商品详情推荐的你喜欢的
-  'goodsRange': serviceUrl + '/goods/info/range', // 商品详情推荐中的排行榜 
+  'goodsRange': serviceUrl + '/goods/info/range', // 商品详情推荐中的排行榜
 };
