@@ -55,19 +55,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return Scaffold(
       appBar: AppBar(
         title: Text('JD'),
-//        actions: <Widget>[
-//          Flexible(
-//            child: TextField(
-//              controller: searchController,
-//              decoration: InputDecoration(
-//                  contentPadding: EdgeInsets.all(5.0),
-//                  // label
-//                  labelText: 'Global Search',
-//                  // 下面的提示类似文本框下面的error提示
-//                  helperText: 'please search the keywords'),
-//            ),
-//          )
-//        ],
       ),
       // SingleChildScrollView与Listview有冲突，不能同时使用
       backgroundColor: Color(0xFFF6F6F6),

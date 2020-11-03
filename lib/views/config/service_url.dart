@@ -20,4 +20,5 @@ const servicePath = {
   'goodsSearch': serviceUrl + '/goods/info/search', // 商品详情推荐的搜索
   'goodsRecommend': serviceUrl + '/goods/info/likeRecommand', // 商品详情推荐的你喜欢的
   'goodsRange': serviceUrl + '/goods/info/range', // 商品详情推荐中的排行榜
+  'goodsHint': serviceUrl + '/goods/info/hintSearch', // 商品联想搜索
 };
