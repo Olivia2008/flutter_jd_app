@@ -5,8 +5,9 @@ import 'package:netease_news/views/pages/category_page.dart';
 import 'package:netease_news/views/pages/home_page.dart';
 import 'package:netease_news/views/pages/member_page.dart';
 import 'package:netease_news/views/pages/search_page.dart';
-import 'package:netease_news/views/pages/test_customSliverScrollView.dart';
-import 'package:netease_news/views/pages/test_canvas.dart';
+import 'package:netease_news/views/test/test_customSliverScrollView.dart';
+import 'package:netease_news/views/test/test_canvas.dart';
+import 'package:netease_news/views/test/test_tabbar_pageview.dart';
 import 'dart:ui';
 
 class IndexPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _IndexPageState extends State<IndexPage> {
   ];
 
 // 注意tabBody里面的顺序要与设计一致，默认显示首页, CustomScrollViewTestRoute暂时代替CartPage
-  final List<Widget> tabBody = [HomePage(), CategoryPage(), CanvasApp(),CustomScrollViewTestRoute(), MemberPage()];
+  final List<Widget> tabBody = [HomePage(), CategoryPage(), CanvasApp(),CustomScrollViewTestRoute(), TestTabPage()];
 
   int activeIndex = 0;
   var currentPage;

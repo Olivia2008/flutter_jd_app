@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netease_news/components/stickBar/sliverSearchAppBar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:netease_news/views/model/goods_search.dart';
 import 'package:netease_news/router/staticRouter.dart';
 
 class SearchStickyBar extends StatelessWidget {

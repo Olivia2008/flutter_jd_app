@@ -8,7 +8,7 @@ import 'dart:convert';
 class GoodsCommentDetailProvide with ChangeNotifier {
   GoodsCommentDetailModel goodsInfo;
   AccessoryModel accessoryInfo;
-
+  String searchResultText;
   int tabIndex = 0;
   bool tabActive = false;
   getGoodsCommentDetail(String goodsId)  async{
@@ -37,6 +37,10 @@ class GoodsCommentDetailProvide with ChangeNotifier {
   }
   changeTabActive(bool b) {
     tabActive = b;
+    notifyListeners();
+  }
+  getSearchResultText(String txt) {
+    searchResultText = txt;
     notifyListeners();
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:netease_news/views/model/category_detail_main.dart';
 import 'package:netease_news/views/provides/category_detail_main.dart';
 import 'package:netease_news/views/service/service_method.dart';
+import 'package:fluro/fluro.dart';
 import 'package:netease_news/views/provides/subList_category.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/router/staticRouter.dart';
@@ -143,7 +144,7 @@ class _MainWidgetState extends State<MainWidget> {
     List<Widget> listWidget = listData.map<Widget>((item) {
       return InkWell(
           onTap: () {
-           StaticRouter.router.navigateTo(context, '/cateGoodsDetail?goodsId=${item.skuId}').then((value) => {
+           StaticRouter.router.navigateTo(context, '/cateGoodsDetail?goodsId=${item.skuId}', transition: TransitionType.inFromLeft, transitionDuration: Duration(milliseconds: 100)).then((value) => {
              print('mainWidget staticRouter result:$value')
            });
           },

@@ -3,6 +3,7 @@ import 'package:fluro/fluro.dart';
 import 'package:netease_news/views/pages/category/every_category.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail.dart';
 import 'package:netease_news/components/commentsSearch.dart';
+import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/searchWidget.dart';
 // import 'package:netease_news/views/pages/components/Home/category/category_detail.dart';
 // import 'package:netease_news/views/pages/category/every_category/goodsDetail.dart';
 // 引入使用路由的组件页面
@@ -23,4 +24,10 @@ Handler cateGoodsCommentDetailSearchHandler = Handler(handlerFunc: (BuildContext
   // print('router params:$params');
   var id = params['goodsId'].first;
   return CustomCommentsSearch(goodsId: id);
+});
+
+// 分类-某类-商品详情-商品历史搜索结果组件
+Handler cateGoodsCommentDetailSearchResultHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  var id = params['searchId'].first;
+  return SearchResultDetail(searchId: id);
 });

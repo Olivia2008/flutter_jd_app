@@ -106,7 +106,13 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 Container(
                     height: ScreenUtil().setHeight(100),
                     width: ScreenUtil().setWidth(750),
-                    color: Theme.of(context).primaryColor,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                            colors: [Color(0xffff627c), Color(0xffff0d0d)],
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                            stops: [0.2, 1])
+                    ),
                     child: Row(
                       children: <Widget>[
                         _appBarLeading(context),
@@ -230,13 +236,11 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 verticalDirection: VerticalDirection.up,
                 children: <Widget>[
                   Container(
-                    height: 28,
-                    // padding: EdgeInsets.only(top: 4, bottom: 4),
-                    // rheight: 26,
-                    // child: Text('手机', style: TextStyle(color: Color(0xff888888),fontSize: ScreenUtil().setSp(30)),),
-                    child: InputChip(
+                    child: Transform(
+                      transform: Matrix4.identity()..scale(0.8),
+                      alignment: Alignment.centerLeft,
+                      child: InputChip(
                         backgroundColor: Color(0xff888888),
-                        // labelPadding: EdgeInsets.only(bottom: 20),
                         onPressed: () {
                           print('input chip');
                         },
@@ -245,12 +249,13 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                           '手机',
                         ),
                         labelStyle:
-                            TextStyle(color: Colors.white, fontSize: 12),
+                            TextStyle(color: Colors.white),
                         deleteIcon: Icon(
                           Icons.close,
                           size: ScreenUtil().setSp(26),
                         ),
-                        deleteIconColor: Colors.white),
+                        deleteIconColor: Colors.white)
+                    ),
                   ),
                   Container(
                     child: IconButton(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:netease_news/views/utils/index.dart';
+import './detail.dart';
 
 class RecommendWidget extends StatelessWidget {
   RecommendWidget(
@@ -31,10 +32,10 @@ class RecommendWidget extends StatelessWidget {
             height: ScreenUtil().setHeight(900),
             padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _search(context, searchInfo),
-                _content(context, rangeInfo, recommendInfo)
+                _content(context, rangeInfo, recommendInfo),
+                DetailWidget()
               ],
             )),
       );

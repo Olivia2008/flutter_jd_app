@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/router/staticRouter.dart';
+import 'package:fluro/fluro.dart';
 
 class SwiperDiy extends StatelessWidget {
   final swiperDataList;
@@ -20,7 +21,7 @@ class SwiperDiy extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
               onTap: () {
-                StaticRouter.router.navigateTo(context, '/categoryDetails?pareId=1&subId=1&categoryId=10001');
+                StaticRouter.router.navigateTo(context, '/categoryDetails?pareId=1&subId=1&categoryId=10001', transition: TransitionType.fadeIn);
               },
               child: FadeInImage.assetNetwork(placeholder: 'assets/images/lazy.png', image: '${swiperDataList[index]['imgUrl']}', fit: BoxFit.fill,)
             );

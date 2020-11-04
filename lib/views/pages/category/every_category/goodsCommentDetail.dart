@@ -7,7 +7,7 @@ import 'package:netease_news/views/model/goods_comment_detail.dart';
 import 'package:netease_news/views/model/goods_accessory.dart';
 import 'package:netease_news/views/model/goods_range.dart';
 import 'package:netease_news/views/model/goods_rec.dart';
-import 'package:netease_news/views/model/goods_search.dart';
+import 'package:netease_news/router/staticRouter.dart';
 import 'package:provide/provide.dart';
 import 'package:netease_news/views/service/service_method.dart';
 import 'dart:convert';
@@ -16,6 +16,7 @@ import 'package:netease_news/views/pages/category/every_category/goodsCommentDet
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsComments.dart';
 import './goodsCommentDetail/recommend.dart';
 import './goodsCommentDetail/searchStickBar.dart';
+import 'package:fluro/fluro.dart';
 // import 'package:netease_news/components/stickBar/sliverSearchAppBar.dart';
 
 class GoodsCommentDetail extends StatefulWidget {
@@ -211,7 +212,10 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                     ? Color(0xff333333)
                                     : Color(0xffffffff)),
                             onPressed: () {
-                              Navigator.pop(context);
+                              print('params:${widget.params}');
+                              StaticRouter.router.navigateTo(context,'/categoryDetails?pareId=1&subId=1&categoryId=10001', transition: TransitionType.fadeIn);
+                              // Navigator.pop(context);
+                              // StaticRouter.router.navigateTo(context, '/categoryDetails?goodsId=${widget.params['goodsId'].first}');
                             }),
                         actions: [
                           Icon(Icons.share,
@@ -237,8 +241,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                         expandedHeight: _topBarHeight,
                         pinned: true,
                         flexibleSpace: FlexibleSpaceBar(
-                            // title: Text('FlexibleSpaceBar title'),
-                            // collapseMode: CollapseMode.parallax,
                             background: Container(
                                 width: ScreenUtil().setWidth(750),
                                 height: _topBarHeight,

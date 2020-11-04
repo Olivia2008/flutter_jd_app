@@ -1,8 +1,12 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:netease_news/router/staticRouter.dart';
 import 'package:netease_news/views/model/goods_search.dart';
 import 'package:netease_news/views/service/service_method.dart';
 import 'dart:convert';
+import 'package:provide/provide.dart';
+import 'package:netease_news/views/provides/goods/comment_detail.dart';
 
 class CustomCommentsSearch extends StatefulWidget {
   CustomCommentsSearch({@required this.goodsId});
@@ -17,7 +21,6 @@ class _CustomCommentsSearchState extends State<CustomCommentsSearch> {
   TextEditingController _controller = TextEditingController();
   List<History> historyArr;
   bool deleteConfirm = false;
-  String _hintText = '';
 
   @override
   void initState() {
@@ -45,8 +48,6 @@ class _CustomCommentsSearchState extends State<CustomCommentsSearch> {
     await request('goodsSearch', params: params).then((res) {
       var data = json.decode(res.toString());
       searchInfo = GoodsRecommendSearchModel.fromJson(data);
-      // historyArr = searchInfo.data.history;
-      _hintText = searchInfo.data.selected.name;
       print('goods search数据请求完成.....................');
     });
     return searchInfo;
@@ -81,7 +82,7 @@ class _CustomCommentsSearchState extends State<CustomCommentsSearch> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        StaticRouter.router.navigateTo(context, '/cateGoodsDetail?goodsId=${widget.goodsId}', transition: TransitionType.fadeIn);
                       },
                       child: Container(
                         width: 20,
@@ -206,6 +207,13 @@ class _CustomCommentsSearchState extends State<CustomCommentsSearch> {
                             setState(() {
                               searchValue = _results[index]['name'];
                             });
+                            Provide.value<GoodsCommentDetailProvide>(context)
+                                .getSearchResultText(searchValue);
+                            
+                            var id =
+                                '${widget.goodsId}_${_results[index]['id']}';
+                            StaticRouter.router.navigateTo(
+                                context, '/goodsSearchResult?searchId=$id', transition: TransitionType.fadeIn,  transitionDuration: Duration(milliseconds: 50));
                           },
                           child: Container(
                             alignment: Alignment.centerLeft,
@@ -234,6 +242,16 @@ class _CustomCommentsSearchState extends State<CustomCommentsSearch> {
                                                 searchValue =
                                                     '${_results[index]['name']} ${_results[index]['subList'][idx]}';
                                               });
+                                              Provide.value<
+                                                          GoodsCommentDetailProvide>(
+                                                      context)
+                                                  .getSearchResultText(
+                                                      searchValue);
+                                              var id =
+                                                  '${widget.goodsId}_${_results[index]['id']}';
+                                              StaticRouter.router.navigateTo(
+                                                  context,
+                                                  '/goodsSearchResult?searchId=$id', transition: TransitionType.fadeIn, transitionDuration: Duration(milliseconds: 50));
                                             },
                                             child: Chip(
                                               backgroundColor:

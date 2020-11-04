@@ -8,6 +8,7 @@ class Routes {
   static String categoryDetailsPage = '/categoryDetails';
   static String cateGoodsCommentDetailPage = '/cateGoodsDetail';
   static String cateGoodsCommentDetailSearchPage = cateGoodsCommentDetailPage + '/goodsSearch';
+  static String cateGoodsCommentDetailSearchResultPage = '/goodsSearchResult'; 
   static void configureRoutes(Router router){
     // 找不到路由时
     router.notFoundHandler = Handler(
@@ -20,5 +21,6 @@ class Routes {
     // 分类-每类-商品详情评价
     router.define(cateGoodsCommentDetailPage, handler: cateGoodsCommentDetailHandler);
     router.define(cateGoodsCommentDetailSearchPage, handler: cateGoodsCommentDetailSearchHandler);
+    router.define(cateGoodsCommentDetailSearchResultPage, handler: cateGoodsCommentDetailSearchResultHandler);
   }
 }
