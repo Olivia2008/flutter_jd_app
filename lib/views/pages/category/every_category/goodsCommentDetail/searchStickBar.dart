@@ -23,7 +23,7 @@ class SearchStickyBar extends StatelessWidget {
               child: Container(
                 height: 70, 
                 width: ScreenUtil().setWidth(750),
-                padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 20),
+                padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

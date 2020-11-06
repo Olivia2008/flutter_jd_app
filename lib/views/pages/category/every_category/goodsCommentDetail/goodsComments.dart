@@ -8,9 +8,10 @@ import 'package:netease_news/views/pages/category/every_category/goodsCommentDet
 import 'package:netease_news/components/icons/tipIcon.dart';
 
 class CommentsWidget extends StatelessWidget {
-  CommentsWidget(this.data, this.accessoryInfo);
+  CommentsWidget(this.data, this.accessoryInfo, this.comKey);
   final GoodsCommentDetailModel data;
   final AccessoryModel accessoryInfo;
+  final GlobalKey comKey;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -60,6 +61,7 @@ class CommentsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
+              key: comKey,
                 child: Row(
               verticalDirection: VerticalDirection.up,
               crossAxisAlignment: CrossAxisAlignment.start,

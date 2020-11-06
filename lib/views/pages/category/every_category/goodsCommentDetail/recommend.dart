@@ -6,15 +6,16 @@ import './detail.dart';
 
 class RecommendWidget extends StatelessWidget {
   RecommendWidget(
+    this.detailKey,
       this.searchInfo,
       this.recommendInfo,
       this.rangeInfo,
-      this.outerTabController,);
+      this.outerTabController);
   final List<Map> rangeInfo;
   final List<Map> recommendInfo;
   final Map searchInfo;
   final TabController outerTabController;
-
+  final GlobalKey detailKey;
   @override
   Widget build(BuildContext context) {
     if (rangeInfo.length != 0 ||
@@ -29,13 +30,20 @@ class RecommendWidget extends StatelessWidget {
         child: Container(
             alignment: Alignment.topLeft,
             width: ScreenUtil().setWidth(750),
-            height: ScreenUtil().setHeight(900),
-            padding: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+            // height: ScreenUtil().setHeight(1600),
+            padding: EdgeInsets.only(bottom: 20),
             child: Column(
               children: [
-                _search(context, searchInfo),
-                _content(context, rangeInfo, recommendInfo),
-                DetailWidget()
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: _search(context, searchInfo),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: _content(context, rangeInfo, recommendInfo),
+                ),
+                DetailWidget(detailKey)
+                
               ],
             )),
       );
@@ -111,7 +119,8 @@ class RecommendWidget extends StatelessWidget {
   }
 
   Widget _tabView(context, rangeData, recommendData) {
-    var len = recommendData.length != 0 ? (recommendData.length / 6).ceil() : 1;
+    if(recommendData.length != null) {
+      var len = recommendData.length != 0 ? (recommendData.length / 6).ceil() : 1;
     var rangeLen = rangeData.length != 0 ? (rangeData.length / 6).ceil() : 1;
     return Container(
       height: ScreenUtil().setHeight(625),
@@ -121,6 +130,10 @@ class RecommendWidget extends StatelessWidget {
         _swiper(context, rangeData, rangeLen)
       ]),
     );
+    } else {
+      return Text('暂无数据');
+    }
+    
   }
 
 // 将数据分割为len组

@@ -19,21 +19,28 @@ class TabBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provide<GoodsCommentDetailProvide>(
       builder: (BuildContext context, Widget child, data) {
-        List<Widget> list = titleList.map<Widget>((item) {
+        // print('tab bar provide data: $data...............................');
+        var _data = Provide.value<GoodsCommentDetailProvide>(context);
+        if(_data.tabIndex != null) {
+          List<Widget> list = titleList.map<Widget>((item) {
           var idx = titleList.indexOf(item);
-          if (data.tabIndex == idx) {
-            data.changeTabActive(true);
+          if (_data.tabIndex == idx) {
+            _data.changeTabActive(true);
           } else {
-            data.changeTabActive(false);
+            _data.changeTabActive(false);
           }
           return InkWell(
               onTap: () {
-                data.changeTabIndex(idx);
-                if (data.tabIndex == 1) {
+                _data.changeTabIndex(idx);
+                if (_data.tabIndex == 1) {
                   scrollController.animateTo(ScreenUtil().setHeight(1666),
                       duration: Duration(milliseconds: 500),
                       curve: Curves.ease);
-                } else if (data.tabIndex == 0) {
+                } else if (_data.tabIndex == 2) {
+                  scrollController.animateTo(ScreenUtil().setHeight(4900),
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease);
+                } else {
                   scrollController.animateTo(0,
                       duration: Duration(milliseconds: 500),
                       curve: Curves.ease);
@@ -44,11 +51,11 @@ class TabBarWidget extends StatelessWidget {
                   children: [
                     Text(item['title'],
                         style: TextStyle(
-                          fontSize: data.tabActive ? 16 : 14,
-                            color: data.tabActive
+                          fontSize: _data.tabActive ? 16 : 14,
+                            color: _data.tabActive
                                 ? Theme.of(context).primaryColor
                                 : Color(0xff333333))),
-                    data.tabActive
+                    _data.tabActive
                         ? TipIcon(
                             width: ScreenUtil().setWidth(60),
                             height: 3,
@@ -65,6 +72,10 @@ class TabBarWidget extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: list));
+        } else {
+          return Center(child: Text('暂无数据'));
+        }
+        
       },
     );
   }

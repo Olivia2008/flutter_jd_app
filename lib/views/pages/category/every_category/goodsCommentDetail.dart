@@ -38,7 +38,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   // GoodsCommentDetailModel goodsInfo = null;
   double _topBarHeight = ScreenUtil().setHeight(440.0);
   bool _changeBar = false;
-  GoodsCommentDetailModel goodsCommentDetailInfo;
+  // GoodsCommentDetailModel goodsCommentDetailInfo;
   AccessoryModel accessoryInfo;
   RangeModel rangeInfo;
   GoodsRecModel recommendInfo;
@@ -48,21 +48,21 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   List<Map> rangeList;
   List<Map> recommendList;
 
-  // Future getGoodsInfo(BuildContext context) async {
-  //   await Provide.value<GoodsCommentDetailProvide>(context)
-  //       .getGoodsCommentDetail(widget.params['goodsId'].first);
-  //   return 'goodsInfo的future数据加载完成......';
-  // }
-
   Future _getGoodsInfo(BuildContext context, goodsId) async {
-    var params = {'goodsId': goodsId};
-    await request('cateGoodsCommentDetail', params: params).then((value) {
-      var data = json.decode(value.toString());
-      goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
-      // print('goodsInfo数据请求完成 ${data['data']['result']['comments']} .............');
-    });
-    return goodsCommentDetailInfo;
+    await Provide.value<GoodsCommentDetailProvide>(context)
+        .getGoodsCommentDetail(goodsId);
+    return 'goodsInfo的future数据加载完成......';
   }
+
+  // Future _getGoodsInfo(BuildContext context, goodsId) async {
+  //   var params = {'goodsId': goodsId};
+  //   await request('cateGoodsCommentDetail', params: params).then((value) {
+  //     var data = json.decode(value.toString());
+  //     goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
+  //     // print('goodsInfo数据请求完成 ${data['data']['result']['comments']} .............');
+  //   });
+  //   return goodsCommentDetailInfo;
+  // }
 
   _getGoodsAccessory(String goodsId) async {
     var params = {'goodsId': goodsId};
@@ -89,7 +89,8 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       // cast 数据
       rangeList = (data['data']['listSkuRange'] as List).cast();
       rangeTabLen = rangeList.length != 0 ? (rangeList.length / 6).ceil() : 1;
-      print('goods range数据请求完成  rangeTabLen: $rangeTabLen.....................');
+      print(
+          'goods range数据请求完成  rangeTabLen: $rangeTabLen.....................');
     });
   }
 
@@ -99,7 +100,8 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       var data = json.decode(res.toString());
       // cast数据
       recommendList = (data['data']['listSkuRelation'] as List).cast();
-      recTabLen = recommendList.length != 0 ? (recommendList.length / 6).ceil() : 1;
+      recTabLen =
+          recommendList.length != 0 ? (recommendList.length / 6).ceil() : 1;
       print('goods recommends数据请求完成 recLen $recTabLen..............');
     });
   }
@@ -113,13 +115,64 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     _scrollController = new ScrollController();
     _scrollController.addListener(HandleScroll);
     _outerTabController = TabController(length: 2, vsync: this);
-    
-    
+
+    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    Future.delayed(Duration(milliseconds: 300)).then((value) {
+      final RenderBox _introBox = _introKey.currentContext.findRenderObject();
+      final _introOffset = _introBox.localToGlobal(Offset(0, 0));
+      print('<<<<<<<<<<<<<商品positions: ${_introOffset.dy}');
+
+      // 评价页面，详情页面不在第一页，此时页面还没有渲染出来，所以报错
+      // final RenderBox _comBox = _comKey.currentContext.findRenderObject();
+      // final _comOffset = _comBox.localToGlobal(Offset(0, 0));
+      // print('<<<<<<<<<<<<<<<<<<评价postions: {$_comOffset.dy}');
+
+      // final RenderBox _detailBox = _detailKey.currentContext.findRenderObject();
+      // final _detailOffset = _detailBox.localToGlobal(Offset(0, 0));
+      // print('<<<<<<<<<<<<<<<<<<<<<<<详情positions: {$_detailOffset.dy}');
+    });
     super.initState();
   }
 
+  void _afterLayout(_) {
+    _getPositions();
+  }
+
+  _getPositions() {
+    final RenderBox _comBox = _comKey.currentContext.findRenderObject();
+    final _comOffset = _comBox.localToGlobal(Offset(0, 0));
+    print('<<<<<<<<<<<<<<<<<<评价postions: $_comOffset');
+
+    final RenderBox _introBox = _introKey.currentContext.findRenderObject();
+    final _introOffset = _introBox.localToGlobal(Offset(0, 0));
+    print('<<<<<<<<<<<<<商品positions: $_introOffset');
+
+    final RenderBox _detailBox = _detailKey.currentContext.findRenderObject();
+    final _detailOffset = _detailBox.localToGlobal(Offset(0, 0));
+    print('<<<<<<<<<<<<<<<<<<<<<<<详情positions: $_detailOffset');
+
+    final RenderBox _recBox = _recKey.currentContext.findRenderObject();
+    final _recOffset = _recBox.localToGlobal(Offset(0, 0));
+    print('<<<<<<<<<<<<推荐positions: $_recOffset');
+  }
+
+  GlobalKey _introKey = GlobalKey();
+  GlobalKey _comKey = GlobalKey();
+  GlobalKey _detailKey = GlobalKey();
+  GlobalKey _recKey = GlobalKey();
+
   void HandleScroll() {
     _screenHeight = MediaQuery.of(context).size.height;
+
+    // 放在滚动中开始commentWidget 和detailWidget还没有渲染，滚动到一定位置两个组件渲染完成，才会打印出位置
+
+    // final RenderBox _comBox = _comKey.currentContext.findRenderObject();
+    // final _comOffset = _comBox.localToGlobal(Offset(0, 0));
+    // print('<<<<<<<<<<<<<<<<<<评价postions: ${_comOffset.dy}');
+
+    // final RenderBox _detailBox = _detailKey.currentContext.findRenderObject();
+    // final _detailOffset = _detailBox.localToGlobal(Offset(0, 0));
+    // print('<<<<<<<<<<<<<<<<<<<<<<<详情positions: ${_detailOffset.dy}');
 
     // 超过一屏显示backTopIcon
     if (_scrollController.offset < _screenHeight && _showTopBtn) {
@@ -133,13 +186,19 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       });
     }
     // 监听滚动高度切换tab
-    print(
-        'scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1764)}');
-    if (_scrollController.offset >= ScreenUtil().setHeight(1666)) {
+    // 获取IntroduceWidget\CommentsWidget\RecommendWidget position,
+
+    // print(
+    //     'scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1666)}');
+    if (_scrollController.offset >= ScreenUtil().setHeight(1666) &&
+        _scrollController.offset < ScreenUtil().setHeight(4900)) {
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(1);
+    } else if (_scrollController.offset >= ScreenUtil().setHeight(4900)) {
+      Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(2);
     } else {
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(0);
     }
+
     // scroll在topBarHeight内显示背景透明度动画
     if (_scrollController.offset >= 50) {
       setState(() {
@@ -167,6 +226,12 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xfff5f5f5),
@@ -177,9 +242,11 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 // print('introduce snapshot data:${snapshot.data}');
-                _videoUrl = goodsCommentDetailInfo.data.result.introduce.vedio;
+                var _goodsCommentDetailInfo =
+                    Provide.value<GoodsCommentDetailProvide>(context).goodsInfo;
+                _videoUrl = _goodsCommentDetailInfo.data.result.introduce.vedio;
                 var _videoImg =
-                    goodsCommentDetailInfo.data.result.introduce.vedioImg;
+                    _goodsCommentDetailInfo.data.result.introduce.vedioImg;
                 _videoPlayerController =
                     VideoPlayerController.network(_videoUrl);
                 _chewieController = ChewieController(
@@ -213,7 +280,9 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                     : Color(0xffffffff)),
                             onPressed: () {
                               print('params:${widget.params}');
-                              StaticRouter.router.navigateTo(context,'/categoryDetails?pareId=1&subId=1&categoryId=10001', transition: TransitionType.fadeIn);
+                              StaticRouter.router.navigateTo(context,
+                                  '/categoryDetails?pareId=1&subId=1&categoryId=10001',
+                                  transition: TransitionType.fadeIn);
                               // Navigator.pop(context);
                               // StaticRouter.router.navigateTo(context, '/categoryDetails?goodsId=${widget.params['goodsId'].first}');
                             }),
@@ -255,16 +324,21 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                 ])))),
                     SliverList(
                         delegate: SliverChildListDelegate(<Widget>[
-                      IntroduceWidget(goodsCommentDetailInfo), // height: 1740
-                      CommentsWidget(goodsCommentDetailInfo, accessoryInfo),
+                      IntroduceWidget(_goodsCommentDetailInfo, _introKey),
+                      CommentsWidget(
+                          _goodsCommentDetailInfo, accessoryInfo, _comKey)
                     ])),
-                    SearchStickyBar(searchInfo, widget.params,),
+                    SearchStickyBar(
+                      searchInfo,
+                      widget.params,
+                    ),
                     SliverToBoxAdapter(
                       child: Container(
-                        height: ScreenUtil().setHeight(900),
+                        // height: ScreenUtil().setHeight(1600),
                         child: Column(
                           children: [
-                            RecommendWidget(searchInfo, recommendList, rangeList, _outerTabController)
+                            RecommendWidget(_detailKey, searchInfo,
+                                recommendList, rangeList, _outerTabController)
                           ],
                         ),
                       ),
@@ -286,5 +360,4 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
         },
         child: Icon(Icons.arrow_upward));
   }
-
 }

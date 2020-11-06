@@ -6,8 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
 
 class IntroduceWidget extends StatelessWidget {
-  IntroduceWidget(this.data);
+  IntroduceWidget(this.data, this.introKey);
   final GoodsCommentDetailModel data;
+  final GlobalKey introKey;
+
   static const _iconMoney = 'CnMoney';
   static const _iconMoneyPkg = null;
   static const IconData iconMoney =
@@ -32,6 +34,7 @@ class IntroduceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: introKey,
       width: ScreenUtil().setWidth(750),
       height: ScreenUtil().setHeight(1324),
       child: Column(children: [
