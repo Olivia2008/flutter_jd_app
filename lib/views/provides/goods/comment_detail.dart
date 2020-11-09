@@ -9,8 +9,14 @@ class GoodsCommentDetailProvide with ChangeNotifier {
   GoodsCommentDetailModel goodsInfo;
   AccessoryModel accessoryInfo;
   String searchResultText;
-  int tabIndex = 0;
+  int tabIndex;
   bool tabActive = false;
+  bool isFold = true;
+
+  changeFold(bool fold) {
+    isFold = fold;
+    notifyListeners();
+  }
   getGoodsCommentDetail(String goodsId)  async{
     var params = {'goodsId': goodsId};
     await request('cateGoodsCommentDetail', params: params).then((value) {
@@ -19,6 +25,10 @@ class GoodsCommentDetailProvide with ChangeNotifier {
       print('goodsInfo数据请求完成 .............');
       notifyListeners();
     });
+  }
+  getGoodsInfo(GoodsCommentDetailModel data) {
+    goodsInfo = data;
+    notifyListeners();
   }
 
   getGoodsAccessory(String goodsId) async{

@@ -48,21 +48,24 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   List<Map> rangeList;
   List<Map> recommendList;
 
-  Future _getGoodsInfo(BuildContext context, goodsId) async {
-    await Provide.value<GoodsCommentDetailProvide>(context)
-        .getGoodsCommentDetail(goodsId);
-    return 'goodsInfo的future数据加载完成......';
-  }
-
   // Future _getGoodsInfo(BuildContext context, goodsId) async {
-  //   var params = {'goodsId': goodsId};
-  //   await request('cateGoodsCommentDetail', params: params).then((value) {
-  //     var data = json.decode(value.toString());
-  //     goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
-  //     // print('goodsInfo数据请求完成 ${data['data']['result']['comments']} .............');
-  //   });
-  //   return goodsCommentDetailInfo;
+  //   await Provide.value<GoodsCommentDetailProvide>(context)
+  //       .getGoodsCommentDetail(goodsId);
+  //   return 'goodsInfo的future数据加载完成......';
   // }
+
+  Future _getGoodsInfo(BuildContext context, goodsId) async {
+    var params = {'goodsId': goodsId};
+    GoodsCommentDetailModel goodsCommentDetailInfo;
+    await request('cateGoodsCommentDetail', params: params).then((value) {
+      var data = json.decode(value.toString());
+      goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
+      Provide.value<GoodsCommentDetailProvide>(context).getGoodsInfo(goodsCommentDetailInfo);
+      print('goodsInfo数据请求完成.................');
+      
+    });
+    return 'aaa';
+  }
 
   _getGoodsAccessory(String goodsId) async {
     var params = {'goodsId': goodsId};
@@ -117,20 +120,20 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     _outerTabController = TabController(length: 2, vsync: this);
 
     // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    Future.delayed(Duration(milliseconds: 300)).then((value) {
-      final RenderBox _introBox = _introKey.currentContext.findRenderObject();
-      final _introOffset = _introBox.localToGlobal(Offset(0, 0));
-      print('<<<<<<<<<<<<<商品positions: ${_introOffset.dy}');
+    // Future.delayed(Duration(milliseconds: 300)).then((value) {
+    //   final RenderBox _introBox = _introKey.currentContext.findRenderObject();
+    //   final _introOffset = _introBox.localToGlobal(Offset(0, 0));
+    //   print('<<<<<<<<<<<<<商品positions: ${_introOffset.dy}');
 
-      // 评价页面，详情页面不在第一页，此时页面还没有渲染出来，所以报错
-      // final RenderBox _comBox = _comKey.currentContext.findRenderObject();
-      // final _comOffset = _comBox.localToGlobal(Offset(0, 0));
-      // print('<<<<<<<<<<<<<<<<<<评价postions: {$_comOffset.dy}');
+    //   // 评价页面，详情页面不在第一页，此时页面还没有渲染出来，所以报错
+    //   final RenderBox _comBox = _comKey.currentContext.findRenderObject();
+    //   final _comOffset = _comBox.localToGlobal(Offset(0, 0));
+    //   print('<<<<<<<<<<<<<<<<<<评价postions: {$_comOffset.dy}');
 
-      // final RenderBox _detailBox = _detailKey.currentContext.findRenderObject();
-      // final _detailOffset = _detailBox.localToGlobal(Offset(0, 0));
-      // print('<<<<<<<<<<<<<<<<<<<<<<<详情positions: {$_detailOffset.dy}');
-    });
+    //   final RenderBox _detailBox = _detailKey.currentContext.findRenderObject();
+    //   final _detailOffset = _detailBox.localToGlobal(Offset(0, 0));
+    //   print('<<<<<<<<<<<<<<<<<<<<<<<详情positions: {$_detailOffset.dy}');
+    // });
     super.initState();
   }
 
@@ -217,6 +220,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     _chewieController?.dispose();
     _scrollController?.dispose();
     _outerTabController.dispose();
+    
     super.dispose();
   }
 
@@ -233,6 +237,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         backgroundColor: Color(0xfff5f5f5),
         floatingActionButton:
@@ -240,13 +245,16 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
         body: FutureBuilder(
             future: _getGoodsInfo(context, widget.params['goodsId'].first),
             builder: (context, snapshot) {
+              // print('introduce snapshot.hasData:${snapshot.hasData}');
               if (snapshot.hasData) {
-                // print('introduce snapshot data:${snapshot.data}');
+                print('introduce provide goodsinfo:${Provide.value<GoodsCommentDetailProvide>(context).goodsInfo}');
+
                 var _goodsCommentDetailInfo =
                     Provide.value<GoodsCommentDetailProvide>(context).goodsInfo;
                 _videoUrl = _goodsCommentDetailInfo.data.result.introduce.vedio;
                 var _videoImg =
                     _goodsCommentDetailInfo.data.result.introduce.vedioImg;
+
                 _videoPlayerController =
                     VideoPlayerController.network(_videoUrl);
                 _chewieController = ChewieController(
