@@ -47,6 +47,9 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   int recTabLen = 1;
   List<Map> rangeList;
   List<Map> recommendList;
+  bool _videoInitinalize  = false;
+  
+  // 定义出autoInitial,当滚动到一定位置再设置为true
 
   // Future _getGoodsInfo(BuildContext context, goodsId) async {
   //   await Provide.value<GoodsCommentDetailProvide>(context)
@@ -165,6 +168,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   GlobalKey _recKey = GlobalKey();
 
   void HandleScroll() {
+
     _screenHeight = MediaQuery.of(context).size.height;
 
     // 放在滚动中开始commentWidget 和detailWidget还没有渲染，滚动到一定位置两个组件渲染完成，才会打印出位置
@@ -204,10 +208,12 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
     // scroll在topBarHeight内显示背景透明度动画
     if (_scrollController.offset >= 50) {
+      if(!mounted) return;
       setState(() {
         _changeBar = true;
       });
     } else {
+      if(!mounted) return;
       setState(() {
         _changeBar = false;
       });
@@ -216,6 +222,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
   @override
   void dispose() {
+    print('生命周期dispose>>>>>>>>>>');
     _videoPlayerController?.dispose();
     _chewieController?.dispose();
     _scrollController?.dispose();
@@ -226,11 +233,13 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
   @override
   void didUpdateWidget(GoodsCommentDetail oldWidget) {
+    print('生命周期didUpadteWidget>>>>>>>>>>');
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void didChangeDependencies() {
+    print('生命周期didChangeDependencies>>>>>>>>>>');
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
@@ -247,7 +256,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
             builder: (context, snapshot) {
               // print('introduce snapshot.hasData:${snapshot.hasData}');
               if (snapshot.hasData) {
-                print('introduce provide goodsinfo:${Provide.value<GoodsCommentDetailProvide>(context).goodsInfo}');
+                // print('introduce provide goodsinfo:${Provide.value<GoodsCommentDetailProvide>(context).goodsInfo}');
 
                 var _goodsCommentDetailInfo =
                     Provide.value<GoodsCommentDetailProvide>(context).goodsInfo;
@@ -261,6 +270,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                     videoPlayerController: _videoPlayerController,
                     aspectRatio: 16 / 9,
                     autoPlay: false,
+                    // autoInitialize: true,
                     looping: true,
                     placeholder: Container(
                         alignment: Alignment.center,
@@ -287,12 +297,9 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                                     ? Color(0xff333333)
                                     : Color(0xffffffff)),
                             onPressed: () {
-                              print('params:${widget.params}');
                               StaticRouter.router.navigateTo(context,
                                   '/categoryDetails?pareId=1&subId=1&categoryId=10001',
                                   transition: TransitionType.fadeIn);
-                              // Navigator.pop(context);
-                              // StaticRouter.router.navigateTo(context, '/categoryDetails?goodsId=${widget.params['goodsId'].first}');
                             }),
                         actions: [
                           Icon(Icons.share,

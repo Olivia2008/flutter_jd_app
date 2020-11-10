@@ -73,26 +73,37 @@ class _VideoPlayState extends State<VideoPlay> {
   Widget _videoPlay(context, data) {
     _videoPlayerController =
                     VideoPlayerController.network(data.vedio);
+    // return Text('aafaawef');
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(top: 10.0),
       child: Chewie(
         controller: ChewieController(
                     videoPlayerController: _videoPlayerController,
-                    aspectRatio: 16 / 9,
+                    aspectRatio: 2 / 1,
                     autoPlay: false,
                     looping: true,
-                    placeholder: ClipRRect(
+                    autoInitialize: true,
+                    placeholder: Container(
+                      alignment: Alignment.center,
+                      child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: FadeInImage.assetNetwork(
+                      child: FadeInImage.assetNetwork(
                             placeholder: 'assets/images/lazy.png',
                             image: data.vedioImg,
-                            width: ScreenUtil().setWidth(550),
+                            width: ScreenUtil().setWidth(600),
                             height: ScreenUtil().setHeight(350),
-                            fit: BoxFit.fill))
+                            fit: BoxFit.fill)
                     )
+                    ),
+                    // routePageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondAnimation,  chewieControllerProvider) {
+                    //   return AnimatedBuilder(
+                    //     animation: animation,
+                    //     builder: (BuildContext context, Widget child) {
+                    //       return Text('routePageBuilder');
+                    //     },
+                    //   );
+                    // }
                     ),
       ),
     );
