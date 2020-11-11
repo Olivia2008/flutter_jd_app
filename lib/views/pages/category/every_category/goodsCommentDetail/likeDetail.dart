@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:netease_news/views/utils/index.dart';
-import './detail.dart';
+import 'detail.dart';
 
-class RecommendWidget extends StatelessWidget {
-  RecommendWidget(
+class GoodsDetailWidget extends StatelessWidget {
+  GoodsDetailWidget(
     this.detailKey,
       this.searchInfo,
       this.recommendInfo,

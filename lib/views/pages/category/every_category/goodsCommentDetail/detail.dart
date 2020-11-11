@@ -4,6 +4,7 @@ import 'package:provide/provide.dart';
 import 'package:netease_news/views/provides/goods/comment_detail.dart';
 import 'package:netease_news/components/icons/tipIcon.dart';
 import './detail_videoPlay.dart';
+import './detail_intro.dart';
 
 class DetailWidget extends StatelessWidget {
   DetailWidget(this.detailKey);
@@ -23,7 +24,8 @@ class DetailWidget extends StatelessWidget {
       return Column(
         children: [
           _paramsDetail(context, _params, provider),
-          VideoPlay(_introduce)
+          VideoPlay(_introduce),
+          DetailIntro(_introduce)
         ],
       );
     } else {

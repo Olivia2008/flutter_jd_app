@@ -41,6 +41,10 @@ class TabBarWidget extends StatelessWidget {
                       scrollController.animateTo(ScreenUtil().setHeight(4900),
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease);
+                    } else if (_data.tabIndex == 3) {
+                      scrollController.animateTo(ScreenUtil().setHeight(18100),
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.ease);
                     } else {
                       scrollController.animateTo(0,
                           duration: Duration(milliseconds: 500),
