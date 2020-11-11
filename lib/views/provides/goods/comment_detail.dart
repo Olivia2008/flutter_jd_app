@@ -12,6 +12,12 @@ class GoodsCommentDetailProvide with ChangeNotifier {
   int tabIndex;
   bool tabActive = false;
   bool isFold = true;
+  bool isVideoInit = false;
+
+  changeVideoInit(bool bo) {
+    isVideoInit = bo;
+    notifyListeners();
+  }
 
   changeFold(bool fold) {
     isFold = fold;

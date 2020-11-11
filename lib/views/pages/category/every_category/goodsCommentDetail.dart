@@ -14,8 +14,9 @@ import 'dart:convert';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/tabBar.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsIntroduce.dart';
 import 'package:netease_news/views/pages/category/every_category/goodsCommentDetail/goodsComments.dart';
-import './goodsCommentDetail/recommend.dart';
+import 'goodsCommentDetail/likeDetail.dart';
 import './goodsCommentDetail/searchStickBar.dart';
+import './goodsCommentDetail/goodsRecommend.dart';
 import 'package:fluro/fluro.dart';
 // import 'package:netease_news/components/stickBar/sliverSearchAppBar.dart';
 
@@ -197,13 +198,25 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
     // print(
     //     'scroll offset:${_scrollController.offset},screenHeight:${ScreenUtil().setHeight(1666)}');
+    print('scroll offset:${_scrollController.offset}>>>>>>>>>>>>');
     if (_scrollController.offset >= ScreenUtil().setHeight(1666) &&
         _scrollController.offset < ScreenUtil().setHeight(4900)) {
+          
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(1);
-    } else if (_scrollController.offset >= ScreenUtil().setHeight(4900)) {
+    } else if (_scrollController.offset >= ScreenUtil().setHeight(4900) && _scrollController.offset < ScreenUtil().setHeight(18000)) {
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(2);
-    } else {
+      // Provide.value<GoodsCommentDetailProvide>(context).changeVideoInit(true);
+    } else if(_scrollController.offset >= ScreenUtil().setHeight(18100)) {
+      Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(3);
+      // Provide.value<GoodsCommentDetailProvide>(context).changeVideoInit(false);
+    } else if (_scrollController.offset < ScreenUtil().setHeight(1666)) {
       Provide.value<GoodsCommentDetailProvide>(context).changeTabIndex(0);
+    }
+
+    if(_scrollController.offset >= ScreenUtil().setHeight(3000)) {
+      Provide.value<GoodsCommentDetailProvide>(context).changeVideoInit(true);
+    } else {
+      Provide.value<GoodsCommentDetailProvide>(context).changeVideoInit(false);
     }
 
     // scroll在topBarHeight内显示背景透明度动画
@@ -246,7 +259,6 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         backgroundColor: Color(0xfff5f5f5),
         floatingActionButton:
@@ -270,7 +282,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                     videoPlayerController: _videoPlayerController,
                     aspectRatio: 16 / 9,
                     autoPlay: false,
-                    // autoInitialize: true,
+                    autoInitialize: !_changeBar,
                     looping: true,
                     placeholder: Container(
                         alignment: Alignment.center,
@@ -352,8 +364,9 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
                         // height: ScreenUtil().setHeight(1600),
                         child: Column(
                           children: [
-                            RecommendWidget(_detailKey, searchInfo,
-                                recommendList, rangeList, _outerTabController)
+                            GoodsDetailWidget(_detailKey, searchInfo,
+                                recommendList, rangeList, _outerTabController),
+                            GoodsRecommentWidget(recommendList)
                           ],
                         ),
                       ),

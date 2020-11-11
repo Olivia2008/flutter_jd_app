@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
+import 'package:provide/provide.dart';
+import 'package:netease_news/views/provides/goods/comment_detail.dart';
 
 class VideoPlay extends StatefulWidget {
   VideoPlay(this.data);
@@ -30,6 +32,7 @@ class _VideoPlayState extends State<VideoPlay> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Card(
       elevation: 0,
       margin: EdgeInsets.all(0.0),
@@ -71,6 +74,8 @@ class _VideoPlayState extends State<VideoPlay> {
   }
 
   Widget _videoPlay(context, data) {
+     var _videoInit = Provide.value<GoodsCommentDetailProvide>(context).isVideoInit;
+    print('detail_videoplay autoInit:$_videoInit>>>>>>>>>>>>');
     _videoPlayerController =
                     VideoPlayerController.network(data.vedio);
     // return Text('aafaawef');
@@ -83,7 +88,7 @@ class _VideoPlayState extends State<VideoPlay> {
                     aspectRatio: 2 / 1,
                     autoPlay: false,
                     looping: true,
-                    autoInitialize: true,
+                    autoInitialize: _videoInit,
                     placeholder: Container(
                       alignment: Alignment.center,
                       child: ClipRRect(
