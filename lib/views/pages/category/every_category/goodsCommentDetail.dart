@@ -66,6 +66,35 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
       goodsCommentDetailInfo = GoodsCommentDetailModel.fromJson(data);
       Provide.value<GoodsCommentDetailProvide>(context).getGoodsInfo(goodsCommentDetailInfo);
       print('goodsInfo数据请求完成.................');
+
+      var _goodsCommentDetailInfo =
+                    Provide.value<GoodsCommentDetailProvide>(context).goodsInfo;
+                _videoUrl = _goodsCommentDetailInfo.data.result.introduce.vedio;
+                var _videoImg =
+                    _goodsCommentDetailInfo.data.result.introduce.vedioImg;
+
+                _videoPlayerController =
+                    VideoPlayerController.network(_videoUrl);
+                _chewieController = ChewieController(
+                    videoPlayerController: _videoPlayerController,
+                    aspectRatio: 16 / 9,
+                    autoPlay: false,
+                    autoInitialize: !_changeBar,
+                    looping: true,
+                    placeholder: Container(
+                        alignment: Alignment.center,
+                        child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/lazy.png',
+                            image: _videoImg,
+                            width: ScreenUtil().setWidth(750),
+                            height: ScreenUtil().setHeight(440),
+                            fit: BoxFit.fill)),
+                    materialProgressColors: ChewieProgressColors(
+                      playedColor: Color(0xffff9999),
+                      handleColor: Color(0xff000000),
+                      backgroundColor: Color(0xff999999),
+                      bufferedColor: Color(0xffe0e0e0),
+                    ));
       
     });
     return 'aaa';
@@ -123,6 +152,7 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
     _scrollController.addListener(HandleScroll);
     _outerTabController = TabController(length: 2, vsync: this);
 
+    
     // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     // Future.delayed(Duration(milliseconds: 300)).then((value) {
     //   final RenderBox _introBox = _introKey.currentContext.findRenderObject();
@@ -236,8 +266,8 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
   @override
   void dispose() {
     print('生命周期dispose>>>>>>>>>>');
-    _videoPlayerController?.dispose();
-    _chewieController?.dispose();
+    _videoPlayerController.dispose();
+    _chewieController.dispose();
     _scrollController?.dispose();
     _outerTabController.dispose();
     
@@ -266,38 +296,9 @@ class _GoodsCommentDetailState extends State<GoodsCommentDetail>
         body: FutureBuilder(
             future: _getGoodsInfo(context, widget.params['goodsId'].first),
             builder: (context, snapshot) {
-              // print('introduce snapshot.hasData:${snapshot.hasData}');
               if (snapshot.hasData) {
-                // print('introduce provide goodsinfo:${Provide.value<GoodsCommentDetailProvide>(context).goodsInfo}');
-
                 var _goodsCommentDetailInfo =
                     Provide.value<GoodsCommentDetailProvide>(context).goodsInfo;
-                _videoUrl = _goodsCommentDetailInfo.data.result.introduce.vedio;
-                var _videoImg =
-                    _goodsCommentDetailInfo.data.result.introduce.vedioImg;
-
-                _videoPlayerController =
-                    VideoPlayerController.network(_videoUrl);
-                _chewieController = ChewieController(
-                    videoPlayerController: _videoPlayerController,
-                    aspectRatio: 16 / 9,
-                    autoPlay: false,
-                    autoInitialize: !_changeBar,
-                    looping: true,
-                    placeholder: Container(
-                        alignment: Alignment.center,
-                        child: FadeInImage.assetNetwork(
-                            placeholder: 'assets/images/lazy.png',
-                            image: _videoImg,
-                            width: ScreenUtil().setWidth(750),
-                            height: ScreenUtil().setHeight(440),
-                            fit: BoxFit.fill)),
-                    materialProgressColors: ChewieProgressColors(
-                      playedColor: Color(0xffff9999),
-                      handleColor: Color(0xff000000),
-                      backgroundColor: Color(0xff999999),
-                      bufferedColor: Color(0xffe0e0e0),
-                    ));
                 return CustomScrollView(
                   controller: _scrollController,
                   slivers: [

@@ -2,10 +2,10 @@
 // const serviceUrl = 'http://10.1.48.185:7300/mock/5f9631d65ffdfd2150c09fa6/base';
 // SUMSONG 家IP
 // const serviceUrl = 'http://192.168.1.6:7300/mock/5e78639618b2441ed0979211/base';
-// SUMSONG公司台式IP
-// const serviceUrl = 'http://10.1.22.187:7300/mock/5eb657de1ac6f950a4586dfd/base';
+// 公司台式IP
+const serviceUrl = 'http://10.1.22.187:7300/mock/5eb657de1ac6f950a4586dfd/base';
 // MAC PRO公司IP
-const serviceUrl = 'http://10.1.48.119:7300/mock/5fade10ec190ef028ac10812/base';
+// const serviceUrl = 'http://10.1.48.119:7300/mock/5fade10ec190ef028ac10812/base';
 const servicePath = {
   'homePageContent': serviceUrl + '/homePageContent', // 首页信息
   'homePageRecommend': serviceUrl + '/homePageRecommend', // 首页推荐信息

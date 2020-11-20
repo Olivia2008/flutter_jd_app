@@ -109,6 +109,7 @@ class _TestTabPageState extends State<TestTabPage> with TickerProviderStateMixin
                 }
               },
               controller: mPageController,
+              // scrollDirection: Axis.vertical, // 实现上下滑动
               itemBuilder: (BuildContext context, int index) {
                 return Text(tabList[index].title);
               },
