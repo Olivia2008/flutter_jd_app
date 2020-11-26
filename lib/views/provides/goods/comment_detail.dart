@@ -13,6 +13,19 @@ class GoodsCommentDetailProvide with ChangeNotifier {
   bool tabActive = false;
   bool isFold = true;
   bool isVideoInit = false;
+  Map selectedList = {
+    'color': '黑色',
+    'storage': '128GB',
+    'methods': '公开版',
+    'match': '官方标配',
+    'weight': '0.47kg',
+    'count': '1',
+    'service': [
+      {'label': 'aaaaa', 'price': '123'}
+    ]
+  };
+
+  String addr = '';
 
   changeVideoInit(bool bo) {
     isVideoInit = bo;
@@ -57,6 +70,16 @@ class GoodsCommentDetailProvide with ChangeNotifier {
   }
   getSearchResultText(String txt) {
     searchResultText = txt;
+    notifyListeners();
+  }
+
+  getSelectedList(Map list) {
+    selectedList = list;
+    notifyListeners();
+  }
+
+  getAddress(String ad) {
+    addr = ad;
     notifyListeners();
   }
 }

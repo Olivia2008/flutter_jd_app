@@ -108,7 +108,7 @@ class AccessoryWidget extends StatelessWidget {
                         image: data[index].accessoryShows[0].imageUrl,
                         fit: BoxFit.fill,
                       ),
-                      Text(data[index].typeName)
+                      Expanded(child: Text(data[index].typeName), flex: 1)
                     ],
                   ),
                 ),

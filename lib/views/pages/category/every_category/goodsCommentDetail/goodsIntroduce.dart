@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-// import 'package:provide/provide.dart';
-// import 'package:netease_news/views/provides/goods/comment_detail.dart';
+import 'package:provide/provide.dart';
+import 'package:netease_news/views/provides/goods/comment_detail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'dart:ui';
 import 'package:netease_news/views/model/goods_comment_detail.dart';
+import './selectedModalBottomSheet.dart';
+
 
 class IntroduceWidget extends StatelessWidget {
   IntroduceWidget(this.data, this.introKey);
   final GoodsCommentDetailModel data;
   final GlobalKey introKey;
 
+  TextEditingController countController = TextEditingController();
   static const _iconMoney = 'CnMoney';
   static const _iconMoneyPkg = null;
   static const IconData iconMoney =
@@ -201,12 +204,12 @@ class IntroduceWidget extends StatelessWidget {
           maxLines: 3,
         ));
   }
-
+ 
   Widget _descContextTitleWidget(data, context) {
     return Container(
         width: ScreenUtil().setWidth(670),
         alignment: Alignment.topLeft,
-        margin: EdgeInsets.only(bottom: 6, top: 6),
+        margin: EdgeInsets.only(bottom: 6, top: 6), 
         child: Text(data.title,
             softWrap: true,
             overflow: TextOverflow.ellipsis,
@@ -478,7 +481,7 @@ class IntroduceWidget extends StatelessWidget {
       {'title': '点击领取', 'desc': '限量送超大流量卡', 'num': '1'}
     ];
     showModalBottomSheet(
-      isScrollControlled: true,
+        isScrollControlled: true,
         backgroundColor: Color.fromRGBO(0, 0, 0, 0),
         context: context,
         builder: (context) {
@@ -500,75 +503,98 @@ class IntroduceWidget extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.w600),
                       )),
                   Container(
-                    child: Column(
-                      children: [
+                      child: Column(children: [
                     Container(
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.only(bottom: 10),
-                      child: Text('白条新人专项', style: TextStyle(color: Color(0xff888888))),
+                      child: Text('白条新人专项',
+                          style: TextStyle(color: Color(0xff888888))),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      Text('领立减70元优惠券'),
-                      Container(
-                        padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          border: Border.all(color: Theme.of(context).primaryColor)
-                        ),
-                        child: Text('立即开通', style:TextStyle(color: Theme.of(context).primaryColor, fontSize: 10.0))
-                      )
-                    ]),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(top: 20),
-                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Text('领立减70元优惠券'),
+                          Container(
+                              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0)),
+                                  border: Border.all(
+                                      color: Theme.of(context).primaryColor)),
+                              child: Text('立即开通',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 10.0)))
+                        ]),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(top: 20),
+                        child: Column(children: [
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: Text('促销', style: TextStyle(color: Color(0xff888888))),
+                            child: Text('促销',
+                                style: TextStyle(color: Color(0xff888888))),
                           ),
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: List.generate(_list.length, (index) {
-                              return Container(
-                                alignment: Alignment.centerLeft,
-                                padding: EdgeInsets.only(top: 10, bottom: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  verticalDirection: VerticalDirection.down,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 6),
-                                      child: index == 0 ? _showBottomIcon(context, '换购') : index ==1 ? _showBottomIcon(context, '赠品') : Container(width: 35),
-                                    ),
-                                    Expanded(child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(_list[index]['title'] != null ? '【${_list[index]['title']}】${_list[index]['desc']}' : _list[index]['desc'], maxLines: 3, overflow: TextOverflow.ellipsis,),
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: List.generate(_list.length, (index) {
+                                return Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    verticalDirection: VerticalDirection.down,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 6),
+                                        child: index == 0
+                                            ? _showBottomIcon(context, '换购')
+                                            : index == 1
+                                                ? _showBottomIcon(context, '赠品')
+                                                : Container(width: 35),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                _list[index]['title'] != null
+                                                    ? '【${_list[index]['title']}】${_list[index]['desc']}'
+                                                    : _list[index]['desc'],
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Container(
+                                                alignment: Alignment.centerLeft,
+                                                child: _list[index]['num'] !=
+                                                        null
+                                                    ? Text(
+                                                        'x${_list[index]['num']}')
+                                                    : Text(''))
+                                          ],
                                         ),
-                                        Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: _list[index]['num'] != null ? Text('x${_list[index]['num']}') : Text('')
-                                        )
-                                      ],
-                                    ),),
-                                    IconButton(
-                                      icon: const Icon(Icons.arrow_forward_ios, size: 10.0,),
-                                      onPressed: () {print('优惠条目');},
-                                    )
-                                  ],
-                                ),
-                              );
-                            })
-                          )
-                        ]
-                      )
-                    )
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 10.0,
+                                        ),
+                                        onPressed: () {
+                                          print('优惠条目');
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }))
+                        ]))
                   ]))
                 ],
               ));
@@ -577,24 +603,28 @@ class IntroduceWidget extends StatelessWidget {
 
   Widget _showBottomIcon(context, title) {
     return Container(
-                padding: EdgeInsets.only(left: 3.0, right: 3.0),
-                child: Text(title,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,)),
-                decoration: BoxDecoration(
-                    color: Color(0xfffdf0f0),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(3.0),
-                    )));
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(title,
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            )),
+        decoration: BoxDecoration(
+            color: Color(0xfffdf0f0),
+            borderRadius: BorderRadius.all(
+              Radius.circular(3.0),
+            )));
   }
+
   // third card
   Widget _thirdCard(context, data) {
     return Container(
+        alignment: Alignment.centerLeft,
         width: ScreenUtil().setWidth(750),
         // padding: EdgeInsets.all(20.0),
         height: ScreenUtil().setHeight(400),
         margin: EdgeInsets.only(bottom: 6.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
                 elevation: 0,
@@ -606,33 +636,40 @@ class IntroduceWidget extends StatelessWidget {
                 child: Container(
                     padding: EdgeInsets.only(
                         left: 20, right: 20, top: 20, bottom: 6),
-                    child: Column(children: <Widget>[
-                      _selected(context, data.selected),
-                      _underLine(),
-                      _delivery(context, data.destination),
-                    ]))),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          _selected(context, data.selected),
+                          _underLine(),
+                          _delivery(context, data.destination),
+                        ]))),
             _annotation(context, data.destination.dis)
           ],
         ));
   }
 
   Widget _selected(context, data) {
-    String _color = data.colors.colorList[0].label;
-    String _storage = data.storage.versionList[0].label;
-    String _methods = data.methods.methodsList[0].label;
-    String _match = data.standMatch.matchList[0].label;
-    String _weight = '0.47kg';
-    String _count = '${data.count.dis}件';
-    String _service = '可选服务';
-    var selectedText =
-        '$_color, $_storage, $_methods, $_match, $_weight, $_count, $_service';
+    // String _color = data.colors.colorList[0].label;
+    // String _storage = data.storage.versionList[0].label;
+    // String _methods = data.methods.methodsList[0].label;
+    // String _match = data.standMatch.matchList[0].label;
+    // String _weight = '0.47kg';
+    // String _count = '${data.count.dis}件';
+    // String _service = '可选服务';
+    // var selectedText =
+    //     '$_color, $_storage, $_methods, $_match, $_weight, $_count, $_service';
+    // var modalSelectedText = '$_color,  $_storage,  $_methods,  $_count';
 
     return InkWell(
         onTap: () {
-          print('已选 ');
+          _showModalSelectedBottomSheet(context, data);
         },
-        child: Container(
-            height: ScreenUtil().setHeight(90),
+        child: Provide<GoodsCommentDetailProvide>(
+          builder: (context, child, provider) {
+            var _selectedText = '${provider.selectedList['color']}, ${provider.selectedList['storage']}, ${provider.selectedList['methods']}, ${provider.selectedList['match']}, ${provider.selectedList['weight']}, ${provider.selectedList['count']}件';
+            return Container(
+            alignment: Alignment.centerLeft,
+            // height: ScreenUtil().setHeight(90),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -641,23 +678,62 @@ class IntroduceWidget extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         fontSize: ScreenUtil().setSp(32))),
                 Expanded(
+                  flex: 2,
                     child: Container(
                         margin: EdgeInsets.only(left: 20.0),
                         child: Column(
                           children: [
-                            Text(selectedText, softWrap: true),
-                            Text('')
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 6.0),
+                              child: Text(_selectedText, softWrap: true),
+                            ),
+                            provider.selectedList['service'].length != 0 ? Container(
+                              child: Column(
+                                children: List.generate(provider.selectedList['service'].length, (index) {
+                                  return Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Color(0xff4b9bfb)),
+                                      borderRadius: BorderRadius.all(Radius.circular(50.0))
+                                    ),
+                                    child: Text(index == 0 ? '保' : '服', style: TextStyle(color: Color(0xff4b9bfb), fontSize: 10)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text('${provider.selectedList['service'][index]['label']} ￥${provider.selectedList['service'][index]['price']}.00', style: TextStyle(color: Color(0xff4b9bfb), fontSize: 12))
+                                  )
+                                ],
+                              );
+                                })
+                              )
+                            ) : Container()
                           ],
                         ))),
                 Icon(Icons.more_horiz)
               ],
-            )));
+            ));
+          },
+        ));
+  }
+
+  void _showModalSelectedBottomSheet(context, data) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+        context: context,
+        builder: (BuildContext context) {
+          return SelectedModal(data: data);
+        });
   }
 
   Widget _delivery(context, data) {
     return InkWell(
         onTap: () {
-          print('送至');
+          _showModalDeliveryBottomSheet(context);
         },
         child: Container(
             height: ScreenUtil().setHeight(80),
@@ -698,6 +774,82 @@ class IntroduceWidget extends StatelessWidget {
                       ]))),
               Icon(Icons.more_horiz)
             ])));
+  }
+
+  void _showModalDeliveryBottomSheet(context) {
+    List _list = [
+      {'addr': '北京昌平区六环以内生命科学园38号国家蛋白质科学中心'},
+      {'addr': '北京市朝阳区远大路388号新光天地'},
+      {'addr': '北京市海淀区中关村大街29号'}
+    ];
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+      context: context,
+      builder: (BuildContext context) {
+      return Container(
+        height: MediaQuery.of(context).size.height * 0.8,
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
+          color: Color(0xffffffff)
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.only(bottom: 20),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text('配送至'),
+                  ),
+                  Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: List.generate(_list.length, (index) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: InkWell(
+                      onTap: () {print(_list[index]['addr']);},
+                      child: Row(
+                    verticalDirection: VerticalDirection.up,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Icon(Icons.pin_drop, size: 14),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(_list[index]['addr'], maxLines: 2, softWrap: true, style: TextStyle(color: Color(0xff666666), fontSize: 12))
+                      )
+                    ],
+                  ),
+                    ),
+                  );
+                })
+              ),
+            )
+                ],
+              ),
+            ),
+            Container(
+                alignment: Alignment.center,
+                height: ScreenUtil().setHeight(60),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  gradient: LinearGradient(
+                    colors: [Color(0xfff2140c), Color(0xfff2270c), Color(0xfff24d0c)],
+                    stops: [0.4, 0.7, 1]
+                  )
+                ),
+                child: Text('选择其它地址', style: TextStyle(color: Color(0xffffffff)),),
+              )        
+          ],
+        ),
+      );
+    });
   }
 
   Widget _annotation(context, data) {
