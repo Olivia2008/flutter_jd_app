@@ -20,9 +20,7 @@ class GoodsCommentDetailProvide with ChangeNotifier {
     'match': '官方标配',
     'weight': '0.47kg',
     'count': '1',
-    'service': [
-      {'label': 'aaaaa', 'price': '123'}
-    ]
+    'service': []
   };
 
   String addr = '';

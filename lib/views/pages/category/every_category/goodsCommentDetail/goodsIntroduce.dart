@@ -726,7 +726,7 @@ class IntroduceWidget extends StatelessWidget {
         backgroundColor: Color.fromRGBO(0, 0, 0, 0),
         context: context,
         builder: (BuildContext context) {
-          return SelectedModal(data: data);
+          return SelectedModal(selectedData: data);
         });
   }
 
