@@ -75,9 +75,14 @@ class GoodsCommentDetailProvide with ChangeNotifier {
     selectedList = list;
     notifyListeners();
   }
+  getSelectedServiceList(List list) {
+    selectedList['service'] = list;
+    notifyListeners();
+  }
 
   getAddress(String ad) {
     addr = ad;
     notifyListeners();
   }
+
 }

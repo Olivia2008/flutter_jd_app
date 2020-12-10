@@ -313,6 +313,8 @@ class SelectedModal extends StatelessWidget {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(data.length, (index) {
+               var _arrItem = {'id': data[index].id, 'name': data[index].title, 'serviceList': []};
+               _arr.add(_arrItem);
               return Container(
                 padding: EdgeInsets.only(top: 15),
                 child: Column(
@@ -324,9 +326,9 @@ class SelectedModal extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
-                          List.generate(data[index].serviceList.length, (idx) {
-                        //     var _serviceList = List.generate(data[index].serviceList.length, (index) => {'idx': index}).toList();
-                        // print(_serviceList);
+                          List.generate(data[index].serviceList.length, (idx) { 
+                        var _serviceListItem = {'id': data[index].serviceList[idx].value, 'name': data[index].serviceList[idx].label, 'originList': []};
+                        _arr[index]['serviceList'].add(_serviceListItem);
                         return Container(
                           padding: EdgeInsets.only(top: 15),
                           child: Column(
@@ -374,33 +376,43 @@ class SelectedModal extends StatelessWidget {
                                         .serviceList[idx]
                                         .originList
                                         .length, (i) {
+                                  var j = data[index]
+                                          .serviceList[idx]
+                                          .originList[i];
                                   return ChoiceChip(
                                     backgroundColor: Color(0xfff5f5f5),
                                     label: Text(
                                         '${data[index].serviceList[idx].originList[i].label} ￥${data[index].serviceList[idx].originList[i].price}.00'),
                                     labelPadding:
                                         EdgeInsets.symmetric(horizontal: 10),
+                                    // selected: selectedList['service'][index]['serviceList'][idx]['originList'][0]['id'] == data[index].serviceList[idx].originList[i].value,
                                     selected: _selectedServiceIndex == i,
                                     onSelected: (val) {
+                                      // print('selected1 arr $selectedList');
+                                      // var originItem = {'id': j.id, 'label': j.label, 'price': j.price};
+                                      // _arr[index]['serviceList'][idx]['originList'][0] = originItem;
+                                      // Provide.value<GoodsCommentDetailProvide>(
+                                      //         context).getSelectedServiceList(_arr);
+                                      // print('selected2 arr $selectedList');
                                       _selectedServiceIndex = i;
-                                      var j = data[index]
-                                          .serviceList[idx]
-                                          .originList[i];
-                                      val
+                                      _selectedServiceIndex == i
                                           ? selectedList['service'].add({
                                               'label': j.label,
-                                              'price': j.price
+                                              'price': j.price,
+                                              'id': j.value,
+                                              'selected': true
                                             })
-                                          : selectedList['service'].removeWhere(
-                                              (j) =>
-                                                  j ==
-                                                  {
-                                                    'label': j.label,
-                                                    'price': j.price
-                                                  });
+                                          : selectedList['service'].remove(
+                                              {
+                                              'label': j.label,
+                                              'price': j.price,
+                                              'id': j.value,
+                                              'selected': false
+                                            });
                                       Provide.value<GoodsCommentDetailProvide>(
                                               context)
                                           .getSelectedList(selectedList);
+                                      print('selectedList $selectedList');
                                     },
                                   );
                                 }).toList(),

@@ -33,8 +33,6 @@ class _IndexPageState extends State<IndexPage> {
 
   int activeIndex = 0;
   var currentPage;
-  TextEditingController searchController = TextEditingController();
-  String globalSearchText = '';
 
   @override
   void initState() {
@@ -69,10 +67,6 @@ class _IndexPageState extends State<IndexPage> {
           });
         },
       ),
-//      appBar: AppBar(
-//        title: Text('JD',style: TextStyle(color: Colors.white),),
-//      ),
-      // 注意页面的呈现用body
       body: IndexedStack(
         index: activeIndex,
         children: tabBody,
