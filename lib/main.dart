@@ -12,6 +12,7 @@ import 'views/provides/category_detail.dart';
 import 'views/provides/category_detail_main.dart';
 import 'views/provides/subList_category.dart';
 import 'views/provides/goods/comment_detail.dart';
+import 'views/provides/cart/cart.dart';
 import 'package:fluro/fluro.dart';
 
 void main() {
@@ -23,6 +24,7 @@ void main() {
   var categoryNavBarFilter = CategoryNavBarFilterProvide();
   var categoryDetailMain = CategoryDetailMainProvide();
   var cateGoodsCommentDetail = GoodsCommentDetailProvide();
+  var cartProvide = CartProvide();
 
   // ..用于多个状态管理时使用
   providers
@@ -32,7 +34,8 @@ void main() {
     ..provide(Provider<CategoryNavBarFilterProvide>.value(categoryNavBarFilter))
     ..provide(Provider<CategoryDetailProvide>.value(categoryDetail))
     ..provide(Provider<CategoryDetailMainProvide>.value(categoryDetailMain))
-    ..provide(Provider<GoodsCommentDetailProvide>.value(cateGoodsCommentDetail));
+    ..provide(Provider<GoodsCommentDetailProvide>.value(cateGoodsCommentDetail))
+    ..provide(Provider<CartProvide>.value(cartProvide));
   runApp(ProviderNode(
     providers: providers,
     child: MyHomePage(title: 'Flutter Demo Home Page'),

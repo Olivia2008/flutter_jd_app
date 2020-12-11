@@ -9,6 +9,7 @@ import 'package:netease_news/views/test/test_customSliverScrollView.dart';
 import 'package:netease_news/views/test/test_canvas.dart';
 import 'package:netease_news/views/test/test_tabbar_pageview.dart';
 import 'package:netease_news/views/test/test_widgetPosition.dart';
+import 'package:netease_news/components/icons/myIcons.dart';
 import 'dart:ui';
 
 class IndexPage extends StatefulWidget {
@@ -17,19 +18,20 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
+
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(title: Text('首页'), icon: Icon(Icons.home)),
-    BottomNavigationBarItem(title: Text('分类'), icon: Icon(Icons.select_all)),
-    BottomNavigationBarItem(title: Text('发现'), icon: Icon(Icons.location_searching)),
+    BottomNavigationBarItem(title: Text('分类'), icon: Icon(MyIcons.category)),
+    BottomNavigationBarItem(title: Text('发现'), icon: Icon(MyIcons.compass)),
     BottomNavigationBarItem(
-        title: Text('购物车'), icon: Icon(Icons.shopping_cart)),
+        title: Text('购物车'), icon: Icon(MyIcons.cart)),
     BottomNavigationBarItem(
         title: Text('我的'), icon: Icon(Icons.perm_identity)),
     // BottomNavigationBarItem(title: Text('下拉菜单'), icon: Icon(Icons.location_searching))
   ];
 
 // 注意tabBody里面的顺序要与设计一致，默认显示首页, CustomScrollViewTestRoute暂时代替CartPage
-  final List<Widget> tabBody = [HomePage(), CategoryPage(), CanvasApp(),CustomScrollViewTestRoute(), TestPosition()];
+  final List<Widget> tabBody = [HomePage(), CategoryPage(), CanvasApp(), CartPage(), TestPosition()];
 
   int activeIndex = 0;
   var currentPage;

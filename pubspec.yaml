@@ -37,6 +37,7 @@ dev_dependencies:
   english_words: ^3.1.5
   provide: ^1.0.2
   provider: ^4.3.1
+  shared_preferences: ^0.5.12+4
   font_awesome_flutter: ^8.8.1
   json_serializable: ^3.2.5
   build_runner: ^1.8.0
@@ -103,6 +104,15 @@ flutter:
     - family: Cart
       fonts:
         - asset: fonts/Cart.ttf
+    - family: Category
+      fonts:
+        - asset: fonts/Category.ttf
+    - family: Compass
+      fonts:
+        - asset: fonts/Compass.ttf
+    - family: Home
+      fonts:
+        - asset: fonts/Home.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

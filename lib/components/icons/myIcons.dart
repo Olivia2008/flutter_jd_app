@@ -21,4 +21,25 @@ class MyIcons {
     fontFamily: 'Cart',
     matchTextDirection: true
   );
+
+  // category
+  static const IconData category = const IconData(
+    0xe60b,
+    fontFamily: 'Category',
+    matchTextDirection: true
+  );
+
+  // compass
+  static const IconData compass = const IconData(
+    0xe6a5,
+    fontFamily: 'Compass',
+    matchTextDirection: true
+  );
+
+  // home
+  static const IconData home = const IconData(
+    0xe600,
+    fontFamily: 'Home',
+    matchTextDirection: true
+  );
 }
